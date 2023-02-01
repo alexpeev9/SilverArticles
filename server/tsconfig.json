@@ -1,13 +1,21 @@
 {
   "compilerOptions": {
-    "target": "es2016",
     "module": "commonjs",
-    "resolveJsonModule": true,
     "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "es2016",
+    "noImplicitAny": true,
     "strict": true,
-    "outDir": "./dist",
     "alwaysStrict": true,
-    "skipLibCheck": true
-  }
+
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "outDir": "dist",
+    "baseUrl": ".",
+    "paths": {
+      "*": ["node_modules/*", "src/types/*"]
+    }
+  },
+  "include": ["./src/**/*"]
 }
