@@ -1,6 +1,16 @@
 {
-  "rewrites": [
-    { "source": "/src/(.*)", "destination": "/src" },
-    { "source": "/((?!src/.*).*)", "destination": "/" }
+  "version": 2,
+  "public": true,
+  "builds": [
+    {
+      "src": "src/index.tsx",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/src/index.tsx"
+    }
   ]
 }
