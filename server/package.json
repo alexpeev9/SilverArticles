@@ -4,6 +4,7 @@
   "description": "",
   "main": "src/index.ts",
   "scripts": {
+    "build": "npx tsc",
     "start": "SET NODE_ENV=development&& node dist/index.js",
     "dev": "SET NODE_ENV=development&& concurrently \"npx tsc --watch\" \"nodemon -q  dist/index.js\"",
     "prod": "SET NODE_ENV=production&& concurrently \"npx tsc --watch\" \"nodemon -q  dist/index.js\""
