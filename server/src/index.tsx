@@ -5,14 +5,6 @@ import router from './routes';
 
 const app = express();
 
-// app.use(
-//   cors({
-//     origin: true, // TODO: Fix it
-//     credentials: true,
-//     optionsSuccessStatus: 200
-//   })
-// );
-
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
