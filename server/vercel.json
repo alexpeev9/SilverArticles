@@ -5,6 +5,10 @@
   "buildCommand": "../server && npm run build",
   "builds": [
     {
+      "src": "../client/src/index.tsx",
+      "use": "@vercel/node"
+    },
+    {
       "src": "src/index.ts",
       "use": "@vercel/node"
     }
