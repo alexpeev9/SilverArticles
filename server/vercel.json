@@ -1,7 +1,8 @@
 {
   "version": 2,
   "public": true,
-  "installCommand": "npm install && cd ../server && npm install && npm run build",
+  "installCommand": "npm install && cd ../server && npm install",
+  "buildCommand": "../server && npm run build",
   "builds": [
     {
       "src": "src/index.ts",
