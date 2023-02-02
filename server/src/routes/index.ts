@@ -1,17 +1,33 @@
 import { Router } from 'express';
-import path from 'path';
-import mongoose from 'mongoose';
+import User from '../models/User';
 
 const router = Router();
 
-router.use('/api', (req: any, res: any) =>
-  res.json({ status: mongoose.connection.readyState })
-);
+router.use('/create/:username', async (req: any, res: any) => {
+  try {
+    const { username } = req.params;
+    const data = await User.create({
+      username
+    });
+    res.json({ status: data });
+  } catch (e: any) {
+    res.json({ status: e.message });
+  }
+});
+
+router.use('/find', async (req: any, res: any) => {
+  try {
+    const data = await User.find({
+      username: 'test1'
+    });
+    res.json({ status: data });
+  } catch (e: any) {
+    res.json({ status: e.message });
+  }
+});
 
 router.use('*', (req: any, res: any) => {
-  return res.sendFile(
-    path.join(__dirname, '../../../', '/client/build/index.html')
-  );
+  res.json({ status: 404 });
 });
 
 export default router;

@@ -4,6 +4,7 @@
     "module": "commonjs",
     "resolveJsonModule": true,
     "esModuleInterop": true,
+    "jsx": "react",
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "outDir": "./dist",

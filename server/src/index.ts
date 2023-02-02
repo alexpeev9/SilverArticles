@@ -11,6 +11,7 @@ app.use(express.json());
 
 app.use('/', router);
 
+mongoose.set('strictQuery', false);
 mongoose
   .connect(env.connectionString)
   .then(() =>
