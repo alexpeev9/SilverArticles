@@ -1,0 +1,18 @@
+[
+  {
+    "_id": "a1cb37db64cee52c66f99510",
+    "title": "Admin",
+    "description": "User has full access to all functionalities.",
+    "users": ["b1ab34db64cee52c66f99510"]
+  },
+  {
+    "_id": "b1cb37db64cee52c66f99510",
+    "title": "Moderator",
+    "description": "In addition to the write functionalities, the user can moderate articles."
+  },
+  {
+    "_id": "c1cb37db64cee52c66f99510",
+    "title": "Writer",
+    "description": "The user can create and vote for articles."
+  }
+]
