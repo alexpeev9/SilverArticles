@@ -3,6 +3,7 @@ import cors from 'cors'
 
 import env from '../env'
 import router from '../routes'
+import errorMiddleware from '../middlewares/errorMiddleware'
 
 function expressConfig(app: Express) {
   app.use(express.urlencoded({ extended: false }))
@@ -16,6 +17,7 @@ function expressConfig(app: Express) {
   )
 
   app.use('/', router)
+  app.use(errorMiddleware)
 }
 
 export default expressConfig

@@ -20,7 +20,6 @@ const UserSchema = new Schema<any>(
     firstName: {
       type: String,
       required: [true, 'First Name is required!'],
-      unique: true,
       validate: [
         /^[a-zA-Z]+$/,
         'First Name should consist of only english letters!'
@@ -31,7 +30,6 @@ const UserSchema = new Schema<any>(
     lastName: {
       type: String,
       required: [true, 'Last Name is required!'],
-      unique: true,
       validate: [
         /^[a-zA-Z]+$/,
         'Last Name should consist of only english letters!'

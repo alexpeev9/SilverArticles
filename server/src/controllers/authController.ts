@@ -1,13 +1,17 @@
+import { Request, Response, NextFunction } from 'express'
+
 import IUser from '../interfaces/entities/IUser'
 import authService from '../services/authService'
 
-const register = async (req: any, res: any) => {
+const register = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const response: IUser = await authService.register(req.body)
-    return res.status(200).json(response)
+    const data: IUser = req.body
+    const userId = await authService.register(data)
+    return res.status(200).json({
+      userId
+    })
   } catch (err: any) {
-    const errorMessage = err.message
-    return res.status(500).json(errorMessage)
+    return next(err)
   }
 }
 
