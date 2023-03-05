@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
 
-import './App.css';
-
 const findUser = async () => {
   return new Promise<string>((resolve, reject) => {
     fetch(`${process.env.REACT_APP_API_PROD_URL}/find`, {

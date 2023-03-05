@@ -1,41 +1,20 @@
-import { Router, Request, Response } from 'express';
-import testMiddleware from '../middlewares/testMiddleware';
-import test2MIddleware from '../middlewares/test2MIddleware';
+import { Router, Request, Response } from 'express'
+import authRoutes from './authRoutes'
 
-import User from '../models/User';
+const router = Router()
 
-const router = Router();
+router.use('/api/auth', authRoutes)
 
-router.use('/create/:username', async (req: Request, res: Response) => {
+router.get('/find', async (req: Request, res: Response) => {
   try {
-    const { username } = req.params;
-    const data = await User.create({
-      username
-    });
-    res.json({ status: data });
+    res.json({ status: 200 })
   } catch (e: any) {
-    res.json({ status: e.message });
+    res.json({ status: e.message })
   }
-});
-
-router.get(
-  '/find',
-  test2MIddleware,
-  testMiddleware,
-  async (req: Request, res: Response) => {
-    try {
-      const data = await User.find({
-        username: 'test1'
-      });
-      res.json({ status: data });
-    } catch (e: any) {
-      res.json({ status: e.message });
-    }
-  }
-);
+})
 
 router.use('*', (req: Request, res: Response) => {
-  res.json({ status: 404 });
-});
+  res.json({ status: 404 })
+})
 
-export default router;
+export default router
