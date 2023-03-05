@@ -64,16 +64,9 @@ const UserSchema = new Schema<any>(
   { timestamps: true }
 )
 
-UserSchema.methods.comparePasswords = (
-  candidatePassword: string,
-  dbPassword: string
-): Promise<boolean> => {
-  const isValid: Promise<boolean> = bcrypt.compare(
-    candidatePassword,
-    dbPassword
-  )
-  return isValid
-}
+UserSchema.method('validatePassword', function (password) {
+  return bcrypt.compare(password, this.password)
+})
 
 UserSchema.pre('save', function (next) {
   if (!this.isModified('password')) {

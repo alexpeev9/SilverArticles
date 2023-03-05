@@ -10,10 +10,7 @@ interface IUser extends Document {
   articles: Schema.Types.ObjectId[]
   votes: Schema.Types.ObjectId[]
 
-  comparePasswords(
-    candidatePassword: string,
-    dbPassword: string
-  ): Promise<boolean>
+  validatePassword(password: string): Promise<boolean>
 }
 
 export default IUser
