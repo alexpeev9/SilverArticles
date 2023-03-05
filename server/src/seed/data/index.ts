@@ -1,5 +1,6 @@
-import articleData from './articleData.json';
-import categoryData from './categoryData.json';
-import roleData from './roleData.json';
+import categoryData from './categoryData'
+import roleData from './roleData'
+import userData from './userData'
+import articleData from './articleData'
 
-export { articleData, categoryData, roleData };
+export { categoryData, roleData, userData, articleData }

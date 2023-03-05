@@ -1,9 +1,9 @@
-import { Document, Schema } from 'mongoose';
+import { Document, Schema } from 'mongoose'
 
 interface IRole extends Document {
-  title: string;
-  description: string;
-  users: Schema.Types.ObjectId[];
+  title: string
+  description: string
+  users: Schema.Types.ObjectId[]
 }
 
-export default IRole;
+export default IRole

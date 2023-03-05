@@ -1,8 +1,8 @@
-import express from 'express';
-import expressConfig from './config/expressConfig';
-import mongooseConfig from './config/mongooseConfig';
+import express from 'express'
+import expressConfig from './config/expressConfig'
+import mongooseConfig from './config/mongooseConfig'
 
-const app = express();
+const app = express()
 
-expressConfig(app);
-mongooseConfig(app);
+expressConfig(app)
+mongooseConfig(app)

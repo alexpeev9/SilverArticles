@@ -1,6 +1,6 @@
-import { Schema, model } from 'mongoose';
+import { Schema, model } from 'mongoose'
 
-import ICategory from '../interfaces/entities/ICategory';
+import ICategory from '../interfaces/entities/ICategory'
 
 const CategorySchema = new Schema<ICategory>(
   {
@@ -26,8 +26,8 @@ const CategorySchema = new Schema<ICategory>(
     ]
   },
   { timestamps: true }
-);
+)
 
-const Category = model<ICategory>('Category', CategorySchema);
+const Category = model<ICategory>('Category', CategorySchema)
 
-export default Category;
+export default Category

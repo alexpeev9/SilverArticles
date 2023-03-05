@@ -1,6 +1,6 @@
-import { Schema, model } from 'mongoose';
+import { Schema, model } from 'mongoose'
 
-import IRole from '../interfaces/entities/IRole';
+import IRole from '../interfaces/entities/IRole'
 
 const RoleSchema = new Schema<IRole>(
   {
@@ -25,8 +25,8 @@ const RoleSchema = new Schema<IRole>(
     ]
   },
   { timestamps: true }
-);
+)
 
-const Role = model<IRole>('Role', RoleSchema);
+const Role = model<IRole>('Role', RoleSchema)
 
-export default Role;
+export default Role

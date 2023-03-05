@@ -1,7 +1,8 @@
-import { Schema, model } from 'mongoose';
-import bcrypt from 'bcrypt';
+import { Schema, model } from 'mongoose'
+import bcrypt from 'bcrypt'
 
-import IUser from '../interfaces/entities/IUser';
+import IUser from '../interfaces/entities/IUser'
+import env from '../env'
 
 const UserSchema = new Schema<any>(
   {
@@ -38,17 +39,17 @@ const UserSchema = new Schema<any>(
       minLength: [3, 'Last Name cannot be less than 3 characters!'],
       maxLength: [20, 'Last Name cannot be more than 20 characters!']
     },
+    password: {
+      type: String,
+      required: [true, 'Password is required!'],
+      minLength: [4, 'Password cannot be less than 4 characters'],
+      maxLength: [60, 'Password cannot be more than 20 characters']
+    },
     email: {
       type: String,
       required: [true, 'Email is required!'],
       unique: true,
       validate: [/^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/, 'Email is not valid!']
-    },
-    password: {
-      type: String,
-      required: [true, 'Password is required!'],
-      minLength: [4, 'Password cannot be less than 4 characters'],
-      maxLength: [20, 'Password cannot be more than 20 characters']
     },
     role: {
       required: true,
@@ -60,16 +61,10 @@ const UserSchema = new Schema<any>(
         type: Schema.Types.ObjectId,
         ref: 'Article'
       }
-    ],
-    votes: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Article'
-      }
     ]
   },
   { timestamps: true }
-);
+)
 
 UserSchema.methods.comparePasswords = (
   candidatePassword: string,
@@ -78,17 +73,20 @@ UserSchema.methods.comparePasswords = (
   const isValid: Promise<boolean> = bcrypt.compare(
     candidatePassword,
     dbPassword
-  );
-  return isValid;
-};
+  )
+  return isValid
+}
 
 UserSchema.pre('save', function (next) {
-  bcrypt.hash(this.password, 10).then((hash) => {
-    this.password = hash;
-    next();
-  });
-});
+  if (!this.isModified('password')) {
+    return next()
+  }
+  bcrypt.hash(this.password, Number(env.salt)).then((hash) => {
+    this.password = hash
+    next()
+  })
+})
 
-const User = model<IUser>('User', UserSchema);
+const User = model<IUser>('User', UserSchema)
 
-export default User;
+export default User

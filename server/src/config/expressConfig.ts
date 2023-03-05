@@ -1,21 +1,21 @@
-import express, { Express } from 'express';
-import cors from 'cors';
+import express, { Express } from 'express'
+import cors from 'cors'
 
-import env from '../env';
-import router from '../routes';
+import env from '../env'
+import router from '../routes'
 
 function expressConfig(app: Express) {
-  app.use(express.urlencoded({ extended: false }));
-  app.use(express.json());
+  app.use(express.urlencoded({ extended: false }))
+  app.use(express.json())
 
   app.use(
     cors({
-      origin: [`${env.clientUrl}`],
+      origin: [env.clientUrl],
       credentials: true
     })
-  );
+  )
 
-  app.use('/', router);
+  app.use('/', router)
 }
 
-export default expressConfig;
+export default expressConfig

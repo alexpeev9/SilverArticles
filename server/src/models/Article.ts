@@ -1,6 +1,6 @@
-import { Schema, model } from 'mongoose';
+import { Schema, model } from 'mongoose'
 
-import IArticle from '../interfaces/entities/IArticle';
+import IArticle from '../interfaces/entities/IArticle'
 
 const ArticleSchema = new Schema<IArticle>(
   {
@@ -54,8 +54,8 @@ const ArticleSchema = new Schema<IArticle>(
     ]
   },
   { timestamps: true }
-);
+)
 
-const Article = model<IArticle>('Article', ArticleSchema);
+const Article = model<IArticle>('Article', ArticleSchema)
 
-export default Article;
+export default Article
