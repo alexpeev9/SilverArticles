@@ -1,9 +1,13 @@
 import { Router, Request, Response } from 'express'
+import { adminMiddleware } from '../middlewares/roleMiddleware'
+import tokenMiddleware from '../middlewares/tokenMiddleware'
 import authRoutes from './authRoutes'
+import userRoutes from './userRoutes'
 
 const router = Router()
 
 router.use('/api/auth', authRoutes)
+router.use('/api/user', tokenMiddleware, adminMiddleware, userRoutes)
 
 router.get('/find', async (req: Request, res: Response) => {
   try {

@@ -29,6 +29,9 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
     return res.status(200).json({
       token
     })
-  } catch (err: any) {}
+  } catch (err: any) {
+    return next(err)
+  }
 }
+
 export default { register, login }
