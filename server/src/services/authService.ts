@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken'
 
 import { Role, User } from '../models'
 import IUser from '../interfaces/entities/IUser'
-import env from '../env'
+import { jwtSecret } from '../env'
 
 const register = async (userData: IUser): Promise<string> => {
   const { username, firstName, lastName, email, password } = userData
@@ -42,7 +42,7 @@ const login = async (email: string, password: string): Promise<string> => {
       userId: user._id,
       roleId: user.role
     },
-    env.jwtSecret,
+    jwtSecret,
     {
       expiresIn: '7D'
     }

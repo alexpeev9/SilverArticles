@@ -2,7 +2,7 @@ import { Schema, model } from 'mongoose'
 import bcrypt from 'bcrypt'
 
 import IUser from '../interfaces/entities/IUser'
-import env from '../env'
+import { salt } from '../env'
 
 const UserSchema = new Schema<any>(
   {
@@ -72,7 +72,7 @@ UserSchema.pre('save', function (next) {
   if (!this.isModified('password')) {
     return next()
   }
-  bcrypt.hash(this.password, Number(env.salt)).then((hash) => {
+  bcrypt.hash(this.password, Number(salt)).then((hash) => {
     this.password = hash
     next()
   })

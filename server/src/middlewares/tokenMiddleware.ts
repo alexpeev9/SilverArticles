@@ -1,21 +1,21 @@
 import { Request, Response, NextFunction } from 'express'
 import jwt from 'jsonwebtoken'
 
-import env from '../env'
+import { jwtSecret } from '../env'
 
 const tokenMiddleware = (req: Request, res: Response, next: NextFunction) => {
-  const token = req.cookies['token']
-
-  if (token) {
-    try {
-      req.body.reqToken = jwt.verify(token, env.jwtSecret)
+  try {
+    const token = req.cookies['token']
+    if (token) {
+      req.body.reqToken = jwt.verify(token, jwtSecret)
       return next()
-    } catch (e) {
-      res.clearCookie('token')
-      return res.status(401).json('Unauthorized!')
+    } else {
+      return res.status(401).json('You must be logged!')
     }
+  } catch (e) {
+    res.clearCookie('token')
+    return res.status(401).json('Unauthorized!')
   }
-  return res.status(401).json('You must be logged!')
 }
 
 export default tokenMiddleware

@@ -1,15 +1,15 @@
 import { Express } from 'express'
 import mongoose from 'mongoose'
 
-import env from '../env'
+import { connectionString, apiPort } from '../env'
 
 function mongooseConfig(app: Express) {
   mongoose.set('strictQuery', false)
   mongoose
-    .connect(env.connectionString)
+    .connect(connectionString)
     .then(() =>
-      app.listen(env.apiPort, () =>
-        console.log(`Server is running on port ${env.apiPort}`)
+      app.listen(apiPort, () =>
+        console.log(`Server is running on port ${apiPort}`)
       )
     )
     .catch((err) => {

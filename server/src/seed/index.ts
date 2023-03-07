@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-import env from '../env'
+import { connectionString } from '../env'
 
 import { entityMapper, relationMapper } from './mappers'
 import { categoryData, roleData, userData, articleData } from './data'
@@ -11,7 +11,7 @@ async function seed(): Promise<never> {
     console.log('Migration has started...')
 
     mongoose.set('strictQuery', true)
-    await mongoose.connect(env.connectionString)
+    await mongoose.connect(connectionString)
 
     await entityMapper(categoryData(), Category)
     await entityMapper(roleData(), Role)

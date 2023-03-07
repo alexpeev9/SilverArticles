@@ -1,7 +1,7 @@
 import express, { Express } from 'express'
 import cors from 'cors'
 
-import env from '../env'
+import { clientUrl } from '../env'
 import router from '../routes'
 import errorMiddleware from '../middlewares/errorMiddleware'
 
@@ -11,8 +11,8 @@ function expressConfig(app: Express) {
 
   app.use(
     cors({
-      origin: [env.clientUrl],
-      credentials: true
+      credentials: true,
+      origin: [clientUrl]
     })
   )
 

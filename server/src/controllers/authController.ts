@@ -19,7 +19,7 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { email, password } = req.body
     const token = await authService.login(email, password)
-
+    console.log(token)
     res.cookie('token', token, {
       secure: true,
       httpOnly: true,
