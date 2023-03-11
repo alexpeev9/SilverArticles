@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import InputField from '../../../components/InputField'
+import useDecodeToken from '../../../hooks/auth/useDecodeToken'
 import useFetch from '../../../hooks/auth/useFetch'
 
 const LoginPage = () => {
@@ -7,6 +8,7 @@ const LoginPage = () => {
     method: 'post',
     url: 'auth/login'
   })
+  useDecodeToken(responseData)
 
   const [user, setUser] = useState({
     email: '',

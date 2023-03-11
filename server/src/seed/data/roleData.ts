@@ -1,16 +1,20 @@
-const roleData = (): any[] => [
+import { roleIds } from '../../env'
+
+const roleData = async (): Promise<any[]> => [
   {
     title: 'Admin',
-    description: 'User has full access to all functionalities.'
+    description: 'User has full access to all functionalities.',
+    customId: roleIds.adminId
   },
   {
     title: 'Moderator',
-    description:
-      'In addition to the write functionalities, the user can moderate articles.'
+    description: 'User can moderate articles.',
+    customId: roleIds.moderatorId
   },
   {
     title: 'Writer',
-    description: 'The user can create and vote for articles.'
+    description: 'The user can create and vote for articles.',
+    customId: roleIds.writerId
   }
 ]
 

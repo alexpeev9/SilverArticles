@@ -28,7 +28,11 @@ const login = async (email: string, password: string): Promise<string> => {
     throw new Error('All fields must be filled.')
   }
 
-  const user = await User.findOne({ email })
+  const user = (await User.findOne({ email }).populate(
+    'role',
+    'customId -_id'
+  )) as any // to get customerId
+
   if (!user) {
     throw new Error('User not found.')
   }
@@ -39,8 +43,10 @@ const login = async (email: string, password: string): Promise<string> => {
 
   const token = jwt.sign(
     {
-      userId: user._id,
-      roleId: user.role
+      username: user.username,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      roleId: user.role.customId
     },
     jwtSecret,
     {

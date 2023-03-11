@@ -14,8 +14,7 @@ async function seed(): Promise<never> {
     await mongoose.connect(connectionString)
 
     await entityMapper(categoryData(), Category)
-    await entityMapper(roleData(), Role)
-
+    await entityMapper(await roleData(), Role)
     await entityMapper(await userData(), User)
     await entityMapper(await articleData(), Article)
 

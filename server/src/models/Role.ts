@@ -17,6 +17,11 @@ const RoleSchema = new Schema<IRole>(
       minLength: [10, 'Description cannot be less than 10 characters'],
       maxLength: [100, 'Description cannot be more than 100 characters']
     },
+    customId: {
+      type: String,
+      required: [true, 'Title is required!'],
+      unique: true
+    },
     users: [
       {
         type: Schema.Types.ObjectId,
