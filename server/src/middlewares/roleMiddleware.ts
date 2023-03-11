@@ -33,7 +33,10 @@ const roleMiddleware = async (
 ) => {
   const data: IToken = req.body.reqToken
 
-  const role = await roleService.findById(data.roleId)
+  const role = await roleService.find(data.roleId)
+  if (!role) {
+    throw new Error('Role not found')
+  }
 
   if (role?.title !== roleTitle) {
     res.clearCookie('token')
