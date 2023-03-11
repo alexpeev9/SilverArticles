@@ -19,13 +19,11 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { email, password } = req.body
     const token = await authService.login(email, password)
-    console.log(token)
     res.cookie('token', token, {
       secure: true,
       httpOnly: true,
       expires: new Date(new Date().setDate(new Date().getDate() + 7)) // 7 days
     })
-
     return res.status(200).json({
       token
     })

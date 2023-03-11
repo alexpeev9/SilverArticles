@@ -31,25 +31,15 @@ const roleMiddleware = async (
   next: NextFunction,
   roleTitle: string
 ) => {
-  const token = req.cookies['token']
+  const data: IToken = req.body.reqToken
 
-  if (token) {
-    try {
-      const data: IToken = req.body.reqToken
+  const role = await roleService.findById(data.roleId)
 
-      const role = await roleService.findById(data.roleId)
-
-      if (role?.title === roleTitle) {
-        return next()
-      }
-
-      return res.status(401).json({ ok: false, message: 'Not Administrator!' })
-    } catch (e) {
-      res.clearCookie('token')
-      return res.status(401).json({ ok: false, message: 'Unauthorized!' })
-    }
+  if (role?.title !== roleTitle) {
+    res.clearCookie('token')
+    throw new Error('You are not authorized!')
   }
-  return res.status(401).json({ ok: false, message: 'You must be logged!' })
+  return next()
 }
 
 export { adminMiddleware, moderatorMiddleware, writerMiddleware }

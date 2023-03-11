@@ -28,7 +28,11 @@ const LoginPage = () => {
       <h2>Login</h2>
       <div className='container bg-dark rounded text-white my-1 py-4 px-5'>
         {responseData ? <p>{responseData.token}</p> : <></>}
-        {errors ? errors.map((error, key) => <p key={key}>{error}</p>) : <></>}
+        {errors ? (
+          errors.map((error: any, key: any) => <p key={key}>{error}</p>)
+        ) : (
+          <></>
+        )}
         <form
           onSubmit={handleSubmit}
           className='row d-flex justify-content-center'
