@@ -9,6 +9,22 @@ const userData = async (): Promise<any[]> => [
     role: await Role.findOne({ title: 'Admin' }),
     email: adminEmail,
     password: adminPwd
+  },
+  {
+    username: 'steven9',
+    firstName: 'Steven',
+    lastName: 'Smith',
+    role: await Role.findOne({ title: 'Moderator' }),
+    email: 'mod@gmail.com',
+    password: adminPwd
+  },
+  {
+    username: 'parker1',
+    firstName: 'Peter',
+    lastName: 'Parker',
+    role: await Role.findOne({ title: 'Writer' }),
+    email: 'writer@gmail.com',
+    password: adminPwd
   }
 ]
 
