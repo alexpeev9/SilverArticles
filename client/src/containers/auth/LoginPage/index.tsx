@@ -8,7 +8,7 @@ const LoginPage = () => {
     method: 'post',
     url: 'auth/login'
   })
-  useDecodeToken(responseData)
+  useDecodeToken(responseData?.token)
 
   const [user, setUser] = useState({
     email: '',
