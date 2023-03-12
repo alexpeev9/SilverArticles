@@ -22,7 +22,8 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
     res.cookie('token', token, {
       secure: true,
       httpOnly: true,
-      expires: new Date(new Date().setDate(new Date().getDate() + 7)) // 7 days
+      // expires: new Date(new Date().setDate(new Date().getDate() + 7)) // 7 days
+      maxAge: 60 * 1000 // 1 minute
     })
     return res.status(200).json({
       token

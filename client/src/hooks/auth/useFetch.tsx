@@ -1,5 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios'
 import { useEffect, useState } from 'react'
+import { useUserContext } from '../../contexts/UserContext'
 
 import { apiUrl } from '../../env'
 
@@ -10,6 +11,8 @@ const useFetch = ({ method, url }: { method: MethodTypes; url: string }) => {
   const [requestData, setRequestData] = useState<any | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
   const [responseData, setResponseData] = useState<any | null>(null)
+  const { setUserData } = useUserContext()
+
   useEffect(() => {
     // if the method is get we want to render it only once and immediately
     const isGetMethod = method === 'get' // check if the http request is GET
@@ -32,17 +35,21 @@ const useFetch = ({ method, url }: { method: MethodTypes; url: string }) => {
           }
         })
         .catch((err: any) => {
-          if (err.response) {
-            setErrors(err.response.data.errors)
+          if (err.code === 'Network Error') {
+            console.log('No Connection to API')
+          } else if (err.response.status === 401) {
+            console.log('Unauthorized') // TODO Global Error
+            localStorage.removeItem('user')
+            setUserData(null)
           } else {
-            console.log('Database Error Try Later') // TODO Global Error
+            setErrors(err.response.data.errors)
           }
         })
         .finally(() => {
           setLoading(false)
         })
     }
-  }, [requestData, url, method])
+  }, [requestData, url, method, setUserData])
 
   return { setRequestData, responseData, errors, loading }
 }

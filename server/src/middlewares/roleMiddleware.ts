@@ -31,18 +31,24 @@ const roleMiddleware = async (
   next: NextFunction,
   roleTitle: string
 ) => {
-  const data: IToken = req.body.reqToken
+  try {
+    const data: IToken = req.body.reqToken
 
-  const role = await roleService.find(data.roleId)
-  if (!role) {
-    throw new Error('Role not found')
-  }
+    const role = await roleService.find(data.roleId)
 
-  if (role?.title !== roleTitle) {
-    res.clearCookie('token')
-    throw new Error('You are not authorized!')
+    if (role?.title !== roleTitle) {
+      res.clearCookie('token')
+      throw new Error()
+    }
+
+    if (role) {
+      return next()
+    }
+  } catch (err: any) {
+    return res.status(401).json({
+      errors: [`You are not authorized. ${roleTitle}s can access the feature`]
+    })
   }
-  return next()
 }
 
 export { adminMiddleware, moderatorMiddleware, writerMiddleware }
