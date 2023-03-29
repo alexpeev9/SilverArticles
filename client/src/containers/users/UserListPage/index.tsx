@@ -1,34 +1,24 @@
 import { Link } from 'react-router-dom'
+import Spinner from '../../../components/Spinner'
 import useFetch from '../../../hooks/auth/useFetch'
 
-const UserList = () => {
-  const { responseData, errors, loading } = useFetch({
+const UserListPage = () => {
+  const { responseData: users } = useFetch({
     method: 'get',
     url: 'users'
   })
 
-  return (
-    <>
-      <Link to='/'>Home</Link>
-      {!loading ? (
-        !errors ? (
-          responseData ? (
-            <div>
-              {responseData.users.map((u: any, key: string) => (
-                <p key={key}>{u.username}</p>
-              ))}
-            </div>
-          ) : (
-            <>Not Found</>
-          )
-        ) : (
-          <>{errors}</>
-        )
-      ) : (
-        <>Loading...</>
-      )}{' '}
-    </>
+  return users ? (
+    <div>
+      {users.map((u: any, key: string) => (
+        <Link key={key} to={u.username}>
+          {u.username}
+        </Link>
+      ))}
+    </div>
+  ) : (
+    <Spinner />
   )
 }
 
-export default UserList
+export default UserListPage

@@ -5,11 +5,16 @@ import useDecodeToken from '../../../hooks/auth/useDecodeToken'
 import useFetch from '../../../hooks/auth/useFetch'
 
 const LoginPage = () => {
-  const { setRequestData, responseData, errors, loading } = useFetch({
+  const {
+    setRequestData,
+    responseData: token,
+    errors,
+    loading
+  } = useFetch({
     method: 'post',
     url: 'auth/login'
   })
-  useDecodeToken(responseData?.token)
+  useDecodeToken(token)
 
   const [user, setUser] = useState({
     email: '',
@@ -31,7 +36,7 @@ const LoginPage = () => {
       <h2>Login</h2>
       <Link to='/'>Home</Link>
       <div className='container bg-dark rounded text-white my-1 py-4 px-5'>
-        {responseData ? <p>{responseData.token}</p> : <></>}
+        {token ? <p>{token}</p> : <></>}
         {errors ? (
           errors.map((error: any, key: any) => <p key={key}>{error}</p>)
         ) : (

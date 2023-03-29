@@ -7,5 +7,6 @@ import userController from '../controllers/userController'
 const router = Router()
 
 router.route('/').get(tokenMiddleware, adminMiddleware, userController.getAll)
+router.route('/:username').get(userController.getUser)
 
 export default router

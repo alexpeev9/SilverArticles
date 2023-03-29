@@ -45,7 +45,7 @@ const roleMiddleware = async (
       return next()
     }
   } catch (err: any) {
-    return res.status(401).json({
+    return res.status(403).json({
       errors: [`You are not authorized. ${roleTitle}s can access the feature`]
     })
   }

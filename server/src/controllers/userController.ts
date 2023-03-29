@@ -4,10 +4,21 @@ import userService from '../services/userService'
 const getAll = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const users = await userService.getAll()
-    return res.status(200).json({ users })
+    return res.status(200).json(users)
   } catch (err: any) {
     return next(err)
   }
 }
 
-export default { getAll }
+const getUser = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { username } = req.params
+    const user = await userService.getUserByName(username)
+    return res.status(200).json(user)
+  } catch (err: any) {
+    err.statusCode = 404
+    return next(err)
+  }
+}
+
+export default { getAll, getUser }
