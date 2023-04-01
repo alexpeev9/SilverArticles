@@ -1,0 +1,11 @@
+{
+  "navigation": {
+    "home": "Silver Articles",
+    "description": "Tell your story your way!",
+    "articles": "Articles",
+    "categories": "Categories",
+    "about": "About",
+    "profile": "My Profile",
+    "login": "Join Now"
+  }
+}

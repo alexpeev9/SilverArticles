@@ -7,12 +7,16 @@ const ErrorModal = () => {
     setErrors(null)
   }
   return errors ? (
-    errors.map((error: string, key: string) => (
-      <section key={key}>
-        {error}
-        <button onClick={handleClick}>X</button>
+    <div>
+      <section>
+        {errors.map((error: string, key: string) => (
+          <div key={key}>{error}</div>
+        ))}
+        <div>
+          <button onClick={handleClick}>X</button>
+        </div>
       </section>
-    ))
+    </div>
   ) : (
     <></>
   )

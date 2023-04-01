@@ -10,8 +10,8 @@ const Layout = () => {
   return (
     <ErrorProvider>
       <UserProvider>
-        <Header />
         <BrowserRouter>
+          <Header />
           <Router />
         </BrowserRouter>
       </UserProvider>
