@@ -2,7 +2,7 @@ import { Schema, model } from 'mongoose'
 import bcrypt from 'bcrypt'
 
 import IUser from '../interfaces/entities/IUser'
-import env from '../env'
+import { salt } from '../env'
 
 const UserSchema = new Schema<any>(
   {
@@ -64,22 +64,15 @@ const UserSchema = new Schema<any>(
   { timestamps: true }
 )
 
-UserSchema.methods.comparePasswords = (
-  candidatePassword: string,
-  dbPassword: string
-): Promise<boolean> => {
-  const isValid: Promise<boolean> = bcrypt.compare(
-    candidatePassword,
-    dbPassword
-  )
-  return isValid
-}
+UserSchema.method('validatePassword', function (password) {
+  return bcrypt.compare(password, this.password)
+})
 
 UserSchema.pre('save', function (next) {
   if (!this.isModified('password')) {
     return next()
   }
-  bcrypt.hash(this.password, Number(env.salt)).then((hash) => {
+  bcrypt.hash(this.password, Number(salt)).then((hash) => {
     this.password = hash
     next()
   })

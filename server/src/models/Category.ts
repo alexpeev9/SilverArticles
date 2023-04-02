@@ -21,7 +21,7 @@ const CategorySchema = new Schema<ICategory>(
     articles: [
       {
         type: Schema.Types.ObjectId,
-        ref: 'Articles'
+        ref: 'Article'
       }
     ]
   },
