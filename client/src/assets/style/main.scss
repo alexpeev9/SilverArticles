@@ -348,7 +348,7 @@ form {
   }
 }
 
-/* Section/Article */
+/* Section/Article Space */
 
 // section,
 // article {
@@ -565,6 +565,7 @@ button,
   }
 
   &.style1 {
+    margin: 0 0 3em 0;
     background: #e97770 url('images/overlay.png');
     color: #fff;
 
@@ -613,6 +614,12 @@ ul {
 
   li {
     padding-left: 0.5em;
+  }
+
+  @include breakpoint('<=large') {
+    .my3 {
+      margin: 3em 0 3em 0 !important;
+    }
   }
 
   &.style1 {

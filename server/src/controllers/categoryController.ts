@@ -11,6 +11,21 @@ const getAll = async (req: Request, res: Response, next: NextFunction) => {
   }
 }
 
+const getXNumberArticles = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { number } = req.params
+    const articles = await categoryService.getXNumberCategories(number)
+    return res.status(200).json(articles)
+  } catch (err: any) {
+    err.statusCode = 404
+    return next(err)
+  }
+}
+
 const getCategoryBySlug = async (
   req: Request,
   res: Response,
@@ -41,4 +56,4 @@ const updateCategory = async (
   }
 }
 
-export default { getAll, getCategoryBySlug, updateCategory }
+export default { getAll, getXNumberArticles, getCategoryBySlug, updateCategory }

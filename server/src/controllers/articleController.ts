@@ -11,6 +11,21 @@ const getAll = async (req: Request, res: Response, next: NextFunction) => {
   }
 }
 
+const getXNumberArticles = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { number, order } = req.params
+    const articles = await articleService.getXNumberArticles(number, order)
+    return res.status(200).json(articles)
+  } catch (err: any) {
+    err.statusCode = 404
+    return next(err)
+  }
+}
+
 const getArticleBySlug = async (
   req: Request,
   res: Response,
@@ -26,4 +41,4 @@ const getArticleBySlug = async (
   }
 }
 
-export default { getAll, getArticleBySlug }
+export default { getAll, getXNumberArticles, getArticleBySlug }

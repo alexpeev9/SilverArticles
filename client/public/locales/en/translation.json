@@ -7,5 +7,33 @@
     "about": "About",
     "profile": "My Profile",
     "login": "Join Now"
+  },
+  "home": {
+    "about": {
+      "title": "Expand your world",
+      "subtitle": "A living network of curious minds.",
+      "motto": "Create the space for your thinking to take off.",
+      "description": "Anyone can write on SilverArticles. Thought-leaders, journalists, experts, and individuals with unique perspectives share their thinking here. You’ll find pieces by independent writers from around the globe, stories we feature and leading authors, and smart takes on our own suite of blogs and publications.",
+      "categories-button": "Explore",
+      "login-button": "Get Started"
+    },
+    "second-title": "Read Quality Content",
+    "info": {
+      "title": "Who are we?",
+      "description": "The best ideas can change who we are. SilverArticles is where those ideas take shape, take off, and spark powerful conversations. We’re an open platform where over 100 million readers come to find insightful and dynamic thinking. Here, expert and undiscovered voices alike dive into the heart of any topic and bring new ideas to the surface. Our purpose is to spread these ideas and deepen understanding of the world."
+    },
+    "categories": {
+      "title": "Are you looking for a specific category?",
+      "description": "Our categories are designed to help you easily navigate our extensive inventory and find exactly what you're looking for.",
+      "button": "Explore Categories"
+    }
+  },
+  "category": {
+    "description": "Read articles like:"
+  },
+  "article": {
+    "buttons": {
+      "more": "More"
+    }
   }
 }

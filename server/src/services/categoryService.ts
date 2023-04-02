@@ -1,3 +1,4 @@
+import ICategory from '../interfaces/entities/ICategory'
 import { Category } from '../models'
 
 const getAll = async () => {
@@ -6,6 +7,25 @@ const getAll = async () => {
   if (!categories) {
     throw new Error('No Categories found!')
   }
+
+  return categories
+}
+
+const getXNumberCategories = async (number: string) => {
+  const categoryNumbers = Number(number)
+  if (categoryNumbers <= 0) {
+    throw new Error('Invalid parameters.')
+  }
+
+  const categories = await Category.find()
+    .sort({ articles: -1 })
+    .select(['title', 'slug', '-_id'])
+    .populate({
+      path: 'articles',
+      select: 'title -_id',
+      options: { limit: 2 }
+    })
+    .limit(categoryNumbers)
 
   return categories
 }
@@ -53,4 +73,9 @@ const checkDuplicateField = async (field: string, data: string | any) => {
   }
 }
 
-export default { getAll, getCategoryBySlug, updateCategory }
+export default {
+  getAll,
+  getXNumberCategories,
+  getCategoryBySlug,
+  updateCategory
+}

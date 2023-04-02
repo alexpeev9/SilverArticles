@@ -11,6 +11,21 @@ const getAll = async () => {
   return articles
 }
 
+const getXNumberArticles = async (number: string, order: string) => {
+  const articleNumbers = Number(number)
+  if (articleNumbers <= 0) {
+    throw new Error('Invalid parameters.')
+  }
+
+  const articles = await Article.find({ isPublic: true })
+    .select(['title', 'slug', 'description', 'image', '-_id'])
+    .sort({ _id: order === 'new' ? -1 : 1 })
+    .populate('author', 'firstName lastName username -_id')
+    .limit(articleNumbers)
+
+  return articles
+}
+
 const getArticleBySlug = async (slug: string) => {
   const article = await Article.findOne({ slug, isPublic: true })
     .select([
@@ -32,4 +47,4 @@ const getArticleBySlug = async (slug: string) => {
   return article
 }
 
-export default { getAll, getArticleBySlug }
+export default { getAll, getXNumberArticles, getArticleBySlug }
