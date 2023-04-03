@@ -2,7 +2,12 @@ import ICategory from '../interfaces/entities/ICategory'
 import { Category } from '../models'
 
 const getAll = async () => {
-  const categories = await Category.find().select(['title', 'slug', '-_id'])
+  const categories = await Category.find().select([
+    'title',
+    'slug',
+    'image',
+    '-_id'
+  ])
 
   if (!categories) {
     throw new Error('No Categories found!')
@@ -19,7 +24,7 @@ const getXNumberCategories = async (number: string) => {
 
   const categories = await Category.find()
     .sort({ articles: -1 })
-    .select(['title', 'slug', '-_id'])
+    .select(['title', 'slug', 'image', '-_id'])
     .populate({
       path: 'articles',
       select: 'title -_id',
@@ -32,7 +37,7 @@ const getXNumberCategories = async (number: string) => {
 
 const getCategoryBySlug = async (slug: string) => {
   const category = await Category.findOne({ slug })
-    .select(['title', 'slug', '-_id'])
+    .select(['title', 'slug', 'image', '-_id'])
     .populate('articles', 'title slug image -_id')
 
   if (!category) {

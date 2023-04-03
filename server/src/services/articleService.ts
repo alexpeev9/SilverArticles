@@ -37,7 +37,7 @@ const getArticleBySlug = async (slug: string) => {
       'rating',
       '-_id'
     ])
-    .populate('category', 'title slug -_id')
+    .populate('category', 'title slug image -_id')
     .populate('author', 'username -_id')
 
   if (!article) {

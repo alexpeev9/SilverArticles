@@ -1,25 +1,29 @@
 import { Link } from 'react-router-dom'
-
 import { useTranslation } from 'react-i18next'
-import { useEffect, useState } from 'react'
+
+import ImageHolder from '../ImageHolder'
+
+import fallbackImage from '../../assets/images/fallbacks/category.png'
 
 const CategoryCard = ({ category }: any) => {
   const { t } = useTranslation()
-  let [image, setImage] = useState()
 
-  useEffect(() => {
-    try {
-      setImage(require(`../../assets/images/categories/${category.slug}.png`))
-    } catch (err) {
-      setImage(require(`../../assets/images/categories/default.jpg`))
-    }
-  }, [category.slug])
+  let image
+  try {
+    image = require(`../../assets/images/categories/${category.slug}.png`)
+  } catch (err) {
+    image = fallbackImage
+  }
 
   return (
     <li className='my3'>
       <article className='box post-excerpt'>
         <Link to={`/categories/${category.slug}`} className='image left'>
-          <img src={image} alt={category.title} />
+          <ImageHolder
+            imageAddress={category.image ? category.image : image}
+            fallbackImage={fallbackImage}
+            altName={category.title}
+          />
         </Link>
         <h3>
           <Link to={`/categories/${category.slug}`}>{category.title}</Link>
@@ -28,11 +32,11 @@ const CategoryCard = ({ category }: any) => {
           {t('category.description')}
           {category.articles.map((article: any, key: number) => {
             return (
-              <>
+              <span key={key}>
                 {' '}
                 {article.title}
                 {key + 1 !== category.articles.length ? ',' : '.'}
-              </>
+              </span>
             )
           })}
         </p>

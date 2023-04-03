@@ -1,22 +1,24 @@
 import { Link } from 'react-router-dom'
-import image5 from '../../assets/images/pic05.jpg'
-import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+
+import ImageHolder from '../ImageHolder'
+
+import fallbackImage from '../../assets/images/fallbacks/article.jpg'
 
 const ArticleCard = ({ article }: any) => {
   const { t } = useTranslation()
-  const [image, setImage] = useState(article.image)
 
-  function handleImageError() {
-    setImage(image5)
-  }
   return (
     <section className='box'>
-      <header>
+      <header className='header-title'>
         <h2>{article.title}</h2>
       </header>
       <Link to='/' className='image featured'>
-        <img onError={handleImageError} src={image} alt={article.title} />
+        <ImageHolder
+          imageAddress={article.image}
+          fallbackImage={fallbackImage}
+          altName={article.title}
+        />
       </Link>
       <p>
         {article.description.length > 100

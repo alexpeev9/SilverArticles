@@ -12,8 +12,8 @@ const Articles = () => {
     <div className='row gtr-150'>
       {articles ? (
         articles.map((article: any, key: number) => (
-          <div className='col-6 col-12-small'>
-            <ArticleCard key={key} article={article} />
+          <div className='col-6 col-12-small' key={key}>
+            <ArticleCard article={article} />
           </div>
         ))
       ) : (

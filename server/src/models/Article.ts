@@ -9,7 +9,7 @@ const ArticleSchema = new Schema<IArticle>(
       required: [true, 'Title is required!'],
       unique: true,
       minLength: [10, 'Title cannot be less than 10 characters'],
-      maxLength: [50, 'Title cannot be more than 50 characters']
+      maxLength: [60, 'Title cannot be more than 60 characters']
     },
     slug: {
       type: String,
@@ -20,7 +20,8 @@ const ArticleSchema = new Schema<IArticle>(
     },
     image: {
       type: String,
-      required: [true, 'Image is required!']
+      required: [true, 'Image is required!'],
+      validate: [/^https?:\/\//i, 'Image address must start with https://']
     },
     description: {
       type: String,

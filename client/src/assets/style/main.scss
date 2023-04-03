@@ -525,8 +525,15 @@ form {
 
   &.featured {
     display: block;
-    width: 100%;
+    height: 10em;
+    overflow: hidden;
     margin: 0 0 2em 0;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
   }
 }
 
@@ -929,7 +936,7 @@ ul.actions {
   @include vendor('justify-content', 'center');
   position: relative;
   height: 24em;
-  background: url('../images/banner.jpg') center center;
+  background: url('../images/common/banner.jpg') center center;
   background-size: cover;
   padding: 0;
 
@@ -946,6 +953,12 @@ ul.actions {
   .homepage & {
     height: 35em;
   }
+}
+
+.header-title {
+  height: 3em;
+  word-wrap: break-word;
+  margin-bottom: 0.3rem !important;
 }
 
 /* Logo */
@@ -1428,7 +1441,7 @@ ul.actions {
     top: auto;
     bottom: 0;
     z-index: 1;
-    background: url('../images/banner.jpg') center center;
+    background: url('../images/common/banner.jpg') center center;
 
     ul {
       margin: 0;

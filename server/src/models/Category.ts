@@ -18,6 +18,11 @@ const CategorySchema = new Schema<ICategory>(
       minLength: [3, 'Slug cannot be less than 3 characters'],
       maxLength: [30, 'Slug cannot be more than 30 characters']
     },
+    image: {
+      type: String,
+      required: false,
+      validate: [/^https?:\/\//i, 'Image address must start with https://']
+    },
     articles: [
       {
         type: Schema.Types.ObjectId,
