@@ -1,24 +1,25 @@
-import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
-import image10 from '../../assets/images/pic10.jpg'
 import { useTranslation } from 'react-i18next'
+import { useEffect, useState } from 'react'
 
 const CategoryCard = ({ category }: any) => {
   const { t } = useTranslation()
-  const [image, setImage] = useState(
-    `../../assets/images/categories/${category.slug}.jpg`
-  )
+  let [image, setImage] = useState()
 
-  function handleImageError() {
-    setImage(image10)
-  }
+  useEffect(() => {
+    try {
+      setImage(require(`../../assets/images/categories/${category.slug}.png`))
+    } catch (err) {
+      setImage(require(`../../assets/images/categories/default.jpg`))
+    }
+  }, [category.slug])
 
   return (
     <li className='my3'>
       <article className='box post-excerpt'>
         <Link to={`/categories/${category.slug}`} className='image left'>
-          <img onError={handleImageError} src={image} alt={category.title} />
+          <img src={image} alt={category.title} />
         </Link>
         <h3>
           <Link to={`/categories/${category.slug}`}>{category.title}</Link>
