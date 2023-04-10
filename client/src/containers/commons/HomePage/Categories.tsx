@@ -22,7 +22,7 @@ const Categories = () => {
               <h2>{t('home.categories.title')}</h2>
             </header>
             <p>{t('home.categories.description')}</p>
-            <Link to='/' className='button style1'>
+            <Link to='/categories' className='button style1'>
               {t('home.categories.button')}
             </Link>
           </section>

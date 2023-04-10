@@ -5,28 +5,40 @@ import {
   useState,
   useEffect
 } from 'react'
+import useFetch from '../hooks/auth/useFetch'
+import jwtDecode from 'jwt-decode'
 
 type Props = {
   children: ReactNode
 }
 
-const UserContext = createContext<any | null>(null)
+const UserContext = createContext<any | null>({})
 
 export const useUserContext = () => useContext(UserContext)
 
 export const UserProvider = ({ children }: Props) => {
   const [userData, setUserData] = useState(null)
-  const token = localStorage.getItem('user')
+
+  const { responseData: token } = useFetch({
+    method: 'get',
+    url: 'auth/verify'
+  })
+
+  const decodeToken = (token: any) => {
+    const decodedData: any = jwtDecode(token)
+    if (decodedData) {
+      setUserData(decodedData)
+    }
+  }
+
   useEffect(() => {
     if (token) {
-      const data = JSON.parse(token)
-      if (data && new Date(data.exp) < new Date()) {
-        setUserData(data)
-      }
+      decodeToken(token)
     }
   }, [token])
+
   return (
-    <UserContext.Provider value={{ userData, setUserData }}>
+    <UserContext.Provider value={{ userData, setUserData, decodeToken }}>
       {children}
     </UserContext.Provider>
   )

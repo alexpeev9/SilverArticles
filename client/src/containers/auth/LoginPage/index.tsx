@@ -1,10 +1,11 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import InputField from '../../../components/InputField'
-import useDecodeToken from '../../../hooks/auth/useDecodeToken'
 import useFetch from '../../../hooks/auth/useFetch'
+import { useUserContext } from '../../../contexts/UserContext'
 
 const LoginPage = () => {
+  const navigate = useNavigate()
   const {
     setRequestData,
     responseData: token,
@@ -14,7 +15,7 @@ const LoginPage = () => {
     method: 'post',
     url: 'auth/login'
   })
-  useDecodeToken(token)
+  const { userData, decodeToken } = useUserContext()
 
   const [user, setUser] = useState({
     email: '',
@@ -31,17 +32,21 @@ const LoginPage = () => {
     setRequestData(user)
   }
 
+  useEffect(() => {
+    if (token && !userData) {
+      decodeToken(token)
+      navigate('/')
+    }
+  }, [token, decodeToken, userData, navigate])
+
   return (
     <>
-      <h2>Login</h2>
-      <Link to='/'>Home</Link>
-      <div className='container bg-dark rounded text-white my-1 py-4 px-5'>
-        {token ? <p>{token}</p> : <></>}
-        {errors ? (
-          errors.map((error: any, key: any) => <p key={key}>{error}</p>)
-        ) : (
-          <></>
-        )}
+      {errors ? (
+        errors.map((error: any, key: any) => <p key={key}>{error}</p>)
+      ) : (
+        <></>
+      )}
+      {!userData ? (
         <form
           onSubmit={handleSubmit}
           className='row d-flex justify-content-center'
@@ -65,7 +70,9 @@ const LoginPage = () => {
             Login
           </button>
         </form>
-      </div>
+      ) : (
+        <p>s</p>
+      )}
     </>
   )
 }

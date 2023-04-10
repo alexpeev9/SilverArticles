@@ -40,4 +40,14 @@ const logout = async (req: Request, res: Response, next: NextFunction) => {
   }
 }
 
-export default { register, login, logout }
+const verify = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const token = req.cookies['token'] || null
+    return res.status(200).json(token)
+  } catch (err: any) {
+    res.clearCookie('token')
+    return res.status(401).json({ errors: ['You are not logged. Please log'] })
+  }
+}
+
+export default { register, login, logout, verify }

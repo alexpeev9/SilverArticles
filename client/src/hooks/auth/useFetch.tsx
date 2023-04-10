@@ -1,10 +1,9 @@
 import axios, { AxiosRequestConfig } from 'axios'
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { useErrorContext } from '../../contexts/ErrorContext'
-import { useUserContext } from '../../contexts/UserContext'
 
 import { apiUrl } from '../../env'
+import { useUserContext } from '../../contexts/UserContext'
 
 type MethodTypes = 'get' | 'post' | 'put' | 'delete'
 
@@ -13,10 +12,8 @@ const useFetch = ({ method, url }: { method: MethodTypes; url: string }) => {
   const [requestData, setRequestData] = useState<any | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
   const [responseData, setResponseData] = useState<any | null>(null)
-  const { setUserData } = useUserContext()
   const { setErrors: setGlobalErrors } = useErrorContext()
-
-  const navigate = useNavigate()
+  const { setUserData } = useUserContext()
 
   useEffect(() => {
     // if the method is get we want to render it only once and immediately
@@ -41,19 +38,11 @@ const useFetch = ({ method, url }: { method: MethodTypes; url: string }) => {
         })
         .catch((err: any) => {
           if (err.code === 'ERR_NETWORK') {
-            navigate('/no-connection')
           } else if (err.response.status === 404) {
-            navigate('/not-found')
             setGlobalErrors(err.response.data.errors)
           } else if (err.response.status === 401) {
-            localStorage.removeItem('user')
             setUserData(null)
-            navigate('/login')
-            setGlobalErrors(err.response.data.errors)
           } else if (err.response.status === 403) {
-            localStorage.removeItem('user')
-            setUserData(null)
-            navigate('/not-authorized')
             setGlobalErrors(err.response.data.errors)
           } else {
             setErrors(err.response.data.errors)
@@ -63,7 +52,7 @@ const useFetch = ({ method, url }: { method: MethodTypes; url: string }) => {
           setLoading(false)
         })
     }
-  }, [requestData, url, method, setUserData, setGlobalErrors, navigate])
+  }, [requestData, url, method, setGlobalErrors, setUserData])
 
   return { setRequestData, responseData, errors, loading }
 }

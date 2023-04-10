@@ -9,7 +9,7 @@ const UserPage = () => {
     method: 'get',
     url: `users/${username}`
   })
-
+  console.log(user ? user : '')
   return user ? <div>{user.username}</div> : <Spinner />
 }
 

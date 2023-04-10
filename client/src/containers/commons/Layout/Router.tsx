@@ -11,12 +11,14 @@ import NotAuthorizedPage from '../NotAuthorizedPage'
 import NoConnectionPage from '../NoConnectionPage'
 import ArticleListPage from '../../articles/ArticleListPage'
 import ArticlePage from '../../articles/ArticlePage'
+import RegisterPage from '../../auth/RegisterPage'
 
 const Router = () => {
   return (
     <Routes>
       <Route path='/' element={<HomePage />} />
       <Route path='/login' element={<LoginPage />} />
+      <Route path='/register' element={<RegisterPage />} />
       <Route path='/users' element={<UserListPage />} />
       <Route path='/users/:username' element={<UserPage />} />
       <Route path='/categories' element={<CategoryListPage />} />

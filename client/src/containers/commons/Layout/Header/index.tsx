@@ -29,12 +29,12 @@ const Header = () => {
               <Link to='/about'>{t('navigation.about')}</Link>
             </li>
             <li>
-              {userData ? (
-                <Link to={`profile/${userData.username}`}>
+              {!userData ? (
+                <Link to='/login'>{t('navigation.login')}</Link>
+              ) : (
+                <Link to={`/users/${userData.username}`}>
                   {t('navigation.profile')}
                 </Link>
-              ) : (
-                <Link to='/'>{t('navigation.login')}</Link>
               )}
             </li>
           </ul>

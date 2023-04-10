@@ -67,4 +67,5 @@ const checkIfDuplicate = async (
     )
   }
 }
+
 export default { register, login }
