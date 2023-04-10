@@ -32,9 +32,7 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
 const logout = async (req: Request, res: Response, next: NextFunction) => {
   try {
     res.clearCookie('token')
-    return res.status(200).json({
-      success: true
-    })
+    return res.status(200).json(true)
   } catch (err: any) {
     return next(err)
   }
