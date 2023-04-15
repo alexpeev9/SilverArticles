@@ -6,8 +6,17 @@ import authService from '../services/authService'
 const register = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const data: IUser = req.body
-    const userId = await authService.register(data)
-    return res.status(200).json(userId)
+
+    await authService.register(data)
+
+    const token = await authService.login(data.email, data.password)
+    res.cookie('token', token, {
+      secure: true,
+      httpOnly: true,
+      expires: new Date(new Date().setDate(new Date().getDate() + 7)) // 7 days
+      // maxAge: 60 * 1000 // 1 minute for testing
+    })
+    return res.status(200).json(token)
   } catch (err: any) {
     return next(err)
   }

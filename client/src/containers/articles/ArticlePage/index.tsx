@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom'
 import Spinner from '../../../components/Spinner'
-import useFetch from '../../../hooks/auth/useFetch'
+import useFetch from '../../../hooks/useFetch'
 
 const ArticlePage = () => {
   const { slug } = useParams()

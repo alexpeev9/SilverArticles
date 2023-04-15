@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import Spinner from '../../../components/Spinner'
-import useFetch from '../../../hooks/auth/useFetch'
+import useFetch from '../../../hooks/useFetch'
 
 const UserListPage = () => {
   const { responseData: users } = useFetch({

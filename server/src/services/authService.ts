@@ -4,23 +4,21 @@ import { Role, User } from '../models'
 import IUser from '../interfaces/entities/IUser'
 import { jwtSecret } from '../env'
 
-const register = async (userData: IUser): Promise<string> => {
+const register = async (userData: IUser): Promise<void> => {
   const { username, firstName, lastName, email, password } = userData
   await checkIfDuplicate('username', username)
   await checkIfDuplicate('email', email)
 
-  const user = {
+  const user = new User({
     username,
     firstName,
     lastName,
     email,
     password,
     role: await Role.findOne({ title: 'Writer' })
-  }
+  })
 
-  const createdUser = await User.create(user)
-
-  return createdUser._id
+  await user.save()
 }
 
 const login = async (email: string, password: string): Promise<string> => {

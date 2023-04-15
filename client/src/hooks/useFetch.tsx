@@ -1,14 +1,13 @@
 import axios, { AxiosRequestConfig } from 'axios'
 import { useEffect, useState } from 'react'
-import { useErrorContext } from '../../contexts/ErrorContext'
+import { useErrorContext } from '../contexts/ErrorContext'
 
-import { apiUrl } from '../../env'
-import { useUserContext } from '../../contexts/UserContext'
+import { apiUrl } from '../env'
+import { useUserContext } from '../contexts/UserContext'
 
 type MethodTypes = 'get' | 'post' | 'put' | 'delete'
 
 const useFetch = ({ method, url }: { method: MethodTypes; url: string }) => {
-  const [errors, setErrors] = useState<Array<string> | null>(null)
   const [requestData, setRequestData] = useState<any | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
   const [responseData, setResponseData] = useState<any | null>(null)
@@ -26,15 +25,12 @@ const useFetch = ({ method, url }: { method: MethodTypes; url: string }) => {
       withCredentials: true
     }
 
-    // if GET render immediately || if no request data don't render
+    // if GET method - render immediately || if no request data don't render
     if (isGetMethod || requestData) {
       setLoading(true)
       axios(config)
         .then((res) => {
           setResponseData(res.data)
-          if (!isGetMethod) {
-            setRequestData(null)
-          }
         })
         .catch((err: any) => {
           if (err.code === 'ERR_NETWORK') {
@@ -45,16 +41,19 @@ const useFetch = ({ method, url }: { method: MethodTypes; url: string }) => {
           } else if (err.response.status === 403) {
             setGlobalErrors(err.response.data.errors)
           } else {
-            setErrors(err.response.data.errors)
+            setGlobalErrors(err.response.data.errors)
           }
         })
         .finally(() => {
+          if (!isGetMethod) {
+            setRequestData(null)
+          }
           setLoading(false)
         })
     }
   }, [requestData, url, method, setGlobalErrors, setUserData])
 
-  return { setRequestData, responseData, errors, loading }
+  return { setRequestData, responseData, loading }
 }
 
 export default useFetch

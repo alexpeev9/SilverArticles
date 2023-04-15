@@ -430,9 +430,7 @@ form {
     margin: 0.25em 0 0.5em 0;
   }
 
-  input[type='text'],
-  input[type='email'],
-  input[type='password'],
+  input,
   select,
   textarea {
     @include vendor('transition', 'all .25s ease-in-out');
@@ -450,8 +448,7 @@ form {
     }
   }
 
-  input[type='text'],
-  input[type='email'] input[type='password'] {
+  input {
     line-height: 1em;
   }
 
@@ -1171,6 +1168,12 @@ ul.actions {
   color: rgba(255, 255, 255, 0.5);
   padding-bottom: 6em;
 
+  .container {
+    .row {
+      justify-content: center;
+    }
+  }
+
   h1,
   h2,
   h3,
@@ -1188,16 +1191,8 @@ ul.actions {
     border-top-color: rgba(255, 255, 255, 0.05);
   }
 
-  .container {
-    .row {
-      justify-content: center;
-    }
-  }
-
   form {
-    input[type='text'],
-    input[type='email'],
-    input[type='password'],
+    input,
     select,
     textarea {
       background-color: #ccc;
@@ -1369,6 +1364,11 @@ ul.actions {
   #form {
     padding-bottom: 4em;
 
+    .form-wrapper {
+      display: flex;
+      align-items: center;
+    }
+
     header {
       &.style1 {
         padding-bottom: 4em;
@@ -1484,6 +1484,12 @@ ul.actions {
           border-top: 0;
           padding-top: 0;
         }
+      }
+    }
+
+    .container {
+      .row {
+        justify-content: center;
       }
     }
   }
@@ -1886,6 +1892,83 @@ ul.actions {
         &:first-child {
           margin-top: 0;
         }
+      }
+    }
+  }
+}
+
+// Custom
+
+.center {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.text-section {
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+
+  @include breakpoint('<=large') {
+    padding-top: 0;
+  }
+
+  a {
+    padding-bottom: 0.7em;
+    font-weight: 1000;
+    letter-spacing: 0.15em;
+    text-decoration: none;
+
+    .button-cta {
+      border-bottom: 0.3em solid #fff;
+    }
+  }
+}
+
+// Error
+
+.error {
+  background-color: #e97770;
+  color: #2f333b;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-weight: 700;
+  padding: 2rem 0;
+  border-bottom: 0.5rem solid #2f333b;
+
+  span {
+    padding: 0.2rem 0;
+  }
+
+  button {
+    position: absolute;
+    top: 1rem;
+    right: 4rem;
+    padding: 0.5rem;
+    margin: 0.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 0.2rem solid #2f333b;
+    background: none;
+    border-radius: 50%;
+    height: auto;
+    width: auto;
+    min-width: auto;
+
+    @include breakpoint('<=small') {
+      right: 0.5rem;
+    }
+
+    &:hover {
+      background: #2f333b;
+
+      svg {
+        fill: #f98780;
       }
     }
   }

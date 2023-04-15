@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 
-import useFetch from '../../../hooks/auth/useFetch'
+import useFetch from '../../../hooks/useFetch'
 
 import Spinner from '../../../components/Spinner'
 import CategoryCard from '../../../components/CategoryCard'

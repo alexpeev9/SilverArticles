@@ -1,4 +1,4 @@
-import useFetch from '../../../hooks/auth/useFetch'
+import useFetch from '../../../hooks/useFetch'
 import Spinner from '../../../components/Spinner'
 import ArticleCard from '../../../components/ArticleCard'
 

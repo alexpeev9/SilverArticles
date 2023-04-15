@@ -1,4 +1,5 @@
 import { useErrorContext } from '../../../../contexts/ErrorContext'
+import CloseIcon from './CloseIcon'
 
 const ErrorModal = () => {
   const { errors, setErrors } = useErrorContext()
@@ -6,16 +7,15 @@ const ErrorModal = () => {
   const handleClick = () => {
     setErrors(null)
   }
+
   return errors ? (
-    <div>
-      <section>
-        {errors.map((error: string, key: string) => (
-          <div key={key}>{error}</div>
-        ))}
-        <div>
-          <button onClick={handleClick}>X</button>
-        </div>
-      </section>
+    <div className='error'>
+      {errors.map((error: string, key: string) => (
+        <span key={key}>{error}</span>
+      ))}
+      <button onClick={handleClick}>
+        <CloseIcon />
+      </button>
     </div>
   ) : (
     <></>

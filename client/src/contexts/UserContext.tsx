@@ -5,7 +5,7 @@ import {
   useState,
   useEffect
 } from 'react'
-import useFetch from '../hooks/auth/useFetch'
+import useFetch from '../hooks/useFetch'
 import jwtDecode from 'jwt-decode'
 
 type Props = {

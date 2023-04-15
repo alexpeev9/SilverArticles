@@ -7,13 +7,12 @@ const InputField = ({
   pattern,
   title,
   min,
-  max
+  max,
+  required
 }: any) => {
   return (
     <>
-      <label htmlFor={name} className='col-5 col-xl-2 text-center my-2 py-1'>
-        {label}* :
-      </label>
+      <label htmlFor={name}>{label}* :</label>
       <input
         className='col-5 col-xl-3 me-4 my-2 py-1'
         type={type}
@@ -25,7 +24,7 @@ const InputField = ({
         title={title}
         min={min}
         max={max}
-        required
+        // required={required ? required : true}
       />
     </>
   )

@@ -29,6 +29,19 @@
       "button": "Explore Categories"
     }
   },
+  "login": {
+    "title": "Start your journey",
+    "button": "Login",
+    "cta-question": "Don't have an account?",
+    "cta-answer": "Register now!",
+    "description": "As a registered user, you'll have access to a wealth of informative and engaging articles on a variety of topics. From news and current events to lifestyle, technology, and more, our articles are carefully curated to provide you with valuable insights and knowledge."
+  },
+  "register": {
+    "title": "Expand your world",
+    "button": "Join Now",
+    "cta-question": "Already have an account?",
+    "cta-answer": "Login now!"
+  },
   "category": {
     "description": "Read articles like:"
   },

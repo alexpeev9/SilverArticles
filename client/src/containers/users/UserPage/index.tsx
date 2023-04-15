@@ -1,10 +1,11 @@
 import { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
-import useFetch from '../../../hooks/auth/useFetch'
+import useFetch from '../../../hooks/useFetch'
 
 import Spinner from '../../../components/Spinner'
 import { useUserContext } from '../../../contexts/UserContext'
+import { Helmet } from 'react-helmet-async'
 
 const UserPage = () => {
   const navigate = useNavigate()
@@ -33,10 +34,15 @@ const UserPage = () => {
   }, [logout, navigate, setUserData])
 
   return user ? (
-    <div>
-      {user.username}
-      <button onClick={handleClick}>Logout</button>
-    </div>
+    <>
+      <Helmet>
+        <title>{user.username}'s Profile</title>
+      </Helmet>
+      <div>
+        {user.username}
+        <button onClick={handleClick}>Logout</button>
+      </div>
+    </>
   ) : (
     <Spinner />
   )
