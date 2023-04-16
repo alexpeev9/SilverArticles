@@ -1,4 +1,4 @@
-import Description from './Description'
+import DescriptionSection from './DescriptionSection'
 
 const FormWrapper = ({
   title,
@@ -29,7 +29,7 @@ const FormWrapper = ({
             </div>
           </form>
           {description ? (
-            <Description
+            <DescriptionSection
               route={description.route}
               question={description.question}
               answer={description.answer}

@@ -12,6 +12,7 @@ import NoConnectionPage from '../NoConnectionPage'
 import ArticleListPage from '../../articles/ArticleListPage'
 import ArticlePage from '../../articles/ArticlePage'
 import RegisterPage from '../../auth/RegisterPage'
+import ArticleCreatePage from '../../articles/ArticleCreatePage'
 
 const Router = () => {
   return (
@@ -24,6 +25,7 @@ const Router = () => {
       <Route path='/categories' element={<CategoryListPage />} />
       <Route path='/categories/:slug' element={<CategoryPage />} />
       <Route path='/articles' element={<ArticleListPage />} />
+      <Route path='/articles/create' element={<ArticleCreatePage />} />
       <Route path='/articles/:slug' element={<ArticlePage />} />
       <Route path='/not-authorized' element={<NotAuthorizedPage />} />
       <Route path='/not-found' element={<NotFoundPage />} />

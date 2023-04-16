@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import articleService from '../services/articleService'
+import IArticle from '../interfaces/entities/IArticle'
 
 const getAll = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -41,4 +42,14 @@ const getArticleBySlug = async (
   }
 }
 
-export default { getAll, getXNumberArticles, getArticleBySlug }
+const create = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const data = req.body
+    const articleSlug = await articleService.create(data)
+    return res.status(200).json(articleSlug)
+  } catch (err: any) {
+    return next(err)
+  }
+}
+
+export default { getAll, create, getXNumberArticles, getArticleBySlug }

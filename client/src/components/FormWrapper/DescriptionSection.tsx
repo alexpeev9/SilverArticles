@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 
-const Description = ({ route, question, answer, info }: any) => {
+const DescriptionSection = ({ route, question, answer, info }: any) => {
   return (
     <div className='col-6 col-7-medium text-section'>
       <Link to={route}>
@@ -11,4 +11,4 @@ const Description = ({ route, question, answer, info }: any) => {
   )
 }
 
-export default Description
+export default DescriptionSection

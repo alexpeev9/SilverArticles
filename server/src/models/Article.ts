@@ -31,14 +31,14 @@ const ArticleSchema = new Schema<IArticle>(
     },
     isPublic: {
       type: Boolean,
-      required: true
+      default: true
     },
     rating: {
       type: Number,
       default: 0
     },
     category: {
-      required: true,
+      required: [true, 'Category is required!'],
       type: Schema.Types.ObjectId,
       ref: 'Category'
     },

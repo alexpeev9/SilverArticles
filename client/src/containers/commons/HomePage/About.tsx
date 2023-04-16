@@ -25,7 +25,7 @@ const About = () => {
                 {t('home.about.login-button')}
               </Link>
             ) : (
-              <Link to='/create' className='button style3 large'>
+              <Link to='/articles/create' className='button style3 large'>
                 {t('home.about.create-button')}
               </Link>
             )}

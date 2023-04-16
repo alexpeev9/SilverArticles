@@ -8,7 +8,7 @@ const useSetFormInputs = (formInputs: any) => {
     setData({ ...data, [name]: value })
   }
 
-  return { data, onInputChange }
+  return { data, setData, onInputChange }
 }
 
 export default useSetFormInputs

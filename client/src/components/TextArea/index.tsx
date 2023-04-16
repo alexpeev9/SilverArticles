@@ -1,4 +1,4 @@
-const InputField = ({
+const TextArea = ({
   name,
   label,
   type,
@@ -13,20 +13,16 @@ const InputField = ({
   return (
     <>
       <label htmlFor={name}>{label}* :</label>
-      <input
-        type={type}
+      <textarea
         placeholder={`Enter ${label}`}
         name={name}
         value={value}
         onChange={action}
-        pattern={pattern}
         title={title}
-        min={min}
-        max={max}
-        // required={required ? required : true}
+        required={required ? required : true}
       />
     </>
   )
 }
 
-export default InputField
+export default TextArea

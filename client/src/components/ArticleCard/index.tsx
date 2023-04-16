@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 
 import ImageHolder from '../ImageHolder'
-
 import fallbackImage from '../../assets/images/fallbacks/article.jpg'
 
 const ArticleCard = ({ article }: any) => {

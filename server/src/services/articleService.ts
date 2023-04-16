@@ -1,4 +1,4 @@
-import { Article } from '../models'
+import { Article, Category, User } from '../models'
 
 const getAll = async () => {
   const articles = await Article.find({ isPublic: true }).select([
@@ -9,6 +9,31 @@ const getAll = async () => {
   ])
 
   return articles
+}
+
+const create = async (data: any) => {
+  const { title, slug, image, description, category, reqToken } = data
+  await checkIfDuplicate('username', title)
+  await checkIfDuplicate('email', slug)
+
+  const user = await User.findOne({ username: reqToken.username })
+
+  if (!user) {
+    throw new Error('User not found')
+  }
+
+  const article = await Article.create({
+    title,
+    slug,
+    image,
+    description,
+    category: await Category.findOne({ slug: category }),
+    author: await User.findOne({ username: user.username })
+  })
+
+  await user.update({ $push: { articles: article._id } })
+
+  return article.slug
 }
 
 const getXNumberArticles = async (number: string, order: string) => {
@@ -47,4 +72,15 @@ const getArticleBySlug = async (slug: string) => {
   return article
 }
 
-export default { getAll, getXNumberArticles, getArticleBySlug }
+const checkIfDuplicate = async (
+  field: string,
+  value: string
+): Promise<void> => {
+  if (await Article.findOne({ [field]: value })) {
+    throw new Error(
+      `${field.charAt(0).toUpperCase() + field.slice(1)} already exists.`
+    )
+  }
+}
+
+export default { getAll, create, getXNumberArticles, getArticleBySlug }
