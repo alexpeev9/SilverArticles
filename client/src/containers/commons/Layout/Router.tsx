@@ -13,6 +13,7 @@ import ArticleListPage from '../../articles/ArticleListPage'
 import ArticlePage from '../../articles/ArticlePage'
 import RegisterPage from '../../auth/RegisterPage'
 import ArticleCreatePage from '../../articles/ArticleCreatePage'
+import ArticleUpdatePage from '../../articles/ArticleUpdatePage'
 
 const Router = () => {
   return (
@@ -26,6 +27,8 @@ const Router = () => {
       <Route path='/categories/:slug' element={<CategoryPage />} />
       <Route path='/articles' element={<ArticleListPage />} />
       <Route path='/articles/create' element={<ArticleCreatePage />} />
+      <Route path='/articles' element={<ArticleListPage />} />
+      <Route path='/articles/edit/:slug' element={<ArticleUpdatePage />} />
       <Route path='/articles/:slug' element={<ArticlePage />} />
       <Route path='/not-authorized' element={<NotAuthorizedPage />} />
       <Route path='/not-found' element={<NotFoundPage />} />

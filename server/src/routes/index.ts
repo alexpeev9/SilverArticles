@@ -11,16 +11,8 @@ router.use('/api/users', userRoutes)
 router.use('/api/categories', categoryRoutes)
 router.use('/api/articles', articleRoutes)
 
-router.get('/find', async (req: Request, res: Response) => {
-  try {
-    res.json({ status: 200 })
-  } catch (e: any) {
-    res.json({ status: e.message })
-  }
-})
-
 router.use('*', (req: Request, res: Response) => {
-  res.json({ status: 404 })
+  res.status(404).json(['Not Found!'])
 })
 
 export default router

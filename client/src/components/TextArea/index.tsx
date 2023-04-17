@@ -1,25 +1,15 @@
-const TextArea = ({
-  name,
-  label,
-  type,
-  value,
-  action,
-  pattern,
-  title,
-  min,
-  max,
-  required
-}: any) => {
+const TextArea = ({ name, label, value, action, title, required }: any) => {
   return (
     <>
       <label htmlFor={name}>{label}* :</label>
       <textarea
         placeholder={`Enter ${label}`}
         name={name}
+        rows={20}
         value={value}
         onChange={action}
         title={title}
-        required={required ? required : true}
+        required={required}
       />
     </>
   )

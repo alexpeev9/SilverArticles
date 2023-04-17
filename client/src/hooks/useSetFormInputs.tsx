@@ -8,7 +8,15 @@ const useSetFormInputs = (formInputs: any) => {
     setData({ ...data, [name]: value })
   }
 
-  return { data, setData, onInputChange }
+  const onRadioButtonChange = (e: React.FormEvent<HTMLInputElement>) => {
+    const { name, value } = e.currentTarget
+    setData({
+      ...data,
+      [name]: value === 'true'
+    })
+  }
+
+  return { data, setData, onInputChange, onRadioButtonChange }
 }
 
 export default useSetFormInputs

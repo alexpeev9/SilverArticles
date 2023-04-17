@@ -8,6 +8,8 @@ const InputField = ({
   title,
   min,
   max,
+  readOnly,
+  checked,
   required
 }: any) => {
   return (
@@ -23,7 +25,9 @@ const InputField = ({
         title={title}
         min={min}
         max={max}
-        // required={required ? required : true}
+        checked={checked}
+        readOnly={readOnly}
+        required={required}
       />
     </>
   )

@@ -5,7 +5,7 @@ import ArticleCard from '../../../components/ArticleCard'
 const Articles = () => {
   const { responseData: articles } = useFetch({
     method: 'get',
-    url: 'articles/get/5/old'
+    url: 'articles/get/2/old'
   })
 
   return (

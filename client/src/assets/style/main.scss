@@ -2033,4 +2033,64 @@ ul.actions {
   img {
     margin: 0 !important;
   }
+
+  @include breakpoint('<=small') {
+    flex-direction: column;
+  }
+}
+
+.text-radio {
+  color: #484d55;
+  font-size: 1em;
+  font-weight: 700;
+  padding: 0;
+  margin-bottom: 0;
+}
+
+input[type='radio'] {
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-right: 1rem;
+}
+
+input:checked {
+  position: relative;
+  background-color: #f0f0f0;
+}
+
+input:checked::before,
+input:checked::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 2px;
+  height: 100%;
+  background-color: #444;
+}
+
+input:checked::before {
+  transform: rotate(45deg);
+}
+
+input:checked::after {
+  transform: rotate(-45deg);
+}
+
+// Article Page
+
+.main-image {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  margin-bottom: 3rem;
+
+  img {
+    width: 30rem;
+    object-fit: contain;
+
+    @include breakpoint('<=small') {
+      width: 15rem;
+    }
+  }
 }

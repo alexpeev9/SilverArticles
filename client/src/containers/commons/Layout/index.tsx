@@ -12,14 +12,14 @@ const Layout = () => {
     <>
       <HelmetProvider>
         <Helmet titleTemplate='%s - SA' defaultTitle='Silver Articles' />
-        <ErrorProvider>
-          <UserProvider>
-            <BrowserRouter>
+        <BrowserRouter>
+          <ErrorProvider>
+            <UserProvider>
               <Header />
               <Router />
-            </BrowserRouter>
-          </UserProvider>
-        </ErrorProvider>
+            </UserProvider>
+          </ErrorProvider>
+        </BrowserRouter>
       </HelmetProvider>
     </>
   )

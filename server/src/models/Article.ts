@@ -27,11 +27,11 @@ const ArticleSchema = new Schema<IArticle>(
       type: String,
       required: [true, 'Description is required!'],
       minLength: [3, 'Description cannot be less than 70 characters'],
-      maxLength: [1000, 'Description cannot be more than 20 characters']
+      maxLength: [3000, 'Description cannot be more than 3000 characters']
     },
     isPublic: {
       type: Boolean,
-      default: true
+      required: [true, 'Set article to public or private!']
     },
     rating: {
       type: Number,

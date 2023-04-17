@@ -34,7 +34,11 @@ const getArticleBySlug = async (
 ) => {
   try {
     const { slug } = req.params
-    const article = await articleService.getArticleBySlug(slug)
+    const token = req.cookies['token']
+    const article = await articleService.getArticleBySlug(slug, token)
+
+    // check if public, and if not check if user is creator
+
     return res.status(200).json(article)
   } catch (err: any) {
     err.statusCode = 404

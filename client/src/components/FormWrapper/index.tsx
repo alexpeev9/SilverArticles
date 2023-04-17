@@ -1,3 +1,4 @@
+import { useErrorContext } from '../../contexts/ErrorContext'
 import DescriptionSection from './DescriptionSection'
 
 const FormWrapper = ({
@@ -9,10 +10,27 @@ const FormWrapper = ({
   children,
   loading
 }: any) => {
+  const { setErrors } = useErrorContext()
+
   const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault()
-    setRequestData(data)
+    // check if all fields are filled
+    const errorKeys = Object.entries(data)
+      .filter(([key, value]) => value === '' || value === null)
+      .map(([key, value]) =>
+        (key.charAt(0).toUpperCase() + key.slice(1))
+          .split(/(?=[A-Z])/)
+          .join(' ')
+      )
+    console.log(data)
+
+    if (errorKeys.length > 0) {
+      setErrors([`Please fill ${errorKeys.join(', ')}.`])
+    } else {
+      setRequestData(data)
+    }
   }
+
   return (
     <section id='form' className='wrapper style1'>
       <div className='title'>{title}</div>

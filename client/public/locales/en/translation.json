@@ -47,6 +47,12 @@
     "description": "Read articles like:"
   },
   "article": {
+    "create": {
+      "title": "Create Now",
+      "button": "Create",
+      "category-text": "Category* :",
+      "radio-text": "You can choose to create your article private and publish it later."
+    },
     "buttons": {
       "more": "More"
     }

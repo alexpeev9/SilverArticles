@@ -1,4 +1,6 @@
 import { Article, Category, User } from '../models'
+import jwt from 'jsonwebtoken'
+import { jwtSecret } from '../env'
 
 const getAll = async () => {
   const articles = await Article.find({ isPublic: true }).select([
@@ -12,7 +14,7 @@ const getAll = async () => {
 }
 
 const create = async (data: any) => {
-  const { title, slug, image, description, category, reqToken } = data
+  const { title, slug, image, description, isPublic, category, reqToken } = data
   await checkIfDuplicate('username', title)
   await checkIfDuplicate('email', slug)
 
@@ -27,6 +29,7 @@ const create = async (data: any) => {
     slug,
     image,
     description,
+    isPublic,
     category: await Category.findOne({ slug: category }),
     author: await User.findOne({ username: user.username })
   })
@@ -51,8 +54,8 @@ const getXNumberArticles = async (number: string, order: string) => {
   return articles
 }
 
-const getArticleBySlug = async (slug: string) => {
-  const article = await Article.findOne({ slug, isPublic: true })
+const getArticleBySlug = async (slug: string, token: any) => {
+  const article = (await Article.findOne({ slug })
     .select([
       'title',
       'slug',
@@ -63,10 +66,19 @@ const getArticleBySlug = async (slug: string) => {
       '-_id'
     ])
     .populate('category', 'title slug image -_id')
-    .populate('author', 'username -_id')
+    .populate('author', 'username firstName lastName -_id')) as any
 
   if (!article) {
     throw new Error('Article not found!')
+  }
+
+  if (
+    !article.isPublic &&
+    (!token ||
+      (jwt.verify(token, jwtSecret) as any).username !==
+        article.author.username)
+  ) {
+    throw new Error(`Article not found!`)
   }
 
   return article
