@@ -14,6 +14,7 @@ const ArticleUpdatePage = () => {
     method: 'get',
     url: `articles/${slug}`
   })
+
   return article && userData ? (
     userData.username === article.author.username ? (
       <ArticleForm

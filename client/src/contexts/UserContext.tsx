@@ -19,7 +19,7 @@ export const useUserContext = () => useContext(UserContext)
 export const UserProvider = ({ children }: Props) => {
   const [userData, setUserData] = useState(null)
 
-  const { responseData: token } = useFetch({
+  const { responseData: token, loading: userLoading } = useFetch({
     method: 'get',
     url: 'auth/verify'
   })
@@ -38,7 +38,9 @@ export const UserProvider = ({ children }: Props) => {
   }, [token])
 
   return (
-    <UserContext.Provider value={{ userData, setUserData, decodeToken }}>
+    <UserContext.Provider
+      value={{ userData, userLoading, setUserData, decodeToken }}
+    >
       {children}
     </UserContext.Provider>
   )

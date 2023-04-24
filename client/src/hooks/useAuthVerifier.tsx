@@ -1,9 +1,10 @@
+import Spinner from '../components/Spinner'
+import LoginPage from '../containers/auth/LoginPage'
 import { useUserContext } from '../contexts/UserContext'
-import { Navigate } from 'react-router-dom'
 
-const useAuthVerifier = (page: JSX.Element) => {
-  const { userData } = useUserContext()
-  return userData ? page : <Navigate to='/login' />
+const useAuthVerifier = (page: any) => {
+  const { userData, userLoading } = useUserContext()
+  return !userLoading ? userData ? page : <LoginPage /> : <Spinner />
 }
 
 export default useAuthVerifier
