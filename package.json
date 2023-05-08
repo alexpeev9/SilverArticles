@@ -2,8 +2,8 @@
   "name": "silverarticles",
   "version": "1.0.0",
   "scripts": {
-    "heroku-postbuild": "cd client && npm install && npm run build && cd ../server && npm install && npx tsc",
-    "start": "cd server && node dist/index.js"
+    "server": "cd server && npm run dev",
+    "client": "cd client && npm run dev"
   },
   "repository": {
     "type": "git",
