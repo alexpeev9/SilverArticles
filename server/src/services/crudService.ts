@@ -23,6 +23,14 @@ const crudService = <T extends Document>(model: Model<T>): any => {
     return data
   }
 
+  const getEntity = async (findParams: any): Promise<any> => {
+    const data = await model.findOne(findParams)
+    if (!data) {
+      throw new Error(`${model.modelName} not found!`)
+    }
+    return data
+  }
+
   const create = async (data: any): Promise<any> => {
     const result = await model.create(data)
     if (!result) {
@@ -60,6 +68,7 @@ const crudService = <T extends Document>(model: Model<T>): any => {
   return {
     getAll,
     getOne,
+    getEntity,
     create,
     update,
     checkIfDuplicate

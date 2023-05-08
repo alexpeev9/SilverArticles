@@ -6,7 +6,9 @@ const service = crudService(User)
 const getAll = async () =>
   await service.getAll({}, 'username firstName lastName -_id')
 
-const getUserByName = async (username: string) => {
+const getEntity = async (username: any) => await service.getEntity({ username })
+
+const getOne = async (username: string) => {
   const user = await service.getOne(
     { username },
     'username firstName lastName articles role -_id'
@@ -17,4 +19,4 @@ const getUserByName = async (username: string) => {
   return user
 }
 
-export default { getAll, getUserByName }
+export default { getAll, getEntity, getOne }

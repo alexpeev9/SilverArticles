@@ -5,6 +5,8 @@ const service = crudService(Category)
 
 const getAll = async () => await service.getAll({}, 'title slug image -_id')
 
+const getEntity = async (slug: any) => await service.getEntity({ slug })
+
 const getXNumberCategories = async (number: string) => {
   const categoryNumbers = Number(number)
   if (categoryNumbers <= 0) {
@@ -79,6 +81,7 @@ const update = async (slugParam: any, data: any) => {
 
 export default {
   getAll,
+  getEntity,
   getOne,
   getXNumberCategories,
   create,

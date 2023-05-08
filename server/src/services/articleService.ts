@@ -1,5 +1,6 @@
 import crudService from '../services/crudService'
 import { User, Article, Category } from '../models'
+
 import jwt from 'jsonwebtoken'
 import { jwtSecret } from '../env'
 
@@ -7,6 +8,8 @@ const service = crudService(Article)
 
 const getAll = async () =>
   await service.getAll({ isPublic: true }, 'title slug image -_id')
+
+const getId = async (slug: any) => await service.getId({ slug })
 
 const getOne = async (slug: string, token: any) => {
   const article = await service.getOne(
@@ -45,16 +48,10 @@ const getXNumber = async (number: string, order: string) => {
   return articles
 }
 
-const create = async (data: any) => {
-  const { title, slug, image, description, isPublic, category, reqToken } = data
+const create = async (data: any, category: any, user: any) => {
+  const { title, slug, image, description, isPublic } = data
   await service.checkIfDuplicate('title', title)
   await service.checkIfDuplicate('slug', slug)
-
-  const user = await User.findOne({ username: reqToken.username })
-
-  if (!user) {
-    throw new Error('User not found')
-  }
 
   const article = await service.create({
     title,
@@ -62,10 +59,11 @@ const create = async (data: any) => {
     image,
     description,
     isPublic,
-    category: await Category.findOne({ slug: category }),
-    author: await User.findOne({ username: user.username })
+    category: category,
+    author: user
   })
 
+  await category.update({ $push: { articles: article._id } })
   await user.update({ $push: { articles: article._id } })
 
   return article.slug
@@ -106,4 +104,23 @@ const update = async (slugParam: any, data: any) => {
   return article.slug
 }
 
-export default { getAll, getOne, getXNumber, create, update }
+const remove = async (slug: string) => {
+  const article = await service.getOne({ slug }, 'title category author')
+  console.log(article)
+
+  await Category.findOneAndUpdate(
+    { _id: article.category },
+    { $pull: { articles: article._id } }
+  )
+
+  await User.findOneAndUpdate(
+    { _id: article.author },
+    { $pull: { articles: article._id } }
+  )
+
+  await article.remove()
+
+  return `${article.title} successfully deleted`
+}
+
+export default { getAll, getId, getOne, getXNumber, create, update, remove }

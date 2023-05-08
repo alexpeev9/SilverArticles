@@ -1,5 +1,8 @@
 import { Request, Response, NextFunction } from 'express'
+
 import articleService from '../services/articleService'
+import userService from '../services/userService'
+import categoryService from '../services/categoryService'
 
 const getAll = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -37,7 +40,16 @@ const getXNumber = async (req: Request, res: Response, next: NextFunction) => {
 const create = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const data = req.body
-    const articleSlug = await articleService.create(data)
+    const { category, reqToken } = data
+    const selectedCategory = await categoryService.getEntity(category)
+    const selectedUser = await userService.getEntity(reqToken.username)
+
+    const articleSlug = await articleService.create(
+      data,
+      selectedCategory,
+      selectedUser
+    )
+
     return res.status(200).json(articleSlug)
   } catch (err: any) {
     return next(err)
@@ -55,4 +67,13 @@ const update = async (req: Request, res: Response, next: NextFunction) => {
   }
 }
 
-export default { getAll, getOne, getXNumber, create, update }
+const remove = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { slug } = req.params
+    const message = await articleService.remove(slug)
+    return res.status(200).json(message)
+  } catch (err: any) {
+    return next(err)
+  }
+}
+export default { getAll, getOne, getXNumber, create, update, remove }
