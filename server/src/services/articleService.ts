@@ -5,15 +5,10 @@ import { jwtSecret } from '../env'
 
 const service = crudService(Article)
 
-const getAll = async (): Promise<any> => {
-  const articles = await service.getAll(
-    { isPublic: true },
-    'title slug image -_id'
-  )
-  return articles
-}
+const getAll = async () =>
+  await service.getAll({ isPublic: true }, 'title slug image -_id')
 
-const getOne = async (slug: string, token: any): Promise<any> => {
+const getOne = async (slug: string, token: any) => {
   const article = await service.getOne(
     { slug },
     'title slug description image isPublic rating category author -_id'

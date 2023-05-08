@@ -1,20 +1,9 @@
-import ICategory from '../interfaces/entities/ICategory'
 import { Category } from '../models'
+import crudService from './crudService'
 
-const getAll = async () => {
-  const categories = await Category.find().select([
-    'title',
-    'slug',
-    'image',
-    '-_id'
-  ])
+const service = crudService(Category)
 
-  if (!categories) {
-    throw new Error('No Categories found!')
-  }
-
-  return categories
-}
+const getAll = async () => await service.getAll({}, 'title slug image -_id')
 
 const getXNumberCategories = async (number: string) => {
   const categoryNumbers = Number(number)
@@ -35,52 +24,63 @@ const getXNumberCategories = async (number: string) => {
   return categories
 }
 
-const getCategoryBySlug = async (slug: string) => {
-  const category = await Category.findOne({ slug })
-    .select(['title', 'slug', 'image', '-_id'])
-    .populate('articles', 'title slug image -_id')
+const getOne = async (slug: string) => {
+  const category = await service.getOne(
+    { slug },
+    'title slug description image -_id'
+  )
 
-  if (!category) {
-    throw new Error('Category not found!')
-  }
+  await category.populate('articles', 'title slug image -_id')
 
   return category
 }
 
-const updateCategory = async (slugParam: string, body: any) => {
-  const { title, slug } = body
-  const category = await Category.findOne({ slug: slugParam })
-  if (!category) {
-    throw new Error('No Category found')
-  }
+const create = async (data: any) => {
+  const { title, slug } = data
+  await service.checkIfDuplicate('title', title)
+  await service.checkIfDuplicate('slug', slug)
 
-  await checkDuplicateField('title', title)
-  await checkDuplicateField('slug', slug)
-  const updatedUser = await Category.updateOne(
-    { slug: slugParam },
-    {
-      $set: {
-        title: title ? title : category.title,
-        slug: slug ? slug : category.slug
-      }
-    },
-    { runValidators: true }
-  )
+  const category = await service.create({
+    title,
+    slug
+  })
 
-  return updatedUser.acknowledged
+  return category.slug
 }
 
-const checkDuplicateField = async (field: string, data: string | any) => {
-  if (data) {
-    if (await Category.exists({ [field]: data })) {
-      throw new Error(`Category with that ${field} already exists`)
-    }
+const update = async (slugParam: any, data: any) => {
+  const { title, slug } = data
+
+  const oldCategory = await service.getOne(
+    { slug: slugParam },
+    'title slug -_id'
+  )
+
+  // check if title is the same, and if there is a new title check if it is used in other record
+  if (title !== oldCategory.title) {
+    await service.checkIfDuplicate('title', title)
   }
+
+  // check if slug is the same, and if there is a new slug check if it is used in other record
+  if (slug !== oldCategory.slug) {
+    await service.checkIfDuplicate('slug', slug)
+  }
+
+  const category = await service.update(
+    { slug: slugParam },
+    {
+      title: title ?? oldCategory.title,
+      slug: slug ?? oldCategory.slug
+    }
+  )
+
+  return category.slug
 }
 
 export default {
   getAll,
+  getOne,
   getXNumberCategories,
-  getCategoryBySlug,
-  updateCategory
+  create,
+  update
 }

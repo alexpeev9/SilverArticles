@@ -11,11 +11,7 @@ const getAll = async (req: Request, res: Response, next: NextFunction) => {
   }
 }
 
-const getXNumberArticles = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+const getXNumber = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { number } = req.params
     const articles = await categoryService.getXNumberCategories(number)
@@ -26,14 +22,10 @@ const getXNumberArticles = async (
   }
 }
 
-const getCategoryBySlug = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+const getOne = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { slug } = req.params
-    const category = await categoryService.getCategoryBySlug(slug)
+    const category = await categoryService.getOne(slug)
     return res.status(200).json(category)
   } catch (err: any) {
     err.statusCode = 404
@@ -41,19 +33,25 @@ const getCategoryBySlug = async (
   }
 }
 
-const updateCategory = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+const create = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const data = req.body
+    const categorySlug = await categoryService.create(data)
+    return res.status(200).json(categorySlug)
+  } catch (err: any) {
+    return next(err)
+  }
+}
+
+const update = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { slug } = req.params
-    const { body } = req
-    const isUpdated = await categoryService.updateCategory(slug, body)
+    const { data } = req.body
+    const isUpdated = await categoryService.update(slug, data)
     return res.status(200).json({ success: isUpdated })
   } catch (err: any) {
     return next(err)
   }
 }
 
-export default { getAll, getXNumberArticles, getCategoryBySlug, updateCategory }
+export default { getAll, getOne, getXNumber, create, update }
