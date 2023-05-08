@@ -3,13 +3,16 @@ import jwt from 'jsonwebtoken'
 import { Role, User } from '../models'
 import IUser from '../interfaces/entities/IUser'
 import { jwtSecret } from '../env'
+import crudService from './crudService'
+
+const service = crudService(User)
 
 const register = async (userData: IUser): Promise<void> => {
   const { username, firstName, lastName, email, password } = userData
-  await checkIfDuplicate('username', username)
-  await checkIfDuplicate('email', email)
+  await service.checkIfDuplicate('username', username)
+  await service.checkIfDuplicate('email', email)
 
-  const user = new User({
+  const user = await service.create({
     username,
     firstName,
     lastName,
@@ -25,15 +28,8 @@ const login = async (email: string, password: string): Promise<string> => {
   if (!email && !password) {
     throw new Error('All fields must be filled.')
   }
-
-  const user = (await User.findOne({ email }).populate(
-    'role',
-    'customId -_id'
-  )) as any // to get customerId
-
-  if (!user) {
-    throw new Error('User not found.')
-  }
+  const user = await service.getOne({ email }, 'username password role -_id')
+  user.populate('role', 'customId -_id')
 
   if (!(await user.validatePassword(password))) {
     throw new Error('Invalid Password')
@@ -53,17 +49,6 @@ const login = async (email: string, password: string): Promise<string> => {
   )
 
   return token
-}
-
-const checkIfDuplicate = async (
-  field: string,
-  value: string
-): Promise<void> => {
-  if (await User.findOne({ [field]: value })) {
-    throw new Error(
-      `${field.charAt(0).toUpperCase() + field.slice(1)} already exists.`
-    )
-  }
 }
 
 export default { register, login }

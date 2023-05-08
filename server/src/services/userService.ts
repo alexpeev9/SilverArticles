@@ -1,25 +1,18 @@
 import { User } from '../models'
+import crudService from './crudService'
 
-const getAll = async () => {
-  const users = await User.find().select([
-    'username',
-    'firstName',
-    'lastName',
-    '-_id'
-  ])
+const service = crudService(User)
 
-  return users
-}
+const getAll = async () =>
+  await service.getAll({}, 'username firstName lastName -_id')
 
 const getUserByName = async (username: string) => {
-  const user = await User.findOne({ username })
-    .select(['username', 'firstName', 'lastName', '-_id'])
-    .populate('articles', 'title slug -_id')
-    .populate('role', 'title -_id')
-
-  if (!user) {
-    throw new Error('User not found!')
-  }
+  const user = await service.getOne(
+    { username },
+    'username firstName lastName articles role -_id'
+  )
+  user.populate('articles', 'title slug -_id')
+  user.populate('role', 'title -_id')
 
   return user
 }
