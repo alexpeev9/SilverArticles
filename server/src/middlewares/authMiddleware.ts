@@ -15,7 +15,7 @@ const loggedMiddleware = (req: Request, res: Response, next: NextFunction) => {
       throw new Error('You must be logged!')
     }
   } catch (err: any) {
-    return res.status(401).json({ errors: ['You are not logged. Please log'] })
+    return res.status(401).json({ errors: [`${err.message}`] })
   }
 }
 
@@ -33,7 +33,7 @@ const accessMiddleware = async (
 
     // check if the requester of the info is the author or administrator
     if (!articleService.checkIfCreator(article, currentUser)) {
-      throw new Error('Article Not Found!')
+      throw new Error('You must be logged!')
     }
 
     req.body.article = article
