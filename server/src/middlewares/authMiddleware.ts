@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken'
 
 import { jwtSecret } from '../env'
 
-const tokenMiddleware = (req: Request, res: Response, next: NextFunction) => {
+const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
   try {
     const token = req.cookies['token']
     if (token) {
@@ -18,4 +18,4 @@ const tokenMiddleware = (req: Request, res: Response, next: NextFunction) => {
   }
 }
 
-export default tokenMiddleware
+export default authMiddleware

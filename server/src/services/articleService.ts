@@ -1,34 +1,25 @@
 import crudService from '../services/crudService'
+import { roleIds } from '../env'
 import { User, Article, Category } from '../models'
-
-import jwt from 'jsonwebtoken'
-import { jwtSecret } from '../env'
 
 const service = crudService(Article)
 
 const getAll = async () =>
   await service.getAll({ isPublic: true }, 'title slug image -_id')
 
-const getId = async (slug: any) => await service.getId({ slug })
+const getEntity = async (slug: any) => await service.getEntity({ slug })
 
-const getOne = async (slug: string, token: any) => {
+const checkIfCreator = (article: any, user: any) =>
+  article.author.username === user.username || user.roleId === roleIds.adminId
+
+const getOne = async (slug: string) => {
   const article = await service.getOne(
     { slug },
     'title slug description image isPublic rating category author -_id'
   )
 
   await article.populate('category', 'title slug image -_id')
-  await article.populate('author', 'username firstName lastName -_id')
-
-  // if it is private and it is not requested by the creator, don't show
-  if (
-    !article.isPublic &&
-    (!token ||
-      (jwt.verify(token, jwtSecret) as any).username !==
-        article.author.username)
-  ) {
-    throw new Error(`Article not found!`)
-  }
+  await article.populate('author', 'username customId firstName lastName -_id')
 
   return article
 }
@@ -69,13 +60,8 @@ const create = async (data: any, category: any, user: any) => {
   return article.slug
 }
 
-const update = async (slugParam: any, data: any) => {
+const update = async (oldArticle: any, data: any) => {
   const { title, slug, image, description, isPublic, category } = data
-
-  const oldArticle = await service.getOne(
-    { slug: slugParam },
-    'title slug description image isPublic category -_id'
-  )
 
   // check if title is the same, and if there is a new title check if it is used in other record
   if (title !== oldArticle.title) {
@@ -88,7 +74,7 @@ const update = async (slugParam: any, data: any) => {
   }
 
   const article = await service.update(
-    { slug: slugParam },
+    { slug: oldArticle.slug },
     {
       title: title ?? oldArticle.title,
       slug: slug ?? oldArticle.slug,
@@ -104,10 +90,7 @@ const update = async (slugParam: any, data: any) => {
   return article.slug
 }
 
-const remove = async (slug: string) => {
-  const article = await service.getOne({ slug }, 'title category author')
-  console.log(article)
-
+const remove = async (article: any) => {
   await Category.findOneAndUpdate(
     { _id: article.category },
     { $pull: { articles: article._id } }
@@ -123,4 +106,13 @@ const remove = async (slug: string) => {
   return `${article.title} successfully deleted`
 }
 
-export default { getAll, getId, getOne, getXNumber, create, update, remove }
+export default {
+  getAll,
+  getEntity,
+  checkIfCreator,
+  getOne,
+  getXNumber,
+  create,
+  update,
+  remove
+}

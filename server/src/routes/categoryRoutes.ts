@@ -1,7 +1,7 @@
 import { Router } from 'express'
 
 import categoryController from '../controllers/categoryController'
-import tokenMiddleware from '../middlewares/tokenMiddleware'
+import tokenMiddleware from '../middlewares/authMiddleware'
 
 const router = Router()
 

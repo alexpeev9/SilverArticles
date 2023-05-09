@@ -51,4 +51,8 @@ const login = async (email: string, password: string): Promise<string> => {
   return token
 }
 
-export default { register, login }
+const getCurrentUser = (token: any) => {
+  return token && jwt.verify(token, jwtSecret)
+}
+
+export default { register, login, getCurrentUser }
