@@ -54,4 +54,14 @@ const update = async (req: Request, res: Response, next: NextFunction) => {
   }
 }
 
-export default { getAll, getOne, getXNumber, create, update }
+const remove = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { slug } = req.params
+    const message = await categoryService.remove(slug)
+    return res.status(200).json(message)
+  } catch (err: any) {
+    return next(err)
+  }
+}
+
+export default { getAll, getOne, getXNumber, create, update, remove }

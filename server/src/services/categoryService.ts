@@ -79,11 +79,18 @@ const update = async (slugParam: any, data: any) => {
   return category.slug
 }
 
+const remove = async (slug: any) => {
+  const category = await service.getOne({ slug }, 'title slug -_id')
+  await category.remove()
+  return `${category.title} successfully deleted`
+}
+
 export default {
   getAll,
   getEntity,
   getOne,
   getXNumberCategories,
   create,
-  update
+  update,
+  remove
 }
