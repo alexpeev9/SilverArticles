@@ -16,6 +16,11 @@ const ArticlePage = () => {
     url: `articles/${slug}`
   })
 
+  const { setRequestData: setVote, responseData: voteResponse } = useFetch({
+    method: 'post',
+    url: `articles/vote/${slug}`
+  })
+
   const onClickRedirect = (url: string) => {
     navigate(url)
   }
@@ -46,8 +51,24 @@ const ArticlePage = () => {
               </Link>
             </section>
             <div className='buttons-wrapper'>
-              <button className='style3'>UpVote</button>
-              <button className='style3'>DownVote</button>
+              {voteResponse ? (
+                voteResponse
+              ) : (
+                <>
+                  <button
+                    className='style3'
+                    onClick={() => setVote({ vote: 'upvote' })}
+                  >
+                    UpVote
+                  </button>
+                  <button
+                    className='style3'
+                    onClick={() => setVote({ vote: 'downvote' })}
+                  >
+                    DownVote
+                  </button>
+                </>
+              )}
               {userData && userData.username === article.author.username ? (
                 <>
                   <button

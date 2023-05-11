@@ -15,7 +15,7 @@ const checkIfCreator = (article: any, user: any) =>
 const getOne = async (slug: string) => {
   const article = await service.getOne(
     { slug },
-    'title slug description image isPublic rating category author -_id'
+    'title slug description image isPublic rating category author  -_id'
   )
 
   await article.populate('category', 'title slug image -_id')
@@ -106,6 +106,41 @@ const remove = async (article: any) => {
   return `${article.title} successfully deleted`
 }
 
+const vote = async (article: any, user: any, vote: boolean) => {
+  await user.populate('votes')
+  await user.populate('articles')
+  await article.populate('votes')
+
+  if (
+    article.author.username === user.username ||
+    (user.articles && user.articles.includes(article._id))
+  ) {
+    throw new Error('The user cannot vote for his own article!')
+  }
+
+  if (
+    (article.votes && article.votes.includes(user._id)) ||
+    (user.votes && user.votes.includes(article._id))
+  ) {
+    throw new Error('The user has already voted for this article!')
+  }
+
+  await Article.findOneAndUpdate(
+    { _id: article._id },
+    {
+      $push: { votes: user._id },
+      $inc: { rating: vote ? +1 : -1 }
+    }
+  )
+
+  await User.findOneAndUpdate(
+    { _id: user._id },
+    { $push: { votes: article._id } }
+  )
+
+  return `You have successfully ${vote ? 'up' : 'down'}voted for this article!`
+}
+
 export default {
   getAll,
   getEntity,
@@ -114,5 +149,6 @@ export default {
   getXNumber,
   create,
   update,
-  remove
+  remove,
+  vote
 }

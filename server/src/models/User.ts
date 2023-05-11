@@ -59,6 +59,12 @@ const UserSchema = new Schema<any>(
         type: Schema.Types.ObjectId,
         ref: 'Article'
       }
+    ],
+    votes: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Article'
+      }
     ]
   },
   { timestamps: true }

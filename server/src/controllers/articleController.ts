@@ -86,4 +86,25 @@ const remove = async (req: Request, res: Response, next: NextFunction) => {
     return next(err)
   }
 }
-export default { getAll, getOne, getXNumber, create, update, remove }
+
+const vote = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { slug } = req.params
+    const { reqToken, vote } = req.body
+    if (vote !== 'upvote' && vote !== 'downvote') {
+      throw new Error('You can only upvote and downvote an article')
+    }
+
+    const voteValue = vote === 'upvote'
+    const article = await articleService.getEntity(slug)
+    const user = await userService.getEntity(reqToken.username)
+
+    const message = await articleService.vote(article, user, voteValue)
+    return res.status(200).json(message)
+  } catch (err: any) {
+    err.statusCode = 404
+    return next(err)
+  }
+}
+
+export default { getAll, getOne, getXNumber, create, update, remove, vote }

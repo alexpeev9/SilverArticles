@@ -17,6 +17,6 @@ router
   .route('/remove/:slug')
   .delete(loggedMiddleware, accessMiddleware, articleController.remove)
 router.route('/get/:number/:order').get(articleController.getXNumber)
+router.route('/vote/:slug').post(loggedMiddleware, articleController.vote)
 router.route('/:slug').get(articleController.getOne)
-
 export default router
