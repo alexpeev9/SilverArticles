@@ -32,7 +32,7 @@ const roleMiddleware = async (
   roleTitle: string
 ) => {
   try {
-    const data: IToken = req.body.reqToken
+    const data: IToken = req.body.reqUser
 
     const role = await roleService.find(data.roleId)
 

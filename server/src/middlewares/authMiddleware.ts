@@ -2,18 +2,41 @@ import { Request, Response, NextFunction } from 'express'
 import jwt from 'jsonwebtoken'
 
 import articleService from '../services/articleService'
+import userService from '../services/userService'
+
 import { jwtSecret } from '../env'
 
-const loggedMiddleware = (req: Request, res: Response, next: NextFunction) => {
+const getUserMiddleware = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const token = req.cookies['token']
     if (token) {
-      req.body.reqToken = jwt.verify(token, jwtSecret)
-      return next()
-    } else {
+      const tokenData = jwt.verify(token, jwtSecret) as any
+      if (tokenData) {
+        req.body.reqUser = await userService.getEntity(tokenData.username)
+      }
+    }
+    return next()
+  } catch (err: any) {
+    return res.status(404).json({ errors: ['An error ocurred!'] })
+  }
+}
+
+const checkUserMiddleware = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { reqUser } = req.body
+    if (!reqUser) {
       res.clearCookie('token')
       throw new Error('You must be logged!')
     }
+    return next()
   } catch (err: any) {
     return res.status(401).json({ errors: [`${err.message}`] })
   }
@@ -32,7 +55,7 @@ const accessMiddleware = async (
     const article = await articleService.getOne(slug)
 
     // check if the requester of the info is the author or administrator
-    if (!articleService.checkIfCreator(article, currentUser)) {
+    if (!articleService.checkIfAuthorized(article, currentUser)) {
       throw new Error('You must be logged!')
     }
 
@@ -45,4 +68,4 @@ const accessMiddleware = async (
   }
 }
 
-export { loggedMiddleware, accessMiddleware }
+export { getUserMiddleware, checkUserMiddleware, accessMiddleware }

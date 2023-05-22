@@ -2,21 +2,36 @@ import { Router } from 'express'
 
 import articleController from '../controllers/articleController'
 import {
+  getUserMiddleware,
   accessMiddleware,
-  loggedMiddleware
+  checkUserMiddleware
 } from '../middlewares/authMiddleware'
 
 const router = Router()
 
 router.route('/').get(articleController.getAll)
-router.route('/create').post(loggedMiddleware, articleController.create)
+router
+  .route('/create')
+  .post(getUserMiddleware, checkUserMiddleware, articleController.create)
 router
   .route('/update/:slug')
-  .put(loggedMiddleware, accessMiddleware, articleController.update)
+  .put(
+    getUserMiddleware,
+    checkUserMiddleware,
+    accessMiddleware,
+    articleController.update
+  )
 router
   .route('/remove/:slug')
-  .delete(loggedMiddleware, accessMiddleware, articleController.remove)
+  .delete(
+    getUserMiddleware,
+    checkUserMiddleware,
+    accessMiddleware,
+    articleController.remove
+  )
 router.route('/get/:number/:order').get(articleController.getXNumber)
-router.route('/vote/:slug').post(loggedMiddleware, articleController.vote)
-router.route('/:slug').get(articleController.getOne)
+router
+  .route('/vote/:slug')
+  .post(getUserMiddleware, checkUserMiddleware, articleController.vote)
+router.route('/:slug').get(getUserMiddleware, articleController.getOne)
 export default router

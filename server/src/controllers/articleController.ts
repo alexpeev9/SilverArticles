@@ -3,7 +3,6 @@ import { Request, Response, NextFunction } from 'express'
 import articleService from '../services/articleService'
 import userService from '../services/userService'
 import categoryService from '../services/categoryService'
-import authService from '../services/authService'
 
 const getAll = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -17,20 +16,26 @@ const getAll = async (req: Request, res: Response, next: NextFunction) => {
 
 const getOne = async (req: Request, res: Response, next: NextFunction) => {
   try {
+    const { reqUser } = req.body
     const { slug } = req.params
-    const token = req.cookies['token']
 
     const article = await articleService.getOne(slug)
-    const currentUser = await authService.getCurrentUser(token)
 
     if (
       !article.isPublic &&
-      !articleService.checkIfCreator(article, currentUser)
+      reqUser &&
+      !articleService.checkIfAuthorized(article, reqUser)
     ) {
       throw new Error('Article not found!')
     }
 
-    return res.status(200).json(article)
+    const hasVoted = reqUser
+      ? articleService.checkIfVoted(article, reqUser)
+      : false
+
+    const { _id, votes, ...articleResult } = article.toObject()
+
+    return res.status(200).json({ ...articleResult, hasVoted })
   } catch (err: any) {
     err.statusCode = 404
     return next(err)
@@ -96,7 +101,7 @@ const vote = async (req: Request, res: Response, next: NextFunction) => {
     }
 
     const voteValue = vote === 'upvote'
-    const article = await articleService.getEntity(slug)
+    const article = await articleService.getOne(slug)
     const user = await userService.getEntity(reqToken.username)
 
     const message = await articleService.vote(article, user, voteValue)

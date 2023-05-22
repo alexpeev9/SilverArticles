@@ -1,21 +1,24 @@
 import crudService from '../services/crudService'
 import { roleIds } from '../env'
 import { User, Article, Category } from '../models'
+import IArticle from '../interfaces/entities/IArticle'
 
 const service = crudService(Article)
 
 const getAll = async () =>
   await service.getAll({ isPublic: true }, 'title slug image -_id')
 
-const getEntity = async (slug: any) => await service.getEntity({ slug })
+const checkIfAuthorized = (article: any, user: any) =>
+  article.author.username === user.username || user.role === roleIds.adminId
 
-const checkIfCreator = (article: any, user: any) =>
-  article.author.username === user.username || user.roleId === roleIds.adminId
+const checkIfVoted = (article: any, user: any) =>
+  (article.votes && article.votes.includes(user._id)) ||
+  (user.votes && user.votes.includes(article._id))
 
-const getOne = async (slug: string) => {
-  const article = await service.getOne(
+const getOne = async (slug: string): Promise<IArticle> => {
+  let article = await service.getOne(
     { slug },
-    'title slug description image isPublic rating category author  -_id'
+    'title slug description image isPublic rating category author votes'
   )
 
   await article.populate('category', 'title slug image -_id')
@@ -118,12 +121,9 @@ const vote = async (article: any, user: any, vote: boolean) => {
     throw new Error('The user cannot vote for his own article!')
   }
 
-  if (
-    (article.votes && article.votes.includes(user._id)) ||
-    (user.votes && user.votes.includes(article._id))
-  ) {
-    throw new Error('The user has already voted for this article!')
-  }
+  // if (await checkIfVoted(article, user)) {
+  //   throw new Error('The user has already voted for this article!')
+  // }
 
   await Article.findOneAndUpdate(
     { _id: article._id },
@@ -143,8 +143,8 @@ const vote = async (article: any, user: any, vote: boolean) => {
 
 export default {
   getAll,
-  getEntity,
-  checkIfCreator,
+  checkIfAuthorized,
+  checkIfVoted,
   getOne,
   getXNumber,
   create,

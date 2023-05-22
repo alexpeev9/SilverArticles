@@ -51,8 +51,10 @@ const login = async (email: string, password: string): Promise<string> => {
   return token
 }
 
-const getCurrentUser = (token: any) => {
-  return token && jwt.verify(token, jwtSecret)
+const getCurrentUser = async (token: any) => {
+  const tokenData = jwt.verify(token, jwtSecret) as any
+  const user = await service.getEntity({ username: tokenData.username })
+  return user
 }
 
 export default { register, login, getCurrentUser }
