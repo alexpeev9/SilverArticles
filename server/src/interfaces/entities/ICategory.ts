@@ -4,6 +4,7 @@ interface ICategory extends Document {
   title: string
   slug: string
   image: string
+  description: string
   articles: Schema.Types.ObjectId[]
 }
 

@@ -3,7 +3,8 @@ import crudService from './crudService'
 
 const service = crudService(Category)
 
-const getAll = async () => await service.getAll({}, 'title slug image -_id')
+const getAll = async () =>
+  await service.getAll({}, 'title slug image description -_id')
 
 const getEntity = async (slug: any) => await service.getEntity({ slug })
 

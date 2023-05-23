@@ -18,6 +18,12 @@ const CategorySchema = new Schema<ICategory>(
       minLength: [3, 'Slug cannot be less than 3 characters'],
       maxLength: [30, 'Slug cannot be more than 30 characters']
     },
+    description: {
+      type: String,
+      required: [true, 'Description is required!'],
+      minLength: [3, 'Description cannot be less than 70 characters'],
+      maxLength: [3000, 'Description cannot be more than 3000 characters']
+    },
     image: {
       type: String,
       required: false,

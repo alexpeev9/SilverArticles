@@ -20,23 +20,32 @@ const Header = () => {
         <nav id='nav'>
           <ul>
             <li>
-              <Link to='/articles'>{t('navigation.articles')}</Link>
-            </li>
-            <li>
               <Link to='/categories'>{t('navigation.categories')}</Link>
             </li>
             <li>
-              <Link to='/about'>{t('navigation.about')}</Link>
+              <Link to='/'>{t('navigation.about')}</Link>
             </li>
-            <li>
-              {!userData ? (
-                <Link to='/login'>{t('navigation.login')}</Link>
-              ) : (
-                <Link to={`/users/${userData.username}`}>
-                  {t('navigation.profile')}
-                </Link>
-              )}
-            </li>
+            {!userData ? (
+              <>
+                <li>
+                  <Link to='/login'>{t('navigation.login')}</Link>
+                </li>
+                <li>
+                  <Link to='/register'>{t('navigation.register')}</Link>
+                </li>
+              </>
+            ) : (
+              <>
+                <li>
+                  <Link to='/articles/create'>{t('navigation.create')}</Link>
+                </li>
+                <li>
+                  <Link to={`/users/${userData.username}`}>
+                    {t('navigation.profile')}
+                  </Link>
+                </li>
+              </>
+            )}
           </ul>
         </nav>
       </section>

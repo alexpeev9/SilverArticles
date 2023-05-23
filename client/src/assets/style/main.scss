@@ -2094,3 +2094,25 @@ input:checked::after {
     }
   }
 }
+
+// Grid Categories
+
+.grid-x3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  .my3 {
+    &:first-child {
+      padding-top: 1.5rem;
+      margin-top: 1.5rem;
+    }
+    border: none;
+  }
+
+  @include breakpoint('<=medium') {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  @include breakpoint('<=small') {
+    grid-template-columns: 1fr;
+  }
+}

@@ -14,7 +14,7 @@ const CategoryCard = ({ category }: any) => {
   } catch (err) {
     image = fallbackImage
   }
-
+  console.log(category)
   return (
     <li className='my3'>
       <article className='box post-excerpt'>
@@ -28,18 +28,24 @@ const CategoryCard = ({ category }: any) => {
         <h3>
           <Link to={`/categories/${category.slug}`}>{category.title}</Link>
         </h3>
-        <p>
-          {t('category.description')}
-          {category.articles.map((article: any, key: number) => {
-            return (
-              <span key={key}>
-                {' '}
-                {article.title}
-                {key + 1 !== category.articles.length ? ',' : '.'}
-              </span>
-            )
-          })}
-        </p>
+        {category.articles ? (
+          <p>
+            {t('category.description')}
+            {category.articles.map((article: any, key: number) => {
+              return (
+                <span key={key}>
+                  {' '}
+                  {article.title}
+                  {key + 1 !== category.articles.length ? ',' : '.'}
+                </span>
+              )
+            })}
+          </p>
+        ) : (
+          <>
+            <p>{category.description}</p>
+          </>
+        )}
       </article>
     </li>
   )

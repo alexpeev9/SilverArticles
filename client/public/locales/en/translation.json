@@ -5,8 +5,10 @@
     "articles": "Articles",
     "categories": "Categories",
     "about": "About",
-    "profile": "My Profile",
-    "login": "Join Now"
+    "login": "Login",
+    "register": "Join Now",
+    "create": "Write",
+    "profile": "My Profile"
   },
   "home": {
     "about": {
