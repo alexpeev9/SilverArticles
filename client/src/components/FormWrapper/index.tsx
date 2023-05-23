@@ -22,7 +22,6 @@ const FormWrapper = ({
           .split(/(?=[A-Z])/)
           .join(' ')
       )
-    console.log(data)
 
     if (errorKeys.length > 0) {
       setErrors([`Please fill ${errorKeys.join(', ')}.`])

@@ -2100,6 +2100,9 @@ input:checked::after {
 .grid-x3 {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 2rem;
+  clear: both;
+
   .my3 {
     &:first-child {
       padding-top: 1.5rem;

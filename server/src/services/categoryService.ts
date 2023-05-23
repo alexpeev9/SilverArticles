@@ -30,10 +30,10 @@ const getXNumberCategories = async (number: string) => {
 const getOne = async (slug: string) => {
   const category = await service.getOne(
     { slug },
-    'title slug description image -_id'
+    'title slug description image articles -_id'
   )
 
-  await category.populate('articles', 'title slug image -_id')
+  await category.populate('articles', 'title slug image description -_id')
 
   return category
 }

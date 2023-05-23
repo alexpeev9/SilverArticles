@@ -14,7 +14,7 @@ const CategoryCard = ({ category }: any) => {
   } catch (err) {
     image = fallbackImage
   }
-  console.log(category)
+
   return (
     <li className='my3'>
       <article className='box post-excerpt'>
