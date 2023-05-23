@@ -46,7 +46,8 @@
     "description": "As a registered user, you'll have access to a wealth of informative and engaging articles on a variety of topics. From news and current events to lifestyle, technology, and more, our articles are carefully curated to provide you with valuable insights and knowledge."
   },
   "category": {
-    "description": "Read articles like:"
+    "description": "Read articles like:",
+    "no-articles": "Currently, there are no articles for this category."
   },
   "article": {
     "create": {

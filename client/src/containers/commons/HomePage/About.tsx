@@ -15,7 +15,7 @@ const About = () => {
         <p className='style3'>{t('home.about.description')}</p>
         <ul className='actions'>
           <li>
-            <Link to='/articles' className='button style3 large'>
+            <Link to='/categories' className='button style3 large'>
               {t('home.about.categories-button')}
             </Link>
           </li>
