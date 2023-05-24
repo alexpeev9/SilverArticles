@@ -18,7 +18,7 @@ export const salt = `${process.env.SALT}` || 9
 export const jwtSecret =
   `${process.env.JWT_SECRET}` || '2625B2735C5D6A8C325424CA34912'
 export const roleIds = {
-  adminId: `${process.env.REACT_APP_ADMIN_ID || '1404f0a2'}`,
-  moderatorId: `${process.env.REACT_APP_MODERATOR_ID || '2404f0a3'}`,
-  writerId: `${process.env.REACT_APP_WRITER_ID || '3404f0a4'}`
+  adminId: `${process.env.ADMIN_ID || '1404f0a2'}`,
+  moderatorId: `${process.env.MODERATOR_ID || '2404f0a3'}`,
+  writerId: `${process.env.WRITER_ID || '3404f0a4'}`
 }

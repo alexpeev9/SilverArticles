@@ -7,9 +7,22 @@ import {
   checkUserMiddleware
 } from '../middlewares/authMiddleware'
 
+import {
+  adminMiddleware,
+  moderatorMiddleware,
+  writerMiddleware
+} from '../middlewares/roleMiddleware'
+
 const router = Router()
 
-router.route('/').get(articleController.getAll)
+router
+  .route('/')
+  .get(
+    getUserMiddleware,
+    checkUserMiddleware,
+    moderatorMiddleware,
+    articleController.getAll
+  )
 router
   .route('/create')
   .post(getUserMiddleware, checkUserMiddleware, articleController.create)

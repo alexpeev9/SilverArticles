@@ -13,10 +13,20 @@ const getOne = async (username: string) => {
     { username },
     'username firstName lastName articles role -_id'
   )
-  user.populate('articles', 'title slug -_id')
-  user.populate('role', 'title -_id')
 
   return user
 }
 
-export default { getAll, getEntity, getOne }
+const getProfile = async (username: string) => {
+  const user = await service.getOne(
+    { username },
+    'username firstName lastName articles role -_id'
+  )
+
+  await user.populate('articles', 'title slug image description -_id')
+  await user.populate('role', 'title -_id')
+
+  return user
+}
+
+export default { getAll, getEntity, getOne, getProfile }

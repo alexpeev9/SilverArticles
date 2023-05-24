@@ -39,13 +39,15 @@ const getOne = async (slug: string) => {
 }
 
 const create = async (data: any) => {
-  const { title, slug } = data
+  const { title, slug, description, image } = data
   await service.checkIfDuplicate('title', title)
   await service.checkIfDuplicate('slug', slug)
 
   const category = await service.create({
     title,
-    slug
+    slug,
+    description,
+    image
   })
 
   return category.slug

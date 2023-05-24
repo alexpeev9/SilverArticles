@@ -6,10 +6,10 @@ import IArticle from '../interfaces/entities/IArticle'
 const service = crudService(Article)
 
 const getAll = async () =>
-  await service.getAll({ isPublic: true }, 'title slug image -_id')
+  await service.getAll({ isPublic: true }, 'title slug image description -_id')
 
 const checkIfAuthorized = (article: any, user: any) =>
-  article.author.username === user.username || user.role === roleIds.adminId
+  article.author.username === user.username || user.role === roleIds.moderatorId
 
 const checkIfVoted = (article: any, user: any) =>
   (article.votes && article.votes.includes(user._id)) ||

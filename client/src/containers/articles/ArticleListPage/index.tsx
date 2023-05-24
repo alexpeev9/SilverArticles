@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import useFetch from '../../../hooks/useFetch'
 
 import Spinner from '../../../components/Spinner'
+import ArticleCard from '../../../components/ArticleCard'
 
 const ArticleListPage = () => {
   const { responseData: articles } = useFetch({
@@ -10,13 +11,18 @@ const ArticleListPage = () => {
   })
 
   return articles ? (
-    <div>
-      {articles.map((c: any, key: string) => (
-        <Link key={key} to={c.slug}>
-          {c.title}
-        </Link>
-      ))}
-    </div>
+    <section id='main' className='wrapper style2'>
+      <div className='title'>No SideBar</div>
+      <div className='container'>
+        <ul className='style2 grid-x3'>
+          {articles.map((article: any, key: number) => (
+            <div className='col-6 col-12-small' key={key}>
+              <ArticleCard article={article} />
+            </div>
+          ))}
+        </ul>
+      </div>
+    </section>
   ) : (
     <Spinner />
   )
