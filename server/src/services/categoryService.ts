@@ -54,11 +54,11 @@ const create = async (data: any) => {
 }
 
 const update = async (slugParam: any, data: any) => {
-  const { title, slug } = data
+  const { title, slug, description, image } = data
 
   const oldCategory = await service.getOne(
     { slug: slugParam },
-    'title slug -_id'
+    'title slug image description -_id'
   )
 
   // check if title is the same, and if there is a new title check if it is used in other record
@@ -74,18 +74,24 @@ const update = async (slugParam: any, data: any) => {
   const category = await service.update(
     { slug: slugParam },
     {
-      title: title ?? oldCategory.title,
-      slug: slug ?? oldCategory.slug
+      title: title || oldCategory.title,
+      slug: slug || oldCategory.slug,
+      description: description || oldCategory.description,
+      image: image || oldCategory.image
     }
   )
 
-  return category.slug
+  if (!category) {
+    throw new Error('An error occured')
+  }
+
+  return slug
 }
 
 const remove = async (slug: any) => {
-  const category = await service.getOne({ slug }, 'title slug -_id')
+  const category = await service.getOne({ slug }, 'title')
   await category.remove()
-  return `${category.title} successfully deleted`
+  return `${category.title} successfully deleted.`
 }
 
 export default {

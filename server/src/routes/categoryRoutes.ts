@@ -26,6 +26,14 @@ router
     adminMiddleware,
     categoryController.update
   )
+router
+  .route('/remove/:slug')
+  .delete(
+    getUserMiddleware,
+    checkUserMiddleware,
+    adminMiddleware,
+    categoryController.remove
+  )
 router.route('/get/:number/').get(categoryController.getXNumber)
 router.route('/:slug').get(categoryController.getOne)
 

@@ -52,7 +52,6 @@ const ArticleForm = ({ article, requestData }: any) => {
       slug: value.split(' ').join('-').toLowerCase()
     })
   }
-
   return (
     <>
       <Helmet>

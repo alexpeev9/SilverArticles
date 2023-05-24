@@ -16,6 +16,7 @@ import RegisterPage from '../../auth/RegisterPage'
 import ArticleCreatePage from '../../articles/ArticleCreatePage'
 import ArticleUpdatePage from '../../articles/ArticleUpdatePage'
 import useAuthVerifier from '../../../hooks/useAuthVerifier'
+import CategoryUpdatePage from '../../categories/CategoryUpdatePage'
 
 const Router = () => {
   return (
@@ -28,6 +29,10 @@ const Router = () => {
 
       <Route path='/categories' element={<CategoryListPage />} />
       <Route path='/categories/create' element={<CategoryCreatePage />} />
+      <Route
+        path='/categories/edit/:slug'
+        element={useAuthVerifier(<CategoryUpdatePage />)}
+      />
       <Route path='/categories/:slug' element={<CategoryPage />} />
 
       <Route path='/articles' element={<ArticleListPage />} />

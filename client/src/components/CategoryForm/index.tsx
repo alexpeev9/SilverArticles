@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
@@ -28,11 +27,9 @@ const CategoryForm = ({ category, requestData }: any) => {
     loading: categoryLoading
   } = useFetch(requestData)
 
-  useEffect(() => {
-    if (categoryResponse) {
-      navigate(`/categories/${categoryResponse}`)
-    }
-  }, [categoryResponse, navigate])
+  if (categoryResponse) {
+    navigate(`/categories/${categoryResponse}`)
+  }
 
   const onTitleChange = (e: React.FormEvent<HTMLInputElement>) => {
     const { value } = e.currentTarget
@@ -41,6 +38,17 @@ const CategoryForm = ({ category, requestData }: any) => {
       title: value,
       slug: value.split(' ').join('-').toLowerCase()
     })
+  }
+
+  let image
+  if (categoryInput && categoryInput.image) {
+    try {
+      image = categoryInput.image.startsWith('https://')
+        ? categoryInput.image
+        : require(`../../assets/images/categories/${categoryInput.image}`)
+    } catch (err) {
+      image = fallbackImage
+    }
   }
 
   return (
@@ -84,7 +92,7 @@ const CategoryForm = ({ category, requestData }: any) => {
         </div>
         <div className='col-12 center-section'>
           <img
-            src={categoryInput.image ? categoryInput.image : fallbackImage}
+            src={categoryInput.image !== '' ? image : fallbackImage}
             className='image featured'
             alt='Category'
           />

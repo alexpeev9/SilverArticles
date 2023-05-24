@@ -509,6 +509,10 @@ form {
     width: 100%;
   }
 
+  &.small {
+    width: 7rem;
+  }
+
   &.left {
     float: left;
     margin: 0 2em 2em 0;

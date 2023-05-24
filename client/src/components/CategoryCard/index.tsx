@@ -10,7 +10,9 @@ const CategoryCard = ({ category }: any) => {
 
   let image
   try {
-    image = require(`../../assets/images/categories/${category.slug}.png`)
+    image = category.image.startsWith('https://')
+      ? category.image
+      : require(`../../assets/images/categories/${category.image}`)
   } catch (err) {
     image = fallbackImage
   }
@@ -20,7 +22,7 @@ const CategoryCard = ({ category }: any) => {
       <article className='box post-excerpt'>
         <Link to={`/categories/${category.slug}`} className='image left'>
           <ImageHolder
-            imageAddress={category.image ? category.image : image}
+            imageAddress={image}
             fallbackImage={fallbackImage}
             altName={category.title}
           />

@@ -1,13 +1,12 @@
 import jwt from 'jsonwebtoken'
 
 import { Role, User } from '../models'
-import IUser from '../interfaces/entities/IUser'
 import { jwtSecret } from '../env'
 import crudService from './crudService'
 
 const service = crudService(User)
 
-const register = async (userData: IUser): Promise<void> => {
+const register = async (userData: any): Promise<void> => {
   const { username, firstName, lastName, email, password } = userData
   await service.checkIfDuplicate('username', username)
   await service.checkIfDuplicate('email', email)

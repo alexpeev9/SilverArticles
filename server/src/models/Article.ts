@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose'
 
-import IArticle from '../interfaces/entities/IArticle'
+import IArticle from './interfaces/IArticle'
 
 const ArticleSchema = new Schema<IArticle>(
   {

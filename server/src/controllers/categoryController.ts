@@ -46,9 +46,9 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
 const update = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { slug } = req.params
-    const { data } = req.body
-    const isUpdated = await categoryService.update(slug, data)
-    return res.status(200).json({ success: isUpdated })
+    const data = req.body
+    const categorySlug = await categoryService.update(slug, data)
+    return res.status(200).json(categorySlug)
   } catch (err: any) {
     return next(err)
   }

@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose'
 
-import ICategory from '../interfaces/entities/ICategory'
+import ICategory from './interfaces/ICategory'
 
 const CategorySchema = new Schema<ICategory>(
   {
@@ -26,8 +26,7 @@ const CategorySchema = new Schema<ICategory>(
     },
     image: {
       type: String,
-      required: false,
-      validate: [/^https?:\/\//i, 'Image address must start with https://']
+      required: [true, 'Image is required!']
     },
     articles: [
       {

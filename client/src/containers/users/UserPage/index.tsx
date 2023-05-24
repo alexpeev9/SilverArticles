@@ -63,37 +63,32 @@ const UserPage = () => {
                     {' - '}
                     {user.role.title}
                   </p>
-                  <section className='buttons-wrapper pt-1'>
-                    {userData && userData.username === user.username ? (
-                      <>
-                        <button className='style3' onClick={handleLogout}>
-                          Logout
+                  {userData && userData.username === user.username ? (
+                    <section className='buttons-wrapper pt-1'>
+                      <button className='style3' onClick={handleLogout}>
+                        Logout
+                      </button>
+                      {userData.roleId === roleIds.moderatorId ? (
+                        <button className='style3' onClick={handleGoToArticles}>
+                          All Articles
                         </button>
-                        {userData.roleId === roleIds.moderatorId ? (
-                          <button
-                            className='style3'
-                            onClick={handleGoToArticles}
-                          >
-                            All Articles
-                          </button>
-                        ) : (
-                          <></>
-                        )}
-                        {userData.roleId === roleIds.adminId ? (
-                          <button
-                            className='style3'
-                            onClick={handleGoToCreateCategory}
-                          >
-                            Add Category
-                          </button>
-                        ) : (
-                          <></>
-                        )}
-                      </>
-                    ) : (
-                      <></>
-                    )}
-                  </section>
+                      ) : (
+                        <></>
+                      )}
+                      {userData.roleId === roleIds.adminId ? (
+                        <button
+                          className='style3'
+                          onClick={handleGoToCreateCategory}
+                        >
+                          Add Category
+                        </button>
+                      ) : (
+                        <></>
+                      )}
+                    </section>
+                  ) : (
+                    <></>
+                  )}
                 </header>
                 {user.articles.length !== 0 ? (
                   <ul className='style2 grid-x3'>

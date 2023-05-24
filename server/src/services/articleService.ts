@@ -1,7 +1,6 @@
 import crudService from '../services/crudService'
 import { roleIds } from '../env'
 import { User, Article, Category } from '../models'
-import IArticle from '../interfaces/entities/IArticle'
 
 const service = crudService(Article)
 
@@ -15,7 +14,7 @@ const checkIfVoted = (article: any, user: any) =>
   (article.votes && article.votes.includes(user._id)) ||
   (user.votes && user.votes.includes(article._id))
 
-const getOne = async (slug: string): Promise<IArticle> => {
+const getOne = async (slug: string): Promise<any> => {
   let article = await service.getOne(
     { slug },
     'title slug description image isPublic rating category author votes'
