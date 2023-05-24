@@ -5,7 +5,7 @@ import {
   getUserMiddleware,
   checkUserMiddleware
 } from '../middlewares/authMiddleware'
-import { moderatorMiddleware } from '../middlewares/roleMiddleware'
+import { adminMiddleware } from '../middlewares/roleMiddleware'
 
 const router = Router()
 
@@ -15,7 +15,7 @@ router
   .post(
     getUserMiddleware,
     checkUserMiddleware,
-    moderatorMiddleware,
+    adminMiddleware,
     categoryController.create
   )
 router
@@ -23,7 +23,7 @@ router
   .put(
     getUserMiddleware,
     checkUserMiddleware,
-    moderatorMiddleware,
+    adminMiddleware,
     categoryController.update
   )
 router.route('/get/:number/').get(categoryController.getXNumber)

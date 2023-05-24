@@ -5,6 +5,7 @@ import LoginPage from '../../auth/LoginPage'
 import UserListPage from '../../users/UserListPage'
 import UserPage from '../../users/UserPage'
 import CategoryListPage from '../../categories/CategoryListPage'
+import CategoryCreatePage from '../../categories/CategoryCreatePage'
 import CategoryPage from '../../categories/CategoryPage'
 import NotFoundPage from '../NotFoundPage'
 import NotAuthorizedPage from '../NotAuthorizedPage'
@@ -24,8 +25,11 @@ const Router = () => {
       <Route path='/register' element={<RegisterPage />} />
       <Route path='/users' element={<UserListPage />} />
       <Route path='/users/:username' element={<UserPage />} />
+
       <Route path='/categories' element={<CategoryListPage />} />
+      <Route path='/categories/create' element={<CategoryCreatePage />} />
       <Route path='/categories/:slug' element={<CategoryPage />} />
+
       <Route path='/articles' element={<ArticleListPage />} />
       <Route
         path='/articles/create'
@@ -37,6 +41,7 @@ const Router = () => {
         element={useAuthVerifier(<ArticleUpdatePage />)}
       />
       <Route path='/articles/:slug' element={<ArticlePage />} />
+
       <Route path='/not-authorized' element={<NotAuthorizedPage />} />
       <Route path='/not-found' element={<NotFoundPage />} />
       <Route path='/no-connection' element={<NoConnectionPage />} />

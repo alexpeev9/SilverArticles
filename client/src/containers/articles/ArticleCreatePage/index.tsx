@@ -1,5 +1,4 @@
 import ArticleForm from '../../../components/ArticleForm'
-import Spinner from '../../../components/Spinner'
 
 const ArticleCreatePage = () => {
   const article = {
@@ -11,7 +10,7 @@ const ArticleCreatePage = () => {
     isPublic: null
   }
 
-  return article ? (
+  return (
     <ArticleForm
       article={article}
       requestData={{
@@ -19,8 +18,6 @@ const ArticleCreatePage = () => {
         url: `articles/create`
       }}
     />
-  ) : (
-    <Spinner />
   )
 }
 

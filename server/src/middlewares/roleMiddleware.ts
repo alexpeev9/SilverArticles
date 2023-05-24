@@ -32,21 +32,20 @@ const roleMiddleware = async (
   roleTitle: string
 ) => {
   try {
-    const data: IToken = req.body.reqUser
+    const { reqUser } = req.body
+    const role = await roleService.find(reqUser.role._id)
 
-    const role = await roleService.find(data.roleId)
-
-    if (role?.title !== roleTitle) {
+    if (role.title !== roleTitle) {
       res.clearCookie('token')
-      throw new Error()
+      throw new Error(
+        `You are not authorized. ${role.title}s can access this feature.`
+      )
     }
 
-    if (role) {
-      return next()
-    }
+    return next()
   } catch (err: any) {
     return res.status(403).json({
-      errors: [`You are not authorized. ${roleTitle}s can access this feature`]
+      errors: [`${err.message}`]
     })
   }
 }
