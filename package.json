@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "server": "cd server && npm run dev",
+    "seed": "cd server && npm run migration-dev",
     "client": "cd client && npm run dev"
   },
   "repository": {
