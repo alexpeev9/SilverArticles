@@ -1,4 +1,4 @@
-import CategoryForm from '../../../components/CategoryForm'
+import CategoryForm from '../../../components/categories/CategoryForm'
 
 const CategoryCreatePage = () => {
   const category = {

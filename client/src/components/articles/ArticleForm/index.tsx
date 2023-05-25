@@ -3,14 +3,14 @@ import { Helmet } from 'react-helmet-async'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 
-import useFetch from '../../hooks/useFetch'
-import useSetFormInputs from '../../hooks/useSetFormInputs'
+import useFetch from '../../../hooks/useFetch'
+import useSetFormInputs from '../../../hooks/useSetFormInputs'
 
-import InputField from '../../components/InputField'
-import FormWrapper from '../../components/FormWrapper'
-import TextArea from '../../components/TextArea'
+import InputField from '../../elements/InputField'
+import FormWrapper from '../../elements/FormWrapper'
+import TextArea from '../../elements/TextArea'
 
-import fallbackImage from '../../assets/images/fallbacks/article.jpg'
+import fallbackImage from '../../../assets/images/fallbacks/article.jpg'
 
 const ArticleForm = ({ article, requestData }: any) => {
   const { t } = useTranslation()

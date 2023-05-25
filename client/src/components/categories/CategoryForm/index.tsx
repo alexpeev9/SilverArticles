@@ -2,14 +2,14 @@ import { Helmet } from 'react-helmet-async'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 
-import useFetch from '../../hooks/useFetch'
-import useSetFormInputs from '../../hooks/useSetFormInputs'
+import useFetch from '../../../hooks/useFetch'
+import useSetFormInputs from '../../../hooks/useSetFormInputs'
 
-import InputField from '../../components/InputField'
-import FormWrapper from '../../components/FormWrapper'
-import TextArea from '../../components/TextArea'
+import InputField from '../../elements/InputField'
+import FormWrapper from '../../elements/FormWrapper'
+import TextArea from '../../elements/TextArea'
 
-import fallbackImage from '../../assets/images/fallbacks/category.png'
+import fallbackImage from '../../../assets/images/fallbacks/category.png'
 
 const CategoryForm = ({ category, requestData }: any) => {
   const { t } = useTranslation()
@@ -45,7 +45,7 @@ const CategoryForm = ({ category, requestData }: any) => {
     try {
       image = categoryInput.image.startsWith('https://')
         ? categoryInput.image
-        : require(`../../assets/images/categories/${categoryInput.image}`)
+        : require(`../../../assets/images/categories/${categoryInput.image}`)
     } catch (err) {
       image = fallbackImage
     }

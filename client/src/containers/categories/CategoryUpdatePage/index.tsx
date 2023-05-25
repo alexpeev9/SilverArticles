@@ -2,9 +2,9 @@ import { Navigate, useParams } from 'react-router-dom'
 
 import useFetch from '../../../hooks/useFetch'
 
-import CategoryForm from '../../../components/CategoryForm'
+import CategoryForm from '../../../components/categories/CategoryForm'
 import { useUserContext } from '../../../contexts/UserContext'
-import Spinner from '../../../components/Spinner'
+import Spinner from '../../../components/commons/Spinner'
 import { roleIds } from '../../../env'
 
 const CategoryUpdatePage = () => {

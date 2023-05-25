@@ -1,11 +1,11 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import InputField from '../../../components/InputField'
+import InputField from '../../../components/elements/InputField'
 import useFetch from '../../../hooks/useFetch'
 import { useUserContext } from '../../../contexts/UserContext'
 import { useTranslation } from 'react-i18next'
 import { Helmet } from 'react-helmet-async'
-import FormWrapper from '../../../components/FormWrapper'
+import FormWrapper from '../../../components/elements/FormWrapper'
 import useSetFormInputs from '../../../hooks/useSetFormInputs'
 
 const LoginPage = () => {

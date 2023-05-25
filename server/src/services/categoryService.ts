@@ -1,4 +1,4 @@
-import { Category } from '../models'
+import { Article, Category } from '../models'
 import crudService from './crudService'
 
 const service = crudService(Category)
@@ -56,6 +56,10 @@ const create = async (data: any) => {
 const update = async (slugParam: any, data: any) => {
   const { title, slug, description, image } = data
 
+  if (slugParam === 'others') {
+    throw new Error('You can not delete Others category')
+  }
+
   const oldCategory = await service.getOne(
     { slug: slugParam },
     'title slug image description -_id'
@@ -89,7 +93,17 @@ const update = async (slugParam: any, data: any) => {
 }
 
 const remove = async (slug: any) => {
+  if (slug === 'others') {
+    throw new Error('You can not delete Others category')
+  }
   const category = await service.getOne({ slug }, 'title')
+  const categoryOther = await service.getOne({ slug: 'others' }, 'title')
+
+  await Article.updateMany(
+    { category: category._id },
+    { category: categoryOther._id }
+  )
+
   await category.remove()
   return `${category.title} successfully deleted.`
 }

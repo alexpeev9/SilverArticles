@@ -4,10 +4,10 @@ import { useTranslation } from 'react-i18next'
 
 import useFetch from '../../../hooks/useFetch'
 import { roleIds } from '../../../env'
-import Spinner from '../../../components/Spinner'
+import Spinner from '../../../components/commons/Spinner'
 import { useUserContext } from '../../../contexts/UserContext'
 import { Helmet } from 'react-helmet-async'
-import ArticleCard from '../../../components/ArticleCard'
+import ArticleCard from '../../../components/articles/ArticleCard'
 
 const UserPage = () => {
   const { t } = useTranslation()

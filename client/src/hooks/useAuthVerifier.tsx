@@ -1,4 +1,4 @@
-import Spinner from '../components/Spinner'
+import Spinner from '../components/commons/Spinner'
 import LoginPage from '../containers/auth/LoginPage'
 import { useUserContext } from '../contexts/UserContext'
 

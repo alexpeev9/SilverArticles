@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import Spinner from '../../../components/Spinner'
+import Spinner from '../../../components/commons/Spinner'
 import useFetch from '../../../hooks/useFetch'
 
 const UserListPage = () => {

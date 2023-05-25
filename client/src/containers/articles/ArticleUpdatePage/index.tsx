@@ -2,9 +2,9 @@ import { Navigate, useParams } from 'react-router-dom'
 
 import useFetch from '../../../hooks/useFetch'
 
-import ArticleForm from '../../../components/ArticleForm'
+import ArticleForm from '../../../components/articles/ArticleForm'
 import { useUserContext } from '../../../contexts/UserContext'
-import Spinner from '../../../components/Spinner'
+import Spinner from '../../../components/commons/Spinner'
 
 const ArticleUpdatePage = () => {
   const { slug } = useParams()

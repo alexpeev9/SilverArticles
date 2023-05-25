@@ -56,14 +56,13 @@ const getXNumber = async (req: Request, res: Response, next: NextFunction) => {
 const create = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const data = req.body
-    const { category, reqToken } = data
+    const { category, reqUser } = data
     const selectedCategory = await categoryService.getEntity(category)
-    const selectedUser = await userService.getEntity(reqToken.username)
 
     const articleSlug = await articleService.create(
       data,
       selectedCategory,
-      selectedUser
+      reqUser
     )
 
     return res.status(200).json(articleSlug)
@@ -95,16 +94,15 @@ const remove = async (req: Request, res: Response, next: NextFunction) => {
 const vote = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { slug } = req.params
-    const { reqToken, vote } = req.body
+    const { reqUser, vote } = req.body
     if (vote !== 'upvote' && vote !== 'downvote') {
       throw new Error('You can only upvote and downvote an article')
     }
 
     const voteValue = vote === 'upvote'
     const article = await articleService.getOne(slug)
-    const user = await userService.getEntity(reqToken.username)
 
-    const message = await articleService.vote(article, user, voteValue)
+    const message = await articleService.vote(article, reqUser, voteValue)
     return res.status(200).json(message)
   } catch (err: any) {
     err.statusCode = 404

@@ -3,8 +3,8 @@ import { useTranslation } from 'react-i18next'
 
 import useFetch from '../../../hooks/useFetch'
 
-import Spinner from '../../../components/Spinner'
-import CategoryCard from '../../../components/CategoryCard'
+import Spinner from '../../../components/commons/Spinner'
+import CategoryCard from '../../../components/categories/CategoryCard'
 
 const Categories = () => {
   const { t } = useTranslation()

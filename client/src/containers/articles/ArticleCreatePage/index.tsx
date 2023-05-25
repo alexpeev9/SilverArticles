@@ -1,4 +1,4 @@
-import ArticleForm from '../../../components/ArticleForm'
+import ArticleForm from '../../../components/articles/ArticleForm'
 
 const ArticleCreatePage = () => {
   const article = {

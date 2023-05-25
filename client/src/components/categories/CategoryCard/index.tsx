@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 
-import ImageHolder from '../ImageHolder'
+import ImageHolder from '../../elements/ImageHolder'
 
-import fallbackImage from '../../assets/images/fallbacks/category.png'
+import fallbackImage from '../../../assets/images/fallbacks/category.png'
 
 const CategoryCard = ({ category }: any) => {
   const { t } = useTranslation()
@@ -12,7 +12,7 @@ const CategoryCard = ({ category }: any) => {
   try {
     image = category.image.startsWith('https://')
       ? category.image
-      : require(`../../assets/images/categories/${category.image}`)
+      : require(`../../../assets/images/categories/${category.image}`)
   } catch (err) {
     image = fallbackImage
   }

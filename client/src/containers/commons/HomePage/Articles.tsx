@@ -1,6 +1,6 @@
 import useFetch from '../../../hooks/useFetch'
-import Spinner from '../../../components/Spinner'
-import ArticleCard from '../../../components/ArticleCard'
+import Spinner from '../../../components/commons/Spinner'
+import ArticleCard from '../../../components/articles/ArticleCard'
 
 const Articles = () => {
   const { responseData: articles } = useFetch({

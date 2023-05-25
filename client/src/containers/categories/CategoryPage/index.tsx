@@ -1,11 +1,11 @@
 import { Link, useParams, useNavigate } from 'react-router-dom'
-import Spinner from '../../../components/Spinner'
+import Spinner from '../../../components/commons/Spinner'
 import useFetch from '../../../hooks/useFetch'
-import ArticleCard from '../../../components/ArticleCard'
+import ArticleCard from '../../../components/articles/ArticleCard'
 import { useTranslation } from 'react-i18next'
 
 import fallbackImage from '../../../assets/images/fallbacks/category.png'
-import ImageHolder from '../../../components/ImageHolder'
+import ImageHolder from '../../../components/elements/ImageHolder'
 import Info from '../../commons/HomePage/Info'
 import { useUserContext } from '../../../contexts/UserContext'
 

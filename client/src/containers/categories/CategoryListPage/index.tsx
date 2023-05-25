@@ -1,8 +1,8 @@
 import useFetch from '../../../hooks/useFetch'
 import { useTranslation } from 'react-i18next'
 
-import Spinner from '../../../components/Spinner'
-import CategoryCard from '../../../components/CategoryCard'
+import Spinner from '../../../components/commons/Spinner'
+import CategoryCard from '../../../components/categories/CategoryCard'
 
 const CategoryListPage = () => {
   const { t } = useTranslation()
