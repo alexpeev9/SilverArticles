@@ -49,13 +49,12 @@ const accessMiddleware = async (
 ) => {
   try {
     const { slug } = req.params
-    const { reqToken } = req.body
+    const { reqUser } = req.body
 
-    const currentUser = { username: reqToken.username, roleId: reqToken.roleId }
     const article = await articleService.getOne(slug)
 
     // check if the requester of the info is the author or administrator
-    if (!articleService.checkIfAuthorized(article, currentUser)) {
+    if (!articleService.checkIfAuthorized(article, reqUser)) {
       throw new Error('You must be logged!')
     }
 

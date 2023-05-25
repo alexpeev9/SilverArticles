@@ -93,17 +93,19 @@ const update = async (oldArticle: any, data: any) => {
 }
 
 const remove = async (article: any) => {
+  const articleObject = await service.getOne({ slug: article.slug }, 'title')
+
   await Category.findOneAndUpdate(
-    { _id: article.category },
+    { _id: article.category._id },
     { $pull: { articles: article._id } }
   )
 
   await User.findOneAndUpdate(
-    { _id: article.author },
+    { _id: article.author._id },
     { $pull: { articles: article._id } }
   )
 
-  await article.remove()
+  await articleObject.remove()
 
   return `${article.title} successfully deleted`
 }

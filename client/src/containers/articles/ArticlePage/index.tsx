@@ -21,9 +21,30 @@ const ArticlePage = () => {
     url: `articles/vote/${slug}`
   })
 
+  const { setRequestData: setDeleteAction, responseData: isDeleted } = useFetch(
+    {
+      method: 'delete',
+      url: `articles/remove/${slug}`
+    }
+  )
+
   const onClickRedirect = (url: string) => {
     navigate(url)
   }
+
+  if (isDeleted) {
+    navigate('/')
+  }
+
+  const onClickDelete = () => {
+    let confirmed = window.confirm(
+      'Are you sure you want to delete this article?'
+    )
+    if (confirmed) {
+      setDeleteAction(true)
+    }
+  }
+
   return article ? (
     <div id='main' className='wrapper style2'>
       <div className='title'>No Sidebar</div>
@@ -52,7 +73,11 @@ const ArticlePage = () => {
             </section>
             <div className='buttons-wrapper'>
               {voteResponse ? (
-                voteResponse
+                <p>{voteResponse}</p>
+              ) : article.hasVoted ? (
+                <></>
+              ) : userData && userData.username === article.author.username ? (
+                <></>
               ) : (
                 <>
                   <button
@@ -78,6 +103,9 @@ const ArticlePage = () => {
                     }
                   >
                     Edit
+                  </button>
+                  <button className='style3' onClick={onClickDelete}>
+                    Delete
                   </button>
                 </>
               ) : (
