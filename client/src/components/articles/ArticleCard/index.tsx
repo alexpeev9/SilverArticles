@@ -12,7 +12,7 @@ const ArticleCard = ({ article }: any) => {
       <header className='header-title'>
         <h2>{article.title}</h2>
       </header>
-      <Link to='/' className='image featured'>
+      <Link to={`/articles/${article.slug}`} className='image featured'>
         <ImageHolder
           imageAddress={article.image}
           fallbackImage={fallbackImage}

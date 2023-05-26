@@ -17,13 +17,22 @@ const getOne = async (username: string) => {
   return user
 }
 
-const getProfile = async (username: string) => {
+const getProfile = async (username: string, currentUser: any) => {
   const user = await service.getOne(
     { username },
     'username firstName lastName articles role -_id'
   )
 
-  await user.populate('articles', 'title slug image description -_id')
+  const showPrivateArticlesValidation =
+    currentUser && currentUser.username === user.username
+      ? {}
+      : { isPublic: true }
+
+  await user.populate(
+    'articles',
+    'title slug image description -_id',
+    showPrivateArticlesValidation
+  )
   await user.populate('role', 'title -_id')
 
   return user

@@ -13,7 +13,8 @@ const getAll = async (req: Request, res: Response, next: NextFunction) => {
 const getUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { username } = req.params
-    const user = await userService.getProfile(username)
+    const { reqUser: currentUser } = req.body
+    const user = await userService.getProfile(username, currentUser)
     return res.status(200).json(user)
   } catch (err: any) {
     err.statusCode = 404

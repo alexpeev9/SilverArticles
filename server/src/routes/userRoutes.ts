@@ -17,6 +17,6 @@ router
     adminMiddleware,
     userController.getAll
   )
-router.route('/:username').get(userController.getUser)
+router.route('/:username').get(getUserMiddleware, userController.getUser)
 
 export default router

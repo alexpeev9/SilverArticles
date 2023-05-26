@@ -8,7 +8,12 @@ const getAll = async () =>
   await service.getAll({ isPublic: true }, 'title slug image description -_id')
 
 const checkIfAuthorized = (article: any, user: any) =>
-  article.author.username === user.username || user.role === roleIds.moderatorId
+  article.author.username === user.username ||
+  user.role === roleIds.moderatorId ||
+  user.role === roleIds.adminId
+
+const checkIfPrivate = (article: any, user: any) =>
+  !article.isPublic && !(user && checkIfAuthorized(article, user))
 
 const checkIfVoted = (article: any, user: any) =>
   (article.votes && article.votes.includes(user._id)) ||
@@ -145,6 +150,7 @@ const vote = async (article: any, user: any, vote: boolean) => {
 export default {
   getAll,
   checkIfAuthorized,
+  checkIfPrivate,
   checkIfVoted,
   getOne,
   getXNumber,

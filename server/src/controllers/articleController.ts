@@ -21,11 +21,7 @@ const getOne = async (req: Request, res: Response, next: NextFunction) => {
 
     const article = await articleService.getOne(slug)
 
-    if (
-      !article.isPublic &&
-      reqUser &&
-      !articleService.checkIfAuthorized(article, reqUser)
-    ) {
+    if (articleService.checkIfPrivate(article, reqUser)) {
       throw new Error('Article not found!')
     }
 

@@ -32,13 +32,11 @@ const CategoryCard = ({ category }: any) => {
         </h3>
         {category.articles ? (
           <p>
-            {t('category.description')}
             {category.articles.map((article: any, key: number) => {
               return (
                 <span key={key}>
-                  {' '}
                   {article.title}
-                  {key + 1 !== category.articles.length ? ',' : '.'}
+                  {key + 1 !== category.articles.length ? ', ' : '.'}
                 </span>
               )
             })}

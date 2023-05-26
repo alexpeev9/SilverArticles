@@ -20,7 +20,7 @@ const getXNumberCategories = async (number: string) => {
     .populate({
       path: 'articles',
       select: 'title -_id',
-      options: { limit: 2 }
+      options: { limit: 2, isPublic: true }
     })
     .limit(categoryNumbers)
 
@@ -33,7 +33,9 @@ const getOne = async (slug: string) => {
     'title slug description image articles -_id'
   )
 
-  await category.populate('articles', 'title slug image description -_id')
+  await category.populate('articles', 'title slug image description -_id', {
+    isPublic: true
+  })
 
   return category
 }
