@@ -1,12 +1,12 @@
 import { useEffect } from 'react'
+import { Helmet } from 'react-helmet-async'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 
 import useFetch from '../../../hooks/useFetch'
+import { useUserContext } from '../../../contexts/UserContext'
 import { roleIds } from '../../../env'
 import Spinner from '../../../components/commons/Spinner'
-import { useUserContext } from '../../../contexts/UserContext'
-import { Helmet } from 'react-helmet-async'
 import ArticleCard from '../../../components/articles/ArticleCard'
 
 const UserPage = () => {
@@ -37,14 +37,6 @@ const UserPage = () => {
     setRequestData({})
   }
 
-  const handleGoToArticles = (e: React.SyntheticEvent) => {
-    navigate('/articles')
-  }
-
-  const handleGoToCreateCategory = (e: React.SyntheticEvent) => {
-    navigate('/categories/create')
-  }
-
   return user ? (
     <>
       <Helmet>
@@ -69,19 +61,22 @@ const UserPage = () => {
                   {userData && userData.username === user.username && (
                     <section className='buttons-wrapper pt-1'>
                       <button className='style3' onClick={handleLogout}>
-                        Logout
+                        {t('user.profile.logout')}
                       </button>
                       {userData.roleId === roleIds.moderatorId && (
-                        <button className='style3' onClick={handleGoToArticles}>
-                          All Articles
+                        <button
+                          className='style3'
+                          onClick={() => navigate('/articles')}
+                        >
+                          {t('user.profile.all-articles')}
                         </button>
                       )}
                       {userData.roleId === roleIds.adminId && (
                         <button
                           className='style3'
-                          onClick={handleGoToCreateCategory}
+                          onClick={() => navigate('/categories/create')}
                         >
-                          Add Category
+                          {t('user.profile.add')}
                         </button>
                       )}
                     </section>

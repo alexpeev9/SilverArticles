@@ -1,12 +1,16 @@
 import { Link, useNavigate, useParams } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+
 import Spinner from '../../../components/commons/Spinner'
 import useFetch from '../../../hooks/useFetch'
 import ImageHolder from '../../../components/elements/ImageHolder'
 import fallbackImage from '../../../assets/images/fallbacks/article.jpg'
 import { useUserContext } from '../../../contexts/UserContext'
+import { Helmet } from 'react-helmet-async'
 
 const ArticlePage = () => {
   const navigate = useNavigate()
+  const { t } = useTranslation()
 
   const { slug } = useParams()
   const { userData } = useUserContext()
@@ -46,76 +50,83 @@ const ArticlePage = () => {
   }
 
   return article ? (
-    <div id='main' className='wrapper style2'>
-      <div className='title'>No Sidebar</div>
-      <div className='container'>
-        <div id='content'>
-          <article className='box post'>
-            <header className='style1'>
-              <h2>{article.title}</h2>
-              <p>
-                Made by {article.author.firstName} {article.author.lastName}
-                {' - '}
-                <Link to={`/users/${article.author.username}`}>
-                  {article.author.username}
+    <>
+      <Helmet>
+        <title>{article.title}</title>
+      </Helmet>
+      <div id='main' className='wrapper style2'>
+        <div className='title'>{t('article.details.title')}</div>
+        <div className='container'>
+          <div id='content'>
+            <article className='box post'>
+              <header className='style1'>
+                <h2>{article.title}</h2>
+                <p>
+                  {t('article.details.author')} {article.author.firstName}{' '}
+                  {article.author.lastName}
+                  {' - '}
+                  <Link to={`/users/${article.author.username}`}>
+                    {article.author.username}
+                  </Link>
+                </p>
+              </header>
+              <section className='row'>
+                <p className='col-6 col-12-medium'>{article.description}</p>
+                <Link to='/' className='col-6 col-12-medium main-image'>
+                  <ImageHolder
+                    imageAddress={article.image}
+                    fallbackImage={fallbackImage}
+                    altName={article.title}
+                  />
                 </Link>
-              </p>
-            </header>
-            <section className='row'>
-              <p className='col-6 col-12-medium'>{article.description}</p>
-              <Link to='/' className='col-6 col-12-medium main-image'>
-                <ImageHolder
-                  imageAddress={article.image}
-                  fallbackImage={fallbackImage}
-                  altName={article.title}
-                />
-              </Link>
-            </section>
-            <div className='buttons-wrapper'>
-              {voteResponse ? (
-                <p>{voteResponse}</p>
-              ) : article.hasVoted ? (
-                <></>
-              ) : userData && userData.username === article.author.username ? (
-                <></>
-              ) : (
-                <>
-                  <button
-                    className='style3'
-                    onClick={() => setVote({ vote: 'upvote' })}
-                  >
-                    UpVote
-                  </button>
-                  <button
-                    className='style3'
-                    onClick={() => setVote({ vote: 'downvote' })}
-                  >
-                    DownVote
-                  </button>
-                </>
-              )}
-              {userData && userData.username === article.author.username ? (
-                <>
-                  <button
-                    className='style3'
-                    onClick={() =>
-                      onClickRedirect(`/articles/edit/${article.slug}`)
-                    }
-                  >
-                    Edit
-                  </button>
-                  <button className='style3' onClick={onClickDelete}>
-                    Delete
-                  </button>
-                </>
-              ) : (
-                <></>
-              )}
-            </div>
-          </article>
+              </section>
+              <div className='buttons-wrapper'>
+                {voteResponse ? (
+                  <p>{voteResponse}</p>
+                ) : article.hasVoted ? (
+                  <></>
+                ) : userData &&
+                  userData.username === article.author.username ? (
+                  <></>
+                ) : (
+                  <>
+                    <button
+                      className='style3'
+                      onClick={() => setVote({ vote: 'upvote' })}
+                    >
+                      {t('article.details.upvote')}
+                    </button>
+                    <button
+                      className='style3'
+                      onClick={() => setVote({ vote: 'downvote' })}
+                    >
+                      {t('article.details.downvote')}
+                    </button>
+                  </>
+                )}
+                {userData && userData.username === article.author.username ? (
+                  <>
+                    <button
+                      className='style3'
+                      onClick={() =>
+                        onClickRedirect(`/articles/edit/${article.slug}`)
+                      }
+                    >
+                      {t('article.details.edit')}
+                    </button>
+                    <button className='style3' onClick={onClickDelete}>
+                      {t('article.details.delete')}
+                    </button>
+                  </>
+                ) : (
+                  <></>
+                )}
+              </div>
+            </article>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   ) : (
     <Spinner />
   )

@@ -50,6 +50,7 @@
     "no-articles": "Currently, there are no articles for this category."
   },
   "article": {
+    "all": { "title": "All Articles" },
     "create": {
       "title": "Create Now",
       "button": "Create",
@@ -58,13 +59,42 @@
     },
     "buttons": {
       "more": "More"
+    },
+    "details": {
+      "title": "Article",
+      "author": "Made by",
+      "upvote": "Upvote",
+      "downvote": "Downvote",
+      "edit": "Edit",
+      "delete": "Delete"
     }
   },
   "user": {
-    "list": {},
     "profile": {
       "helmet": "'s Profile",
-      "title": "User's Profile"
+      "title": "User's Profile",
+      "logout": "Logout",
+      "all": "All Articles",
+      "add": "Add Category"
+    }
+  },
+  "common": {
+    "not-found": {
+      "helmet": "Not Found",
+      "title": "We are sorry, the content was not found.",
+      "description": "Oops! It seems like the page you're looking for doesn't exist. Don't worry, we've got plenty of other interesting articles for you to explore. Take a moment to browse through our categories and find fascinating content that matches your interests. :"
+    },
+    "not-authorized": {
+      "helmet": "Not Authorized",
+      "title": "You are not authorized",
+      "description": "You are not authorized to access this page. If you believe this is an error, please contact the administrator for assistance. You can go back to the homepage or explore other sections of the website.",
+      "home": "Home",
+      "login": "Login"
+    },
+    "not-connected": {
+      "helmet": "No Connection",
+      "title": "We are sorry, there is no connection to the server api.",
+      "sub-title": "Please try again later."
     }
   }
 }

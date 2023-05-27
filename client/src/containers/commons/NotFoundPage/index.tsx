@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next'
+import { Helmet } from 'react-helmet-async'
 
 import useFetch from '../../../hooks/useFetch'
 
@@ -20,17 +21,13 @@ const NotFoundPage = () => {
 
   return (
     <>
+      <Helmet>
+        <title>{t('common.not-found.helmet')}</title>
+      </Helmet>
       <div id='main' className='wrapper style2'>
-        <div className='title not-found'>
-          We are sorry, the content was not found.
-        </div>
+        <div className='title not-found'>{t('common.not-found.title')}</div>
         <div className='container'>
-          <h3 className='pt-2'>
-            Oops! It seems like the page you're looking for doesn't exist. Don't
-            worry, we've got plenty of other interesting articles for you to
-            explore. Take a moment to browse through our categories and find
-            fascinating content that matches your interests. :
-          </h3>
+          <h3 className='pt-2'>{t('common.not-found.description')}</h3>
           <ul className='style2 grid-x3 pt-1'>
             {categories &&
               categories.map((category: any, key: number) => (
