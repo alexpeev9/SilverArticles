@@ -2,16 +2,19 @@ import useFetch from '../../../hooks/useFetch'
 
 import ArticleCard from '../../../components/articles/ArticleCard'
 import { useTranslation } from 'react-i18next'
+import Spinner from '../../../components/commons/Spinner'
 
 const ArticleListPage = () => {
   const { t } = useTranslation()
 
-  const { responseData: articles } = useFetch({
+  const { responseData: articles, loading: loadingArticles } = useFetch({
     method: 'get',
     url: 'articles'
   })
 
-  return (
+  return loadingArticles ? (
+    <Spinner />
+  ) : (
     articles && (
       <section id='main' className='wrapper style2'>
         <div className='title'>{t('articles.all.title')}</div>

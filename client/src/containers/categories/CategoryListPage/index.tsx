@@ -7,26 +7,28 @@ import CategoryCard from '../../../components/categories/CategoryCard'
 const CategoryListPage = () => {
   const { t } = useTranslation()
 
-  const { responseData: categories } = useFetch({
+  const { responseData: categories, loading: loadingCategory } = useFetch({
     method: 'get',
     url: 'categories'
   })
 
-  return categories ? (
-    <>
-      <section id='main' className='wrapper style2'>
-        <div className='title'>{t('home.second-title')}</div>
-        <div className='container'>
-          <ul className='style2 grid-x3'>
-            {categories.map((category: any, key: number) => (
-              <CategoryCard key={key} category={category} />
-            ))}
-          </ul>
-        </div>
-      </section>
-    </>
-  ) : (
+  return loadingCategory ? (
     <Spinner />
+  ) : (
+    categories && (
+      <>
+        <section id='main' className='wrapper style2'>
+          <div className='title'>{t('home.second-title')}</div>
+          <div className='container'>
+            <ul className='style2 grid-x3'>
+              {categories.map((category: any, key: number) => (
+                <CategoryCard key={key} category={category} />
+              ))}
+            </ul>
+          </div>
+        </section>
+      </>
+    )
   )
 }
 

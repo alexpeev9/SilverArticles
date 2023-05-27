@@ -10,25 +10,27 @@ const ArticleUpdatePage = () => {
   const { slug } = useParams()
   const { userData } = useUserContext()
 
-  const { responseData: article } = useFetch({
+  const { responseData: article, loading: loadingArticle } = useFetch({
     method: 'get',
     url: `articles/${slug}`
   })
 
-  return article && userData ? (
-    userData.username === article.author.username ? (
-      <ArticleForm
-        article={{ ...article, category: article.category.slug }}
-        requestData={{
-          method: 'put',
-          url: `articles/update/${slug}`
-        }}
-      />
-    ) : (
-      <Navigate to='/not-authorized' />
-    )
-  ) : (
+  return loadingArticle ? (
     <Spinner />
+  ) : (
+    article &&
+      userData &&
+      (userData.username === article.author.username ? (
+        <ArticleForm
+          article={{ ...article, category: article.category.slug }}
+          requestData={{
+            method: 'put',
+            url: `articles/update/${slug}`
+          }}
+        />
+      ) : (
+        <Navigate to='/not-authorized' />
+      ))
   )
 }
 

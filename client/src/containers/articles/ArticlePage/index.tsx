@@ -15,7 +15,7 @@ const ArticlePage = () => {
   const { slug } = useParams()
   const { userData } = useUserContext()
 
-  const { responseData: article } = useFetch({
+  const { responseData: article, loading: loadingArticle } = useFetch({
     method: 'get',
     url: `articles/${slug}`
   })
@@ -49,86 +49,88 @@ const ArticlePage = () => {
     }
   }
 
-  return article ? (
-    <>
-      <Helmet>
-        <title>{article.title}</title>
-      </Helmet>
-      <div id='main' className='wrapper style2'>
-        <div className='title'>{t('article.details.title')}</div>
-        <div className='container'>
-          <div id='content'>
-            <article className='box post'>
-              <header className='style1'>
-                <h2>{article.title}</h2>
-                <p>
-                  {t('article.details.author')} {article.author.firstName}{' '}
-                  {article.author.lastName}
-                  {' - '}
-                  <Link to={`/users/${article.author.username}`}>
-                    {article.author.username}
+  return loadingArticle ? (
+    <Spinner />
+  ) : (
+    article && (
+      <>
+        <Helmet>
+          <title>{article.title}</title>
+        </Helmet>
+        <div id='main' className='wrapper style2'>
+          <div className='title'>{t('article.details.title')}</div>
+          <div className='container'>
+            <div id='content'>
+              <article className='box post'>
+                <header className='style1'>
+                  <h2>{article.title}</h2>
+                  <p>
+                    {t('article.details.author')} {article.author.firstName}{' '}
+                    {article.author.lastName}
+                    {' - '}
+                    <Link to={`/users/${article.author.username}`}>
+                      {article.author.username}
+                    </Link>
+                  </p>
+                </header>
+                <section className='row'>
+                  <p className='col-6 col-12-medium'>{article.description}</p>
+                  <Link to='/' className='col-6 col-12-medium main-image'>
+                    <ImageHolder
+                      imageAddress={article.image}
+                      fallbackImage={fallbackImage}
+                      altName={article.title}
+                    />
                   </Link>
-                </p>
-              </header>
-              <section className='row'>
-                <p className='col-6 col-12-medium'>{article.description}</p>
-                <Link to='/' className='col-6 col-12-medium main-image'>
-                  <ImageHolder
-                    imageAddress={article.image}
-                    fallbackImage={fallbackImage}
-                    altName={article.title}
-                  />
-                </Link>
-              </section>
-              <div className='buttons-wrapper'>
-                {voteResponse ? (
-                  <p>{voteResponse}</p>
-                ) : article.hasVoted ? (
-                  <></>
-                ) : userData &&
-                  userData.username === article.author.username ? (
-                  <></>
-                ) : (
-                  <>
-                    <button
-                      className='style3'
-                      onClick={() => setVote({ vote: 'upvote' })}
-                    >
-                      {t('article.details.upvote')}
-                    </button>
-                    <button
-                      className='style3'
-                      onClick={() => setVote({ vote: 'downvote' })}
-                    >
-                      {t('article.details.downvote')}
-                    </button>
-                  </>
-                )}
-                {userData && userData.username === article.author.username ? (
-                  <>
-                    <button
-                      className='style3'
-                      onClick={() =>
-                        onClickRedirect(`/articles/edit/${article.slug}`)
-                      }
-                    >
-                      {t('article.details.edit')}
-                    </button>
-                    <button className='style3' onClick={onClickDelete}>
-                      {t('article.details.delete')}
-                    </button>
-                  </>
-                ) : (
-                  <></>
-                )}
-              </div>
-            </article>
+                </section>
+                <div className='buttons-wrapper'>
+                  {voteResponse ? (
+                    <p>{voteResponse}</p>
+                  ) : article.hasVoted ? (
+                    <></>
+                  ) : userData &&
+                    userData.username === article.author.username ? (
+                    <></>
+                  ) : (
+                    <>
+                      <button
+                        className='style3'
+                        onClick={() => setVote({ vote: 'upvote' })}
+                      >
+                        {t('article.details.upvote')}
+                      </button>
+                      <button
+                        className='style3'
+                        onClick={() => setVote({ vote: 'downvote' })}
+                      >
+                        {t('article.details.downvote')}
+                      </button>
+                    </>
+                  )}
+                  {userData && userData.username === article.author.username ? (
+                    <>
+                      <button
+                        className='style3'
+                        onClick={() =>
+                          onClickRedirect(`/articles/edit/${article.slug}`)
+                        }
+                      >
+                        {t('article.details.edit')}
+                      </button>
+                      <button className='style3' onClick={onClickDelete}>
+                        {t('article.details.delete')}
+                      </button>
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                </div>
+              </article>
+            </div>
           </div>
         </div>
-      </div>
-    </>
-  ) : (
-    <Spinner />
+      </>
+    )
   )
 }
 

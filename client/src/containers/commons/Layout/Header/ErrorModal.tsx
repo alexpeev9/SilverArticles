@@ -10,7 +10,7 @@ const ErrorModal = () => {
 
   return (
     errors && (
-      <div className='error'>
+      <div className='popup'>
         {errors.map((error: string, key: string) => (
           <span key={key}>{error}</span>
         ))}

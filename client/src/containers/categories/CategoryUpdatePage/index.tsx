@@ -11,25 +11,27 @@ const CategoryUpdatePage = () => {
   const { slug } = useParams()
   const { userData } = useUserContext()
 
-  const { responseData: category } = useFetch({
+  const { responseData: category, loading: loadingCategory } = useFetch({
     method: 'get',
     url: `categories/${slug}`
   })
 
-  return category && userData ? (
-    userData.roleId === roleIds.adminId ? (
-      <CategoryForm
-        category={{ ...category }}
-        requestData={{
-          method: 'put',
-          url: `categories/update/${slug}`
-        }}
-      />
-    ) : (
-      <Navigate to='/not-authorized' />
-    )
-  ) : (
+  return loadingCategory ? (
     <Spinner />
+  ) : (
+    category &&
+      userData &&
+      (userData.roleId === roleIds.adminId ? (
+        <CategoryForm
+          category={{ ...category }}
+          requestData={{
+            method: 'put',
+            url: `categories/update/${slug}`
+          }}
+        />
+      ) : (
+        <Navigate to='/not-authorized' />
+      ))
   )
 }
 

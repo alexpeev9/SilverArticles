@@ -8,13 +8,15 @@ import CategoryCard from '../../../components/categories/CategoryCard'
 
 const Categories = () => {
   const { t } = useTranslation()
-  const { responseData: categories } = useFetch({
+  const { responseData: categories, loading: loadingCategories } = useFetch({
     method: 'get',
     url: 'categories/get/2'
   })
 
-  return (
-    <>
+  return loadingCategories ? (
+    <Spinner />
+  ) : (
+    categories && (
       <div className='col-4 col-12-medium'>
         <div id='sidebar'>
           <section className='box'>
@@ -27,17 +29,13 @@ const Categories = () => {
             </Link>
           </section>
           <ul className='style2'>
-            {categories ? (
-              categories.map((category: any, key: number) => (
-                <CategoryCard key={key} category={category} />
-              ))
-            ) : (
-              <Spinner />
-            )}
+            {categories.map((category: any, key: number) => (
+              <CategoryCard key={key} category={category} />
+            ))}
           </ul>
         </div>
       </div>
-    </>
+    )
   )
 }
 

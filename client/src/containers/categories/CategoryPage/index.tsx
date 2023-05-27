@@ -17,7 +17,7 @@ const CategoryPage = () => {
   const { userData } = useUserContext()
   const navigate = useNavigate()
 
-  const { responseData: category } = useFetch({
+  const { responseData: category, loading: loadingCategory } = useFetch({
     method: 'get',
     url: `categories/${slug}`
   })
@@ -57,59 +57,61 @@ const CategoryPage = () => {
     }
   }
 
-  return category ? (
-    <>
-      <section id='main' className='wrapper style2'>
-        <div className='title'>{category.title}</div>
-        <div className='container'>
-          <article className='box post'>
-            <div className='image small left'>
-              <ImageHolder
-                imageAddress={image}
-                fallbackImage={fallbackImage}
-                altName={category.title}
-              />
-            </div>
-            <h2>{category.title}</h2>
-            <p>{category.description}</p>
-          </article>
-          {userData && userData.roleId === roleIds.adminId && (
-            <section className='buttons-wrapper clear pt-1'>
-              <button
-                className='style3'
-                onClick={() =>
-                  onClickRedirect(`/categories/edit/${category.slug}`)
-                }
-              >
-                Edit
-              </button>
-              <button className='style3' onClick={onClickDelete}>
-                Delete
-              </button>
-            </section>
-          )}
-          {category.articles.length !== 0 ? (
-            <ul className='style2 grid-x3'>
-              {category.articles.map((article: any, key: number) => (
-                <div className='col-6 col-12-small' key={key}>
-                  <ArticleCard article={article} />
-                </div>
-              ))}
-            </ul>
-          ) : (
-            <section className='box clear pt-1'>
-              <h2>{t('category.no-articles')}</h2>
-              <Link to='/articles/create' className='button style1'>
-                Write one
-              </Link>
-              <Info />
-            </section>
-          )}
-        </div>
-      </section>
-    </>
-  ) : (
+  return loadingCategory ? (
     <Spinner />
+  ) : (
+    category && (
+      <>
+        <section id='main' className='wrapper style2'>
+          <div className='title'>{category.title}</div>
+          <div className='container'>
+            <article className='box post'>
+              <div className='image small left'>
+                <ImageHolder
+                  imageAddress={image}
+                  fallbackImage={fallbackImage}
+                  altName={category.title}
+                />
+              </div>
+              <h2>{category.title}</h2>
+              <p>{category.description}</p>
+            </article>
+            {userData && userData.roleId === roleIds.adminId && (
+              <section className='buttons-wrapper clear pt-1'>
+                <button
+                  className='style3'
+                  onClick={() =>
+                    onClickRedirect(`/categories/edit/${category.slug}`)
+                  }
+                >
+                  Edit
+                </button>
+                <button className='style3' onClick={onClickDelete}>
+                  Delete
+                </button>
+              </section>
+            )}
+            {category.articles.length !== 0 ? (
+              <ul className='style2 grid-x3'>
+                {category.articles.map((article: any, key: number) => (
+                  <div className='col-6 col-12-small' key={key}>
+                    <ArticleCard article={article} />
+                  </div>
+                ))}
+              </ul>
+            ) : (
+              <section className='box clear pt-1'>
+                <h2>{t('category.no-articles')}</h2>
+                <Link to='/articles/create' className='button style1'>
+                  Write one
+                </Link>
+                <Info />
+              </section>
+            )}
+          </div>
+        </section>
+      </>
+    )
   )
 }
 
