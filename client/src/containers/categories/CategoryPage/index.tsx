@@ -8,6 +8,7 @@ import fallbackImage from '../../../assets/images/fallbacks/category.png'
 import ImageHolder from '../../../components/elements/ImageHolder'
 import Info from '../../commons/HomePage/Info'
 import { useUserContext } from '../../../contexts/UserContext'
+import { roleIds } from '../../../env'
 
 const CategoryPage = () => {
   const { t } = useTranslation()
@@ -72,7 +73,7 @@ const CategoryPage = () => {
             <h2>{category.title}</h2>
             <p>{category.description}</p>
           </article>
-          {userData ? (
+          {userData && userData.roleId === roleIds.adminId && (
             <section className='buttons-wrapper clear pt-1'>
               <button
                 className='style3'
@@ -86,12 +87,6 @@ const CategoryPage = () => {
                 Delete
               </button>
             </section>
-          ) : (
-            <>
-              <button className='style3' onClick={onClickDelete}>
-                Delete
-              </button>
-            </>
           )}
           {category.articles.length !== 0 ? (
             <ul className='style2 grid-x3'>

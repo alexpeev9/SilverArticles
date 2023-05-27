@@ -101,7 +101,7 @@ const ArticleForm = ({ article, requestData }: any) => {
         <div className='col-12'>
           <label>{t('article.create.category-text')}</label>
           <span className='buttons-wrapper'>
-            {categories ? (
+            {categories &&
               categories.map((category: any, key: string) => (
                 <button
                   type='button'
@@ -114,10 +114,7 @@ const ArticleForm = ({ article, requestData }: any) => {
                 >
                   {category.title}
                 </button>
-              ))
-            ) : (
-              <></>
-            )}
+              ))}
           </span>
         </div>
         <div className='col-12'>

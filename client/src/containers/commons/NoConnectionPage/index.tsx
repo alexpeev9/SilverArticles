@@ -1,8 +1,12 @@
+import './assets/style.scss'
+
 const NoConnectionPage = () => {
   return (
-    <div>
-      We are sorry, there is no connection to the server. Please try again
-      later.
+    <div className='no-connection'>
+      <span className='title '>
+        We are sorry, there is no connection to the server api.
+      </span>
+      <span className='sub-title'>Please try again later.</span>
     </div>
   )
 }

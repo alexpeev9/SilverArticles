@@ -14,13 +14,16 @@ const getXNumberCategories = async (number: string) => {
     throw new Error('Invalid parameters.')
   }
 
-  const categories = await Category.find()
+  const categories = await Category.find({
+    $or: [{ slug: 'others' }, { articles: { $gt: [] } }]
+  })
     .sort({ articles: -1 })
     .select(['title', 'slug', 'image', '-_id'])
     .populate({
       path: 'articles',
       select: 'title -_id',
-      options: { limit: 2, isPublic: true }
+      match: { isPublic: true },
+      options: { limit: 2 }
     })
     .limit(categoryNumbers)
 

@@ -48,11 +48,14 @@ const UserPage = () => {
   return user ? (
     <>
       <Helmet>
-        <title>{user.username}'s Profile</title>
+        <title>
+          {user.username}
+          {t('user.profile.helmet')}
+        </title>
       </Helmet>
       <>
         <div id='main' className='wrapper style2'>
-          <div className='title'>No Sidebar</div>
+          <div className='title'>{t('user.profile.title')}</div>
           <div className='container'>
             <div id='content'>
               <article className='box post'>
@@ -63,31 +66,25 @@ const UserPage = () => {
                     {' - '}
                     {user.role.title}
                   </p>
-                  {userData && userData.username === user.username ? (
+                  {userData && userData.username === user.username && (
                     <section className='buttons-wrapper pt-1'>
                       <button className='style3' onClick={handleLogout}>
                         Logout
                       </button>
-                      {userData.roleId === roleIds.moderatorId ? (
+                      {userData.roleId === roleIds.moderatorId && (
                         <button className='style3' onClick={handleGoToArticles}>
                           All Articles
                         </button>
-                      ) : (
-                        <></>
                       )}
-                      {userData.roleId === roleIds.adminId ? (
+                      {userData.roleId === roleIds.adminId && (
                         <button
                           className='style3'
                           onClick={handleGoToCreateCategory}
                         >
                           Add Category
                         </button>
-                      ) : (
-                        <></>
                       )}
                     </section>
-                  ) : (
-                    <></>
                   )}
                 </header>
                 {user.articles.length !== 0 ? (

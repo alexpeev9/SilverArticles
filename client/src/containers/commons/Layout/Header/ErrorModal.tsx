@@ -8,17 +8,17 @@ const ErrorModal = () => {
     setErrors(null)
   }
 
-  return errors ? (
-    <div className='error'>
-      {errors.map((error: string, key: string) => (
-        <span key={key}>{error}</span>
-      ))}
-      <button onClick={handleClick}>
-        <CloseIcon />
-      </button>
-    </div>
-  ) : (
-    <></>
+  return (
+    errors && (
+      <div className='error'>
+        {errors.map((error: string, key: string) => (
+          <span key={key}>{error}</span>
+        ))}
+        <button onClick={handleClick}>
+          <CloseIcon />
+        </button>
+      </div>
+    )
   )
 }
 

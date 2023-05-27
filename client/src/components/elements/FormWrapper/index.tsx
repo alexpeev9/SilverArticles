@@ -45,15 +45,13 @@ const FormWrapper = ({
               </div>
             </div>
           </form>
-          {description ? (
+          {description && (
             <DescriptionSection
               route={description.route}
               question={description.question}
               answer={description.answer}
               info={description.info}
             />
-          ) : (
-            <></>
           )}
         </div>
       </div>
