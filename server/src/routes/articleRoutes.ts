@@ -7,11 +7,7 @@ import {
   checkUserMiddleware
 } from '../middlewares/authMiddleware'
 
-import {
-  adminMiddleware,
-  moderatorMiddleware,
-  writerMiddleware
-} from '../middlewares/roleMiddleware'
+import { moderatorMiddleware } from '../middlewares/roleMiddleware'
 
 const router = Router()
 

@@ -139,10 +139,14 @@ const remove = async (article: any) => {
   return `${article.title} successfully deleted`
 }
 
-const vote = async (article: any, user: any, vote: boolean) => {
+const vote = async (slug: any, user: any, vote: boolean) => {
   await user.populate('votes')
   await user.populate('articles')
-  await article.populate('votes')
+
+  const article = (await Article.findOne({ slug }).populate('author')) as any
+  if (!article) {
+    throw new Error('Article not found!')
+  }
 
   if (
     article.author.username === user.username ||
@@ -151,9 +155,9 @@ const vote = async (article: any, user: any, vote: boolean) => {
     throw new Error('The user cannot vote for his own article!')
   }
 
-  // if (await checkIfVoted(article, user)) {
-  //   throw new Error('The user has already voted for this article!')
-  // }
+  if (await checkIfVoted(article, user)) {
+    throw new Error('The user has already voted for this article!')
+  }
 
   await Article.findOneAndUpdate(
     { _id: article._id },
@@ -168,7 +172,7 @@ const vote = async (article: any, user: any, vote: boolean) => {
     { $push: { votes: article._id } }
   )
 
-  return `You have successfully ${vote ? 'up' : 'down'}voted for this article!`
+  return `You have successfully ${vote ? 'up' : 'down'}voted this article!`
 }
 
 export default {

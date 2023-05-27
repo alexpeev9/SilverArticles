@@ -96,9 +96,8 @@ const vote = async (req: Request, res: Response, next: NextFunction) => {
     }
 
     const voteValue = vote === 'upvote'
-    const article = await articleService.getOne(slug)
 
-    const message = await articleService.vote(article, reqUser, voteValue)
+    const message = await articleService.vote(slug, reqUser, voteValue)
     return res.status(200).json(message)
   } catch (err: any) {
     err.statusCode = 404

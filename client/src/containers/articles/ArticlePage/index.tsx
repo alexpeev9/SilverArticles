@@ -7,6 +7,8 @@ import ImageHolder from '../../../components/elements/ImageHolder'
 import fallbackImage from '../../../assets/images/fallbacks/article.jpg'
 import { useUserContext } from '../../../contexts/UserContext'
 import { Helmet } from 'react-helmet-async'
+import VoteIcon from './VoteIcon'
+import { useEffect, useState } from 'react'
 
 const ArticlePage = () => {
   const navigate = useNavigate()
@@ -32,9 +34,12 @@ const ArticlePage = () => {
     }
   )
 
-  const onClickRedirect = (url: string) => {
-    navigate(url)
-  }
+  const [rating, setRating] = useState(0)
+  useEffect(() => {
+    if (article) {
+      setRating(article.rating)
+    }
+  }, [])
 
   if (isDeleted) {
     navigate('/')
@@ -77,6 +82,9 @@ const ArticlePage = () => {
                       {article.author.username}
                     </Link>
                   </p>
+                  <p>
+                    {t('article.details.rating')} {rating}
+                  </p>
                 </header>
                 <section className='row'>
                   <p className='col-6 col-12-medium'>{article.description}</p>
@@ -88,6 +96,14 @@ const ArticlePage = () => {
                     />
                   </Link>
                 </section>
+                {userData && userData.username === article.author.username && (
+                  <h2 className='pt-2'>
+                    {t('article.details.isPublicMessage')}{' '}
+                    {article.isPublic
+                      ? t('article.details.public')
+                      : t('article.details.private')}
+                  </h2>
+                )}
                 <div className='buttons-wrapper'>
                   {voteResponse ? (
                     <p>{voteResponse}</p>
@@ -99,31 +115,37 @@ const ArticlePage = () => {
                   ) : (
                     <>
                       <button
-                        className='style3'
-                        onClick={() => setVote({ vote: 'upvote' })}
+                        className='style3 vote'
+                        onClick={() => {
+                          setRating(Number(rating) + 1)
+                          setVote({ vote: 'upvote' })
+                        }}
                       >
-                        {t('article.details.upvote')}
+                        <VoteIcon position='up' />
+                        <span className='ml-1'>
+                          {t('article.details.upvote')}
+                        </span>
                       </button>
                       <button
-                        className='style3'
-                        onClick={() => setVote({ vote: 'downvote' })}
+                        className='style3 vote'
+                        onClick={() => {
+                          setRating(Number(rating) - 1)
+                          setVote({ vote: 'downvote' })
+                        }}
                       >
-                        {t('article.details.downvote')}
+                        <VoteIcon position='down' />
+                        <span className='ml-1'>
+                          {t('article.details.downvote')}
+                        </span>
                       </button>
                     </>
                   )}
                   {userData && userData.username === article.author.username ? (
                     <>
-                      <h2 className='style2'>
-                        {t('article.details.isPublicMessage')}{' '}
-                        {article.isPublic
-                          ? t('article.details.public')
-                          : t('article.details.private')}
-                      </h2>
                       <button
                         className='style3'
                         onClick={() =>
-                          onClickRedirect(`/articles/edit/${article.slug}`)
+                          navigate(`/articles/edit/${article.slug}`)
                         }
                       >
                         {t('article.details.edit')}
