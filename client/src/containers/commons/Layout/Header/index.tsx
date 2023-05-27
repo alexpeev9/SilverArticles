@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useUserContext } from '../../../../contexts/UserContext'
-import ErrorModal from './ErrorModal'
+import ErrorPopup from './ErrorPopup'
 import { useTranslation } from 'react-i18next'
 
 const Header = () => {
@@ -9,7 +9,7 @@ const Header = () => {
 
   return (
     <>
-      <ErrorModal />
+      <ErrorPopup />
       <section id='header' className='wrapper'>
         <div id='logo'>
           <h1>

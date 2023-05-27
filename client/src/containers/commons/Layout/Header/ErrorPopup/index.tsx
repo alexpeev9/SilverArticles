@@ -1,7 +1,7 @@
-import { useErrorContext } from '../../../../contexts/ErrorContext'
+import { useErrorContext } from '../../../../../contexts/ErrorContext'
 import CloseIcon from './CloseIcon'
 
-const ErrorModal = () => {
+const ErrorPopup = () => {
   const { errors, setErrors } = useErrorContext()
 
   const handleClick = () => {
@@ -22,4 +22,4 @@ const ErrorModal = () => {
   )
 }
 
-export default ErrorModal
+export default ErrorPopup

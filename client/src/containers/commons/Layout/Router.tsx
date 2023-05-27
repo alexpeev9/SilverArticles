@@ -1,55 +1,62 @@
 import { Route, Routes } from 'react-router-dom'
 
+import useAuthVerifier from '../../../hooks/useAuthVerifier'
+
 import HomePage from '../HomePage'
-import LoginPage from '../../auth/LoginPage'
-import UserListPage from '../../users/UserListPage'
-import UserPage from '../../users/UserPage'
-import CategoryListPage from '../../categories/CategoryListPage'
-import CategoryCreatePage from '../../categories/CategoryCreatePage'
-import CategoryPage from '../../categories/CategoryPage'
-import NotFoundPage from '../NotFoundPage'
 import NotAuthorizedPage from '../NotAuthorizedPage'
 import NoConnectionPage from '../NoConnectionPage'
-import ArticleListPage from '../../articles/ArticleListPage'
-import ArticlePage from '../../articles/ArticlePage'
+import LoginPage from '../../auth/LoginPage'
 import RegisterPage from '../../auth/RegisterPage'
+import ProfilePage from '../../auth/ProfilePage'
+import CategoryListPage from '../../categories/CategoryListPage'
+import CategoryCreatePage from '../../categories/CategoryCreatePage'
+import CategoryUpdatePage from '../../categories/CategoryUpdatePage'
+import CategoryPage from '../../categories/CategoryPage'
+import ArticleListPage from '../../articles/ArticleListPage'
 import ArticleCreatePage from '../../articles/ArticleCreatePage'
 import ArticleUpdatePage from '../../articles/ArticleUpdatePage'
-import useAuthVerifier from '../../../hooks/useAuthVerifier'
-import CategoryUpdatePage from '../../categories/CategoryUpdatePage'
+import ArticlePage from '../../articles/ArticlePage'
+import NotFoundPage from '../NotFoundPage'
 
 const Router = () => {
   return (
     <Routes>
+      {/* Common */}
       <Route path='/' element={<HomePage />} />
+      <Route path='/no-connection' element={<NoConnectionPage />} />
+      <Route path='/not-found' element={<NotFoundPage />} />
+      <Route path='/not-authorized' element={<NotAuthorizedPage />} />
+
+      {/* User */}
       <Route path='/login' element={<LoginPage />} />
       <Route path='/register' element={<RegisterPage />} />
-      <Route path='/users' element={<UserListPage />} />
-      <Route path='/users/:username' element={<UserPage />} />
+      <Route path='/users/:username' element={<ProfilePage />} />
 
+      {/* Category */}
       <Route path='/categories' element={<CategoryListPage />} />
-      <Route path='/categories/create' element={<CategoryCreatePage />} />
+      <Route
+        path='/categories/create'
+        element={useAuthVerifier(<CategoryCreatePage />)}
+      />
       <Route
         path='/categories/edit/:slug'
         element={useAuthVerifier(<CategoryUpdatePage />)}
       />
       <Route path='/categories/:slug' element={<CategoryPage />} />
 
+      {/* Article */}
       <Route path='/articles' element={<ArticleListPage />} />
       <Route
         path='/articles/create'
         element={useAuthVerifier(<ArticleCreatePage />)}
       />
-      <Route path='/articles' element={<ArticleListPage />} />
       <Route
         path='/articles/edit/:slug'
         element={useAuthVerifier(<ArticleUpdatePage />)}
       />
       <Route path='/articles/:slug' element={<ArticlePage />} />
 
-      <Route path='/not-authorized' element={<NotAuthorizedPage />} />
-      <Route path='/not-found' element={<NotFoundPage />} />
-      <Route path='/no-connection' element={<NoConnectionPage />} />
+      {/* Not Found */}
       <Route path='*' element={<NotFoundPage />} />
     </Routes>
   )

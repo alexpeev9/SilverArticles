@@ -88,13 +88,37 @@ const update = async (oldArticle: any, data: any) => {
       image: image ?? oldArticle.image,
       description: description ?? oldArticle.description,
       isPublic: isPublic ?? oldArticle.isPublic,
-      category: category
-        ? await Category.findOne({ slug: category })
-        : oldArticle.category
+      category: await Category.findOne({ slug: category })
     }
   )
 
-  return article.slug
+  if (!article) {
+    throw new Error('An error occured')
+  }
+
+  // if category is changed, update article in category list
+
+  if (category !== oldArticle.category.slug) {
+    const addToNewCategory = await Category.findOneAndUpdate(
+      { slug: category },
+      {
+        $push: { articles: oldArticle._id }
+      }
+    )
+
+    const removeFromOldCategory = await Category.findOneAndUpdate(
+      { slug: oldArticle.category.slug },
+      {
+        $pull: { articles: oldArticle._id }
+      }
+    )
+
+    if (!removeFromOldCategory || !addToNewCategory) {
+      throw new Error('We are sorry. We could not update category list.')
+    }
+  }
+
+  return slug
 }
 
 const remove = async (article: any) => {

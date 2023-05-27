@@ -9,6 +9,7 @@ import ImageHolder from '../../../components/elements/ImageHolder'
 import Info from '../../commons/HomePage/Info'
 import { useUserContext } from '../../../contexts/UserContext'
 import { roleIds } from '../../../env'
+import { Helmet } from 'react-helmet-async'
 
 const CategoryPage = () => {
   const { t } = useTranslation()
@@ -62,6 +63,9 @@ const CategoryPage = () => {
   ) : (
     category && (
       <>
+        <Helmet>
+          <title>{category.title}</title>
+        </Helmet>
         <section id='main' className='wrapper style2'>
           <div className='title'>{category.title}</div>
           <div className='container'>
@@ -84,10 +88,10 @@ const CategoryPage = () => {
                     onClickRedirect(`/categories/edit/${category.slug}`)
                   }
                 >
-                  Edit
+                  {t('category.edit')}
                 </button>
                 <button className='style3' onClick={onClickDelete}>
-                  Delete
+                  {t('category.delete')}
                 </button>
               </section>
             )}
@@ -103,7 +107,7 @@ const CategoryPage = () => {
               <section className='box clear pt-1'>
                 <h2>{t('category.no-articles')}</h2>
                 <Link to='/articles/create' className='button style1'>
-                  Write one
+                  {t('category.write-one')}
                 </Link>
                 <Info />
               </section>

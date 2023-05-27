@@ -39,7 +39,7 @@
     "description": "As a registered user, you'll have access to a wealth of informative and engaging articles on a variety of topics. From news and current events to lifestyle, technology, and more, our articles are carefully curated to provide you with valuable insights and knowledge."
   },
   "register": {
-    "title": "Expand your world",
+    "title": "Unlock Your Potential",
     "button": "Join Now",
     "cta-question": "Already have an account?",
     "cta-answer": "Login now!",
@@ -47,7 +47,11 @@
   },
   "category": {
     "description": "Read articles like:",
-    "no-articles": "Currently, there are no articles for this category."
+    "no-articles": "Currently, there are no articles.",
+    "create": "Create",
+    "edit": "Edit",
+    "delete": "Delete",
+    "write-one": "Write One"
   },
   "article": {
     "all": { "title": "All Articles" },
@@ -66,7 +70,10 @@
       "upvote": "Upvote",
       "downvote": "Downvote",
       "edit": "Edit",
-      "delete": "Delete"
+      "delete": "Delete",
+      "isPublicMessage": "Your article is set to",
+      "public": "Public.",
+      "private": "Private."
     }
   },
   "user": {
@@ -75,10 +82,12 @@
       "title": "User's Profile",
       "logout": "Logout",
       "all": "All Articles",
-      "add": "Add Category"
+      "add": "Add Category",
+      "write": "Write Article"
     }
   },
   "common": {
+    "loading": "Loading...",
     "not-found": {
       "helmet": "Not Found",
       "title": "We are sorry, the content was not found.",

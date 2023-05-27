@@ -18,7 +18,7 @@ const CategoryCard = ({ category }: any) => {
   }
 
   return (
-    <li className='my3'>
+    <li className='my3 clear'>
       <article className='box post-excerpt'>
         <Link to={`/categories/${category.slug}`} className='image left'>
           <ImageHolder

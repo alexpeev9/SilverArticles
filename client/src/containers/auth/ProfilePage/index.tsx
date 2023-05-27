@@ -9,7 +9,7 @@ import { roleIds } from '../../../env'
 import Spinner from '../../../components/commons/Spinner'
 import ArticleCard from '../../../components/articles/ArticleCard'
 
-const UserPage = () => {
+const ProfilePage = () => {
   const { t } = useTranslation()
 
   const navigate = useNavigate()
@@ -63,6 +63,12 @@ const UserPage = () => {
                       <button className='style3' onClick={handleLogout}>
                         {t('user.profile.logout')}
                       </button>
+                      <button
+                        className='style3'
+                        onClick={() => navigate('/articles/create')}
+                      >
+                        {t('user.profile.write')}
+                      </button>
                       {userData.roleId === roleIds.moderatorId && (
                         <button
                           className='style3'
@@ -106,4 +112,4 @@ const UserPage = () => {
   )
 }
 
-export default UserPage
+export default ProfilePage

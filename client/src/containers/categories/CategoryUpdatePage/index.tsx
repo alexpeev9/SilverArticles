@@ -1,4 +1,6 @@
 import { Navigate, useParams } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import { Helmet } from 'react-helmet-async'
 
 import useFetch from '../../../hooks/useFetch'
 
@@ -8,6 +10,8 @@ import Spinner from '../../../components/commons/Spinner'
 import { roleIds } from '../../../env'
 
 const CategoryUpdatePage = () => {
+  const { t } = useTranslation()
+
   const { slug } = useParams()
   const { userData } = useUserContext()
 
@@ -22,13 +26,18 @@ const CategoryUpdatePage = () => {
     category &&
       userData &&
       (userData.roleId === roleIds.adminId ? (
-        <CategoryForm
-          category={{ ...category }}
-          requestData={{
-            method: 'put',
-            url: `categories/update/${slug}`
-          }}
-        />
+        <>
+          <Helmet>
+            <title>{t('category.edit')}</title>
+          </Helmet>
+          <CategoryForm
+            category={{ ...category }}
+            requestData={{
+              method: 'put',
+              url: `categories/update/${slug}`
+            }}
+          />
+        </>
       ) : (
         <Navigate to='/not-authorized' />
       ))

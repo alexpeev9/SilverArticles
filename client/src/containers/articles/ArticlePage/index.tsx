@@ -65,6 +65,11 @@ const ArticlePage = () => {
                 <header className='style1'>
                   <h2>{article.title}</h2>
                   <p>
+                    <Link to={`/categories/${article.category.slug}`}>
+                      {article.category.title}
+                    </Link>
+                  </p>
+                  <p>
                     {t('article.details.author')} {article.author.firstName}{' '}
                     {article.author.lastName}
                     {' - '}
@@ -109,6 +114,12 @@ const ArticlePage = () => {
                   )}
                   {userData && userData.username === article.author.username ? (
                     <>
+                      <h2 className='style2'>
+                        {t('article.details.isPublicMessage')}{' '}
+                        {article.isPublic
+                          ? t('article.details.public')
+                          : t('article.details.private')}
+                      </h2>
                       <button
                         className='style3'
                         onClick={() =>
