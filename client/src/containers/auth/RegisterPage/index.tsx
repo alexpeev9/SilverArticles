@@ -58,19 +58,19 @@ const RegisterPage = () => {
       >
         <div className='col-6 col-12-small'>
           <InputField
-            name={'email'}
-            label={'Email'}
+            name={'username'}
+            label={'Username'}
             type={'text'}
-            value={user.email}
+            value={user.username}
             action={onInputChange}
           />
         </div>
         <div className='col-6 col-12-small'>
           <InputField
-            name={'username'}
-            label={'Username'}
-            type={'text'}
-            value={user.username}
+            name={'email'}
+            label={'Email'}
+            type={'email'}
+            value={user.email}
             action={onInputChange}
           />
         </div>

@@ -23,11 +23,11 @@ const register = async (userData: any): Promise<void> => {
   await user.save()
 }
 
-const login = async (email: string, password: string): Promise<string> => {
-  if (!email && !password) {
+const login = async (username: string, password: string): Promise<string> => {
+  if (!username && !password) {
     throw new Error('All fields must be filled.')
   }
-  const user = await service.getOne({ email }, 'username password role -_id')
+  const user = await service.getOne({ username }, 'username password role -_id')
   user.populate('role', 'customId -_id')
 
   if (!(await user.validatePassword(password))) {

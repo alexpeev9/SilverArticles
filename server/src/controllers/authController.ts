@@ -8,7 +8,7 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
 
     await authService.register(data)
 
-    const token = await authService.login(data.email, data.password)
+    const token = await authService.login(data.username, data.password)
     res.cookie('token', token, {
       secure: true,
       httpOnly: true,
@@ -23,8 +23,8 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
 
 const login = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { email, password } = req.body
-    const token = await authService.login(email, password)
+    const { username, password } = req.body
+    const token = await authService.login(username, password)
     res.cookie('token', token, {
       secure: true,
       httpOnly: true,

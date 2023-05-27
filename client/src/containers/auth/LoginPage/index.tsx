@@ -14,7 +14,7 @@ const LoginPage = () => {
   const { userData, decodeToken } = useUserContext()
 
   const { data: user, onInputChange } = useSetFormInputs({
-    email: '',
+    username: '',
     password: ''
   })
 
@@ -54,10 +54,10 @@ const LoginPage = () => {
       >
         <div className='col-7'>
           <InputField
-            name={'email'}
-            label={'Email'}
+            name={'username'}
+            label={'Username'}
             type={'text'}
-            value={user.email}
+            value={user.username}
             action={onInputChange}
           />
         </div>
