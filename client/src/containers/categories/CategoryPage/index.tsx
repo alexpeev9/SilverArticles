@@ -26,7 +26,7 @@ const CategoryPage = () => {
   const { setRequestData: setDeleteAction, responseData: isDeleted } = useFetch(
     {
       method: 'delete',
-      url: `categories/remove/${slug}`
+      url: `categories/${slug}`
     }
   )
 

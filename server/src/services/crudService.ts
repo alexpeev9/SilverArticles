@@ -42,7 +42,7 @@ const crudService = <T extends Document>(model: Model<T>): any => {
   }
 
   const update = async (findParams: any, data: any): Promise<any> => {
-    const result = await model.updateOne(
+    const result = await model.findOneAndUpdate(
       findParams,
       {
         $set: data

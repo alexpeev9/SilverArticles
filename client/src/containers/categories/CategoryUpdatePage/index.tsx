@@ -34,7 +34,7 @@ const CategoryUpdatePage = () => {
             category={{ ...category }}
             requestData={{
               method: 'put',
-              url: `categories/update/${slug}`
+              url: `categories/${slug}`
             }}
           />
         </>

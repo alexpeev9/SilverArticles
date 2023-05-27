@@ -15,7 +15,7 @@ const ArticleCreatePage = () => {
       article={article}
       requestData={{
         method: 'post',
-        url: `articles/create`
+        url: `articles`
       }}
     />
   )

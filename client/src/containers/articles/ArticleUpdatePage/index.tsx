@@ -25,7 +25,7 @@ const ArticleUpdatePage = () => {
           article={{ ...article, category: article.category.slug }}
           requestData={{
             method: 'put',
-            url: `articles/update/${slug}`
+            url: `articles/${slug}`
           }}
         />
       ) : (

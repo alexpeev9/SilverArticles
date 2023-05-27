@@ -61,8 +61,14 @@ const create = async (data: any, category: any, user: any) => {
     author: user
   })
 
-  await category.update({ $push: { articles: article._id } })
-  await user.update({ $push: { articles: article._id } })
+  await Category.findOneAndUpdate(
+    { slug: category.slug },
+    { $push: { articles: article._id } }
+  )
+  await User.findOneAndUpdate(
+    { username: user.username },
+    { $push: { articles: article._id } }
+  )
 
   return article.slug
 }

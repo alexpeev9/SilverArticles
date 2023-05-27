@@ -19,28 +19,35 @@ router
     moderatorMiddleware,
     articleController.getAll
   )
+
 router
-  .route('/create')
+  .route('/')
   .post(getUserMiddleware, checkUserMiddleware, articleController.create)
+
+router.route('/get/:number/:order').get(articleController.getXNumber)
+
+router.route('/:slug').get(getUserMiddleware, articleController.getOne)
+
 router
-  .route('/update/:slug')
+  .route('/:slug')
   .put(
     getUserMiddleware,
     checkUserMiddleware,
     accessMiddleware,
     articleController.update
   )
+
 router
-  .route('/remove/:slug')
+  .route('/:slug')
+  .patch(getUserMiddleware, checkUserMiddleware, articleController.vote)
+
+router
+  .route('/:slug')
   .delete(
     getUserMiddleware,
     checkUserMiddleware,
     accessMiddleware,
     articleController.remove
   )
-router.route('/get/:number/:order').get(articleController.getXNumber)
-router
-  .route('/vote/:slug')
-  .post(getUserMiddleware, checkUserMiddleware, articleController.vote)
-router.route('/:slug').get(getUserMiddleware, articleController.getOne)
+
 export default router

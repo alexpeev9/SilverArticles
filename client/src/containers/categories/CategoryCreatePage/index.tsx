@@ -20,7 +20,7 @@ const CategoryCreatePage = () => {
         category={category}
         requestData={{
           method: 'post',
-          url: `categories/create`
+          url: `categories`
         }}
       />
     </>

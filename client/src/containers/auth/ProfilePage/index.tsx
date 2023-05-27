@@ -18,7 +18,7 @@ const ProfilePage = () => {
 
   const { responseData: user } = useFetch({
     method: 'get',
-    url: `users/${username}`
+    url: `auth/${username}`
   })
 
   const { setRequestData, responseData: logout } = useFetch({
@@ -69,13 +69,16 @@ const ProfilePage = () => {
                       >
                         {t('user.profile.write')}
                       </button>
-                      {userData.roleId === roleIds.moderatorId && (
+                      {userData.roleId === roleIds.moderatorId ||
+                      userData.roleId === roleIds.adminId ? (
                         <button
                           className='style3'
                           onClick={() => navigate('/articles')}
                         >
-                          {t('user.profile.all-articles')}
+                          {t('user.profile.all')}
                         </button>
+                      ) : (
+                        <></>
                       )}
                       {userData.roleId === roleIds.adminId && (
                         <button

@@ -7,7 +7,7 @@ import { useUserContext } from '../contexts/UserContext'
 
 import { apiUrl } from '../env'
 
-type MethodTypes = 'get' | 'post' | 'put' | 'delete'
+type MethodTypes = 'get' | 'post' | 'put' | 'patch' | 'delete'
 
 const useFetch = ({ method, url }: { method: MethodTypes; url: string }) => {
   const navigate = useNavigate()

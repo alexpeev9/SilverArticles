@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express'
 import jwt from 'jsonwebtoken'
 
 import articleService from '../services/articleService'
-import userService from '../services/userService'
+import authService from '../services/authService'
 
 import { jwtSecret } from '../env'
 
@@ -16,7 +16,7 @@ const getUserMiddleware = async (
     if (token) {
       const tokenData = jwt.verify(token, jwtSecret) as any
       if (tokenData) {
-        req.body.reqUser = await userService.getEntity(tokenData.username)
+        req.body.reqUser = await authService.getEntity(tokenData.username)
       }
     }
     return next()

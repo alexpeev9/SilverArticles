@@ -46,6 +46,18 @@ const logout = async (req: Request, res: Response, next: NextFunction) => {
   }
 }
 
+const getProfile = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { username } = req.params
+    const { reqUser: currentUser } = req.body
+    const user = await authService.getProfile(username, currentUser)
+    return res.status(200).json(user)
+  } catch (err: any) {
+    err.statusCode = 404
+    return next(err)
+  }
+}
+
 const verify = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const token = req.cookies['token'] || null
@@ -56,4 +68,4 @@ const verify = async (req: Request, res: Response, next: NextFunction) => {
   }
 }
 
-export default { register, login, logout, verify }
+export default { register, login, logout, getProfile, verify }

@@ -50,10 +50,33 @@ const login = async (username: string, password: string): Promise<string> => {
   return token
 }
 
+const getProfile = async (username: string, currentUser: any) => {
+  const user = await service.getOne(
+    { username },
+    'username firstName lastName articles role -_id'
+  )
+
+  const showPrivateArticlesValidation =
+    currentUser && currentUser.username === user.username
+      ? {}
+      : { isPublic: true }
+
+  await user.populate(
+    'articles',
+    'title slug image description -_id',
+    showPrivateArticlesValidation
+  )
+  await user.populate('role', 'title -_id')
+
+  return user
+}
+
 const getCurrentUser = async (token: any) => {
   const tokenData = jwt.verify(token, jwtSecret) as any
   const user = await service.getEntity({ username: tokenData.username })
   return user
 }
 
-export default { register, login, getCurrentUser }
+const getEntity = async (username: any) => await service.getEntity({ username })
+
+export default { register, login, getProfile, getCurrentUser, getEntity }

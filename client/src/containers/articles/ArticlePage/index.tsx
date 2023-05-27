@@ -23,14 +23,14 @@ const ArticlePage = () => {
   })
 
   const { setRequestData: setVote, responseData: voteResponse } = useFetch({
-    method: 'post',
-    url: `articles/vote/${slug}`
+    method: 'patch',
+    url: `articles/${slug}`
   })
 
   const { setRequestData: setDeleteAction, responseData: isDeleted } = useFetch(
     {
       method: 'delete',
-      url: `articles/remove/${slug}`
+      url: `articles/${slug}`
     }
   )
 

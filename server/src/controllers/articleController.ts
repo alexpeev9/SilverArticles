@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 
 import articleService from '../services/articleService'
-import userService from '../services/userService'
 import categoryService from '../services/categoryService'
 
 const getAll = async (req: Request, res: Response, next: NextFunction) => {

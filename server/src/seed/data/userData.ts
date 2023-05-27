@@ -1,5 +1,5 @@
 import Role from '../../models/Role'
-import { adminEmail, adminPwd } from '../../env'
+import { adminPwd } from '../../env'
 
 const userData = async (): Promise<any[]> => [
   {
@@ -7,11 +7,11 @@ const userData = async (): Promise<any[]> => [
     firstName: 'John',
     lastName: 'Doe',
     role: await Role.findOne({ title: 'Admin' }),
-    email: adminEmail,
+    email: 'admin@gmail.com',
     password: adminPwd
   },
   {
-    username: 'steven9',
+    username: 'moderator',
     firstName: 'Steven',
     lastName: 'Smith',
     role: await Role.findOne({ title: 'Moderator' }),
