@@ -10,6 +10,7 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
 
     const token = await authService.login(data.username, data.password)
     res.cookie('token', token, {
+      sameSite: 'none',
       secure: true,
       httpOnly: true,
       expires: new Date(new Date().setDate(new Date().getDate() + 7)) // 7 days
