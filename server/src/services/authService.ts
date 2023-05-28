@@ -27,7 +27,10 @@ const login = async (username: string, password: string): Promise<string> => {
   if (!username && !password) {
     throw new Error('All fields must be filled.')
   }
-  const user = await service.getOne({ username }, 'username password role -_id')
+  const user = await service.getOne(
+    { username },
+    'username firstName lastName role password -_id'
+  )
   user.populate('role', 'customId -_id')
 
   if (!(await user.validatePassword(password))) {
