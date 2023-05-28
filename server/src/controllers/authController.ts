@@ -2,10 +2,10 @@ import { Request, Response, NextFunction } from 'express'
 
 import authService from '../services/authService'
 
-import { clientDomain } from '../env'
+import { apiDomain } from '../env'
 
 const cookieValue: any = {
-  domain: clientDomain,
+  domain: apiDomain,
   sameSite: 'none',
   secure: true,
   httpOnly: true
