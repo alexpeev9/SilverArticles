@@ -27,7 +27,7 @@ const FormWrapper = ({
       setErrors([`Please fill ${errorKeys.join(', ')}.`])
     } else {
       // Check if there is a confirm password and compare
-      if (data.confirmPassword && data.confirmPassword != data.password) {
+      if (data.confirmPassword && data.confirmPassword !== data.password) {
         setErrors(['Passwords are not the same.'])
       } else {
         setRequestData(data)

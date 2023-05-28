@@ -40,7 +40,7 @@ const ArticlePage = () => {
     if (article) {
       setRating(article.rating)
     }
-  }, [])
+  }, [article])
 
   if (isDeleted) {
     navigate('/')
@@ -141,25 +141,26 @@ const ArticlePage = () => {
                       </button>
                     </>
                   )}
-                  {userData.username === article.author.username ||
-                  userData.roleId === roleIds.moderatorId ||
-                  userData.roleId === roleIds.adminId ? (
-                    <>
-                      <button
-                        className='style3'
-                        onClick={() =>
-                          navigate(`/articles/edit/${article.slug}`)
-                        }
-                      >
-                        {t('article.details.edit')}
-                      </button>
-                      <button className='style3' onClick={onClickDelete}>
-                        {t('article.details.delete')}
-                      </button>
-                    </>
-                  ) : (
-                    <></>
-                  )}
+                  {userData &&
+                    (userData.username === article.author.username ||
+                    userData.roleId === roleIds.moderatorId ||
+                    userData.roleId === roleIds.adminId ? (
+                      <>
+                        <button
+                          className='style3'
+                          onClick={() =>
+                            navigate(`/articles/edit/${article.slug}`)
+                          }
+                        >
+                          {t('article.details.edit')}
+                        </button>
+                        <button className='style3' onClick={onClickDelete}>
+                          {t('article.details.delete')}
+                        </button>
+                      </>
+                    ) : (
+                      <></>
+                    ))}
                 </div>
               </article>
             </div>

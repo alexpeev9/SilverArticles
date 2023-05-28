@@ -77,6 +77,10 @@ const getCurrentUser = async (token: any) => {
   return user
 }
 
-const getEntity = async (username: any) => await service.getEntity({ username })
+const getEntity = async (username: any) => {
+  const user = await service.getEntity({ username })
+  await user.populate('role')
+  return user
+}
 
 export default { register, login, getProfile, getCurrentUser, getEntity }

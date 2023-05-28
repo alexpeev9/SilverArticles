@@ -18,8 +18,8 @@ const getAll = async () =>
 
 const checkIfAuthorized = (article: any, user: any) =>
   article.author.username === user.username ||
-  user.role._id === roleIds.moderatorId ||
-  user.role._id === roleIds.adminId
+  user.role.customId === roleIds.moderatorId ||
+  user.role.customId === roleIds.adminId
 
 const checkIfPrivate = (article: any, user: any) =>
   !article.isPublic && !(user && checkIfAuthorized(article, user))
