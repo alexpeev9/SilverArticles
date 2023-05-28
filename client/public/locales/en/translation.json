@@ -98,8 +98,8 @@
       "helmet": "Not Authorized",
       "title": "You are not authorized",
       "description": "You are not authorized to access this page. If you believe this is an error, please contact the administrator for assistance. You can go back to the homepage or explore other sections of the website.",
-      "home": "Home",
-      "login": "Login"
+      "home": "Home Page",
+      "login": "Login Page"
     },
     "not-connected": {
       "helmet": "No Connection",

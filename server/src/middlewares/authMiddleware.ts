@@ -55,7 +55,7 @@ const accessMiddleware = async (
 
     // check if the requester of the info is the author or administrator
     if (!articleService.checkIfAuthorized(article, reqUser)) {
-      throw new Error('You must be logged!')
+      throw new Error('You are not authorized to modify this.')
     }
 
     req.body.article = article

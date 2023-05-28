@@ -22,9 +22,6 @@ const NotAuthorizedPage = () => {
             <button className='style3' onClick={() => navigate('/')}>
               {t('common.not-authorized.home')}
             </button>
-            <button className='style2' onClick={() => navigate('/login')}>
-              {t('common.not-authorized.login')}
-            </button>
           </div>
         </div>
       </div>

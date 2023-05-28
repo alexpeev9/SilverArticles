@@ -30,7 +30,9 @@ const roleMiddleware = async (
     if (!roles.includes(role.title)) {
       res.clearCookie('token')
       throw new Error(
-        `You are not authorized. ${roles.join('and ')} can access this feature.`
+        `You are not authorized. ${roles.join(
+          ' and '
+        )} can access this feature.`
       )
     }
 

@@ -5,12 +5,21 @@ import { User, Article, Category } from '../models'
 const service = crudService(Article)
 
 const getAll = async () =>
-  await service.getAll({ isPublic: true }, 'title slug image description -_id')
+  await service.getAll(
+    { isPublic: true },
+    {
+      title: 1,
+      slug: 1,
+      description: { $substr: ['$description', 0, 120] },
+      image: 1,
+      _id: 0
+    }
+  )
 
 const checkIfAuthorized = (article: any, user: any) =>
   article.author.username === user.username ||
-  user.role === roleIds.moderatorId ||
-  user.role === roleIds.adminId
+  user.role._id === roleIds.moderatorId ||
+  user.role._id === roleIds.adminId
 
 const checkIfPrivate = (article: any, user: any) =>
   !article.isPublic && !(user && checkIfAuthorized(article, user))
@@ -38,10 +47,20 @@ const getXNumber = async (number: string, order: string) => {
   }
 
   const articles = await Article.find({ isPublic: true })
-    .select(['title', 'slug', 'description', 'image', '-_id'])
+    .select({
+      title: 1,
+      slug: 1,
+      description: { $substr: ['$description', 0, 120] },
+      image: 1,
+      _id: 0
+    })
     .sort({ _id: order === 'new' ? -1 : 1 })
     .populate('author', 'firstName lastName username -_id')
     .limit(articleNumbers)
+
+  if (!articles) {
+    throw new Error('Articles not found!')
+  }
 
   return articles
 }

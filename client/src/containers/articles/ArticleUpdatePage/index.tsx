@@ -5,6 +5,7 @@ import useFetch from '../../../hooks/useFetch'
 import ArticleForm from '../../../components/articles/ArticleForm'
 import { useUserContext } from '../../../contexts/UserContext'
 import Spinner from '../../../components/commons/Spinner'
+import { roleIds } from '../../../env'
 
 const ArticleUpdatePage = () => {
   const { slug } = useParams()
@@ -20,7 +21,9 @@ const ArticleUpdatePage = () => {
   ) : (
     article &&
       userData &&
-      (userData.username === article.author.username ? (
+      (userData.username === article.author.username ||
+      userData.roleId === roleIds.moderatorId ||
+      userData.roleId === roleIds.adminId ? (
         <ArticleForm
           article={{ ...article, category: article.category.slug }}
           requestData={{

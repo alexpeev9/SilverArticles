@@ -10,7 +10,7 @@ type Props = {
   children: ReactNode
 }
 
-const milliseconds = 24000
+const milliseconds = 9000
 
 const ErrorContext = createContext<any | null>(null)
 

@@ -27,6 +27,10 @@ const getXNumberCategories = async (number: string) => {
     })
     .limit(categoryNumbers)
 
+  if (!categories) {
+    throw new Error('Categories not found!')
+  }
+
   return categories
 }
 

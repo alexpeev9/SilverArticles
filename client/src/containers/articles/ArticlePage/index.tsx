@@ -9,6 +9,7 @@ import { useUserContext } from '../../../contexts/UserContext'
 import { Helmet } from 'react-helmet-async'
 import VoteIcon from './VoteIcon'
 import { useEffect, useState } from 'react'
+import { roleIds } from '../../../env'
 
 const ArticlePage = () => {
   const navigate = useNavigate()
@@ -140,7 +141,9 @@ const ArticlePage = () => {
                       </button>
                     </>
                   )}
-                  {userData && userData.username === article.author.username ? (
+                  {userData.username === article.author.username ||
+                  userData.roleId === roleIds.moderatorId ||
+                  userData.roleId === roleIds.adminId ? (
                     <>
                       <button
                         className='style3'
