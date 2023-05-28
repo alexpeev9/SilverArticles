@@ -39,10 +39,10 @@ const login = async (username: string, password: string): Promise<string> => {
 
   const token = jwt.sign(
     {
+      roleId: user.role.customId,
       username: user.username,
       firstName: user.firstName,
-      lastName: user.lastName,
-      roleId: user.role.customId
+      lastName: user.lastName
     },
     jwtSecret,
     {
