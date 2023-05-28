@@ -2,7 +2,14 @@ import { Request, Response, NextFunction } from 'express'
 
 import authService from '../services/authService'
 
-import { apiDomain } from '../env'
+import { clientDomain } from '../env'
+
+const cookieValue: any = {
+  domain: clientDomain,
+  sameSite: 'none',
+  secure: true,
+  httpOnly: true
+}
 
 const register = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -12,11 +19,8 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
 
     const token = await authService.login(data.username, data.password)
     res.cookie('token', token, {
-      sameSite: 'none',
-      secure: true,
-      httpOnly: true,
+      ...cookieValue,
       expires: new Date(new Date().setDate(new Date().getDate() + 7)) // 7 days
-      // maxAge: 60 * 1000 // 1 minute for testing
     })
     return res.status(200).json(token)
   } catch (err: any) {
@@ -29,11 +33,8 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
     const { username, password } = req.body
     const token = await authService.login(username, password)
     res.cookie('token', token, {
-      sameSite: 'none',
-      secure: true,
-      httpOnly: true,
+      ...cookieValue,
       expires: new Date(new Date().setDate(new Date().getDate() + 7)) // 7 days
-      // maxAge: 60 * 1000 // 1 minute for testing
     })
     return res.status(200).json(token)
   } catch (err: any) {
@@ -43,12 +44,7 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
 
 const logout = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    res.clearCookie('token', {
-      domain: apiDomain,
-      sameSite: 'none',
-      secure: true,
-      httpOnly: true
-    })
+    res.clearCookie('token', cookieValue)
     return res.status(200).json(true)
   } catch (err: any) {
     return next(err)
