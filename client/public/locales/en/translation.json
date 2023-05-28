@@ -48,7 +48,7 @@
   "category": {
     "description": "Read articles like:",
     "no-articles": "Currently, there are no articles.",
-    "create": "Create",
+    "create": "Save",
     "edit": "Edit",
     "delete": "Delete",
     "write-one": "Write One"
@@ -57,7 +57,7 @@
     "all": { "title": "All Articles" },
     "create": {
       "title": "Create Now",
-      "button": "Create",
+      "button": "Save",
       "category-text": "Category* :",
       "radio-text": "You can choose to create your article private and publish it later."
     },
