@@ -6,7 +6,7 @@ const adminMiddleware = async (
   res: Response,
   next: NextFunction
 ) => {
-  await roleMiddleware(req, res, next, 'Admin')
+  await roleMiddleware(req, res, next, ['Admin'])
 }
 
 const moderatorMiddleware = async (
@@ -14,41 +14,34 @@ const moderatorMiddleware = async (
   res: Response,
   next: NextFunction
 ) => {
-  await roleMiddleware(req, res, next, 'Moderator')
-}
-
-const writerMiddleware = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  await roleMiddleware(req, res, next, 'Writer')
+  await roleMiddleware(req, res, next, ['Moderator', 'Admin'])
 }
 
 const roleMiddleware = async (
   req: Request,
   res: Response,
   next: NextFunction,
-  roleTitle: string
+  roles: string[]
 ) => {
   try {
-    const data: IToken = req.body.reqToken
+    const { reqUser } = req.body
+    const role = await roleService.find(reqUser.role._id)
 
-    const role = await roleService.find(data.roleId)
-
-    if (role?.title !== roleTitle) {
+    if (!roles.includes(role.title)) {
       res.clearCookie('token')
-      throw new Error()
+      throw new Error(
+        `You are not authorized. ${roles.join(
+          ' and '
+        )} can access this feature.`
+      )
     }
 
-    if (role) {
-      return next()
-    }
+    return next()
   } catch (err: any) {
     return res.status(403).json({
-      errors: [`You are not authorized. ${roleTitle}s can access the feature`]
+      errors: [`${err.message}`]
     })
   }
 }
 
-export { adminMiddleware, moderatorMiddleware, writerMiddleware }
+export { adminMiddleware, moderatorMiddleware }

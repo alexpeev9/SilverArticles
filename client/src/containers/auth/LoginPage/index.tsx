@@ -1,59 +1,67 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import InputField from '../../../components/InputField'
-import useDecodeToken from '../../../hooks/auth/useDecodeToken'
-import useFetch from '../../../hooks/auth/useFetch'
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import InputField from '../../../components/elements/InputField'
+import useFetch from '../../../hooks/useFetch'
+import { useUserContext } from '../../../contexts/UserContext'
+import { useTranslation } from 'react-i18next'
+import { Helmet } from 'react-helmet-async'
+import FormWrapper from '../../../components/elements/FormWrapper'
+import useSetFormInputs from '../../../hooks/useSetFormInputs'
 
 const LoginPage = () => {
+  const { t } = useTranslation()
+  const navigate = useNavigate()
+  const { userData, decodeToken } = useUserContext()
+
+  const { data: user, onInputChange } = useSetFormInputs({
+    username: '',
+    password: ''
+  })
+
   const {
-    setRequestData,
+    setRequestData: setUserData,
     responseData: token,
-    errors,
     loading
   } = useFetch({
     method: 'post',
     url: 'auth/login'
   })
-  useDecodeToken(token)
 
-  const [user, setUser] = useState({
-    email: '',
-    password: ''
-  })
-
-  const onInputChange = (e: React.FormEvent<HTMLInputElement>) => {
-    const { name, value } = e.currentTarget
-    setUser({ ...user, [name]: value })
-  }
-
-  const handleSubmit = (e: React.SyntheticEvent) => {
-    e.preventDefault()
-    setRequestData(user)
-  }
+  useEffect(() => {
+    if (token && !userData) {
+      decodeToken(token)
+      navigate('/')
+    }
+  }, [token, decodeToken, userData, navigate])
 
   return (
     <>
-      <h2>Login</h2>
-      <Link to='/'>Home</Link>
-      <div className='container bg-dark rounded text-white my-1 py-4 px-5'>
-        {token ? <p>{token}</p> : <></>}
-        {errors ? (
-          errors.map((error: any, key: any) => <p key={key}>{error}</p>)
-        ) : (
-          <></>
-        )}
-        <form
-          onSubmit={handleSubmit}
-          className='row d-flex justify-content-center'
-        >
+      <Helmet>
+        <title>{t('login.title')}</title>
+      </Helmet>
+      <FormWrapper
+        title={t('login.title')}
+        buttonMessage={t('login.button')}
+        setRequestData={setUserData}
+        data={user}
+        loading={loading}
+        description={{
+          route: '/register',
+          question: t('login.cta-question'),
+          answer: t('login.cta-answer'),
+          info: t('login.description')
+        }}
+      >
+        <div className='col-7'>
           <InputField
-            name={'email'}
-            label={'Email'}
+            name={'username'}
+            label={'Username'}
             type={'text'}
-            value={user.email}
+            value={user.username}
             action={onInputChange}
           />
-
+        </div>
+        <div className='col-7'>
           <InputField
             name={'password'}
             label={'Password'}
@@ -61,11 +69,8 @@ const LoginPage = () => {
             value={user.password}
             action={onInputChange}
           />
-          <button type='submit' disabled={loading}>
-            Login
-          </button>
-        </form>
-      </div>
+        </div>
+      </FormWrapper>
     </>
   )
 }

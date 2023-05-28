@@ -1,20 +1,22 @@
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 
-import useFetch from '../../../hooks/auth/useFetch'
+import useFetch from '../../../hooks/useFetch'
 
-import Spinner from '../../../components/Spinner'
-import CategoryCard from '../../../components/CategoryCard'
+import Spinner from '../../../components/commons/Spinner'
+import CategoryCard from '../../../components/categories/CategoryCard'
 
 const Categories = () => {
   const { t } = useTranslation()
-  const { responseData: categories } = useFetch({
+  const { responseData: categories, loading: loadingCategories } = useFetch({
     method: 'get',
     url: 'categories/get/2'
   })
 
-  return (
-    <>
+  return loadingCategories ? (
+    <Spinner />
+  ) : (
+    categories && (
       <div className='col-4 col-12-medium'>
         <div id='sidebar'>
           <section className='box'>
@@ -22,22 +24,18 @@ const Categories = () => {
               <h2>{t('home.categories.title')}</h2>
             </header>
             <p>{t('home.categories.description')}</p>
-            <Link to='/' className='button style1'>
+            <Link to='/categories' className='button style1'>
               {t('home.categories.button')}
             </Link>
           </section>
           <ul className='style2'>
-            {categories ? (
-              categories.map((category: any, key: number) => (
-                <CategoryCard key={key} category={category} />
-              ))
-            ) : (
-              <Spinner />
-            )}
+            {categories.map((category: any, key: number) => (
+              <CategoryCard key={key} category={category} />
+            ))}
           </ul>
         </div>
       </div>
-    </>
+    )
   )
 }
 

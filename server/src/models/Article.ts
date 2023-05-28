@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose'
 
-import IArticle from '../interfaces/entities/IArticle'
+import IArticle from './interfaces/IArticle'
 
 const ArticleSchema = new Schema<IArticle>(
   {
@@ -9,7 +9,7 @@ const ArticleSchema = new Schema<IArticle>(
       required: [true, 'Title is required!'],
       unique: true,
       minLength: [10, 'Title cannot be less than 10 characters'],
-      maxLength: [50, 'Title cannot be more than 50 characters']
+      maxLength: [60, 'Title cannot be more than 60 characters']
     },
     slug: {
       type: String,
@@ -20,24 +20,25 @@ const ArticleSchema = new Schema<IArticle>(
     },
     image: {
       type: String,
-      required: [true, 'Image is required!']
+      required: [true, 'Image is required!'],
+      validate: [/^https?:\/\//i, 'Image address must start with https://']
     },
     description: {
       type: String,
       required: [true, 'Description is required!'],
       minLength: [3, 'Description cannot be less than 70 characters'],
-      maxLength: [1000, 'Description cannot be more than 20 characters']
+      maxLength: [3000, 'Description cannot be more than 3000 characters']
     },
     isPublic: {
       type: Boolean,
-      required: true
+      required: [true, 'Set article to public or private!']
     },
     rating: {
       type: Number,
       default: 0
     },
     category: {
-      required: true,
+      required: [true, 'Category is required!'],
       type: Schema.Types.ObjectId,
       ref: 'Category'
     },

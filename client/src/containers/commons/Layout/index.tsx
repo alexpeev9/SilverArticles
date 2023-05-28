@@ -3,19 +3,25 @@ import Router from './Router'
 
 import { UserProvider } from '../../../contexts/UserContext'
 import { ErrorProvider } from '../../../contexts/ErrorContext'
+import { Helmet, HelmetProvider } from 'react-helmet-async'
 
 import Header from './Header'
 
 const Layout = () => {
   return (
-    <ErrorProvider>
-      <UserProvider>
+    <>
+      <HelmetProvider>
+        <Helmet titleTemplate='%s - SA' defaultTitle='Silver Articles' />
         <BrowserRouter>
-          <Header />
-          <Router />
+          <ErrorProvider>
+            <UserProvider>
+              <Header />
+              <Router />
+            </UserProvider>
+          </ErrorProvider>
         </BrowserRouter>
-      </UserProvider>
-    </ErrorProvider>
+      </HelmetProvider>
+    </>
   )
 }
 

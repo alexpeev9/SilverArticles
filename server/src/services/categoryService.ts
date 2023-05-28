@@ -1,15 +1,12 @@
-import ICategory from '../interfaces/entities/ICategory'
-import { Category } from '../models'
+import { Article, Category } from '../models'
+import crudService from './crudService'
 
-const getAll = async () => {
-  const categories = await Category.find().select(['title', 'slug', '-_id'])
+const service = crudService(Category)
 
-  if (!categories) {
-    throw new Error('No Categories found!')
-  }
+const getAll = async () =>
+  await service.getAll({}, 'title slug image description -_id')
 
-  return categories
-}
+const getEntity = async (slug: any) => await service.getEntity({ slug })
 
 const getXNumberCategories = async (number: string) => {
   const categoryNumbers = Number(number)
@@ -17,65 +14,115 @@ const getXNumberCategories = async (number: string) => {
     throw new Error('Invalid parameters.')
   }
 
-  const categories = await Category.find()
+  const categories = await Category.find({
+    $or: [{ slug: 'others' }, { articles: { $gt: [] } }]
+  })
     .sort({ articles: -1 })
-    .select(['title', 'slug', '-_id'])
+    .select(['title', 'slug', 'image', '-_id'])
     .populate({
       path: 'articles',
       select: 'title -_id',
+      match: { isPublic: true },
       options: { limit: 2 }
     })
     .limit(categoryNumbers)
 
+  if (!categories) {
+    throw new Error('Categories not found!')
+  }
+
   return categories
 }
 
-const getCategoryBySlug = async (slug: string) => {
-  const category = await Category.findOne({ slug })
-    .select(['title', 'slug', '-_id'])
-    .populate('articles', 'title slug image -_id')
+const getOne = async (slug: string) => {
+  const category = await service.getOne(
+    { slug },
+    'title slug description image articles -_id'
+  )
 
-  if (!category) {
-    throw new Error('Category not found!')
-  }
+  await category.populate('articles', 'title slug image description -_id', {
+    isPublic: true
+  })
 
   return category
 }
 
-const updateCategory = async (slugParam: string, body: any) => {
-  const { title, slug } = body
-  const category = await Category.findOne({ slug: slugParam })
-  if (!category) {
-    throw new Error('No Category found')
-  }
+const create = async (data: any) => {
+  const { title, slug, description, image } = data
+  await service.checkIfDuplicate('title', title)
+  await service.checkIfDuplicate('slug', slug)
 
-  await checkDuplicateField('title', title)
-  await checkDuplicateField('slug', slug)
-  const updatedUser = await Category.updateOne(
-    { slug: slugParam },
-    {
-      $set: {
-        title: title ? title : category.title,
-        slug: slug ? slug : category.slug
-      }
-    },
-    { runValidators: true }
-  )
+  const category = await service.create({
+    title,
+    slug,
+    description,
+    image
+  })
 
-  return updatedUser.acknowledged
+  return category.slug
 }
 
-const checkDuplicateField = async (field: string, data: string | any) => {
-  if (data) {
-    if (await Category.exists({ [field]: data })) {
-      throw new Error(`Category with that ${field} already exists`)
-    }
+const update = async (slugParam: any, data: any) => {
+  const { title, slug, description, image } = data
+
+  if (slugParam === 'others') {
+    throw new Error('You can not delete Others category')
   }
+
+  const oldCategory = await service.getOne(
+    { slug: slugParam },
+    'title slug image description -_id'
+  )
+
+  // check if title is the same, and if there is a new title check if it is used in other record
+  if (title !== oldCategory.title) {
+    await service.checkIfDuplicate('title', title)
+  }
+
+  // check if slug is the same, and if there is a new slug check if it is used in other record
+  if (slug !== oldCategory.slug) {
+    await service.checkIfDuplicate('slug', slug)
+  }
+
+  const category = await service.update(
+    { slug: slugParam },
+    {
+      title: title || oldCategory.title,
+      slug: slug || oldCategory.slug,
+      description: description || oldCategory.description,
+      image: image || oldCategory.image
+    }
+  )
+
+  if (!category) {
+    throw new Error('An error occured')
+  }
+
+  return slug
+}
+
+const remove = async (slug: any) => {
+  if (slug === 'others') {
+    throw new Error('You can not delete Others category')
+  }
+  const category = await service.getOne({ slug }, 'title')
+  const categoryOther = await service.getOne({ slug: 'others' }, 'title')
+
+  await Article.updateMany(
+    { category: category._id },
+    { category: categoryOther._id }
+  )
+
+  await category.remove()
+  return `${category.title} successfully deleted.`
 }
 
 export default {
   getAll,
+  getEntity,
+  getOne,
   getXNumberCategories,
-  getCategoryBySlug,
-  updateCategory
+  create,
+  update,
+  remove
 }

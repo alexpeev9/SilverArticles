@@ -1,41 +1,34 @@
 import jwt from 'jsonwebtoken'
 
 import { Role, User } from '../models'
-import IUser from '../interfaces/entities/IUser'
 import { jwtSecret } from '../env'
+import crudService from './crudService'
 
-const register = async (userData: IUser): Promise<string> => {
+const service = crudService(User)
+
+const register = async (userData: any): Promise<void> => {
   const { username, firstName, lastName, email, password } = userData
-  await checkIfDuplicate('username', username)
-  await checkIfDuplicate('email', email)
+  await service.checkIfDuplicate('username', username)
+  await service.checkIfDuplicate('email', email)
 
-  const user = {
+  const user = await service.create({
     username,
     firstName,
     lastName,
     email,
     password,
     role: await Role.findOne({ title: 'Writer' })
-  }
+  })
 
-  const createdUser = await User.create(user)
-
-  return createdUser._id
+  await user.save()
 }
 
-const login = async (email: string, password: string): Promise<string> => {
-  if (!email && !password) {
+const login = async (username: string, password: string): Promise<string> => {
+  if (!username && !password) {
     throw new Error('All fields must be filled.')
   }
-
-  const user = (await User.findOne({ email }).populate(
-    'role',
-    'customId -_id'
-  )) as any // to get customerId
-
-  if (!user) {
-    throw new Error('User not found.')
-  }
+  const user = await service.getOne({ username }, 'username password role -_id')
+  user.populate('role', 'customId -_id')
 
   if (!(await user.validatePassword(password))) {
     throw new Error('Invalid Password')
@@ -57,14 +50,37 @@ const login = async (email: string, password: string): Promise<string> => {
   return token
 }
 
-const checkIfDuplicate = async (
-  field: string,
-  value: string
-): Promise<void> => {
-  if (await User.findOne({ [field]: value })) {
-    throw new Error(
-      `${field.charAt(0).toUpperCase() + field.slice(1)} already exists.`
-    )
-  }
+const getProfile = async (username: string, currentUser: any) => {
+  const user = await service.getOne(
+    { username },
+    'username firstName lastName articles role -_id'
+  )
+
+  const showPrivateArticlesValidation =
+    currentUser && currentUser.username === user.username
+      ? {}
+      : { isPublic: true }
+
+  await user.populate(
+    'articles',
+    'title slug image description -_id',
+    showPrivateArticlesValidation
+  )
+  await user.populate('role', 'title -_id')
+
+  return user
 }
-export default { register, login }
+
+const getCurrentUser = async (token: any) => {
+  const tokenData = jwt.verify(token, jwtSecret) as any
+  const user = await service.getEntity({ username: tokenData.username })
+  return user
+}
+
+const getEntity = async (username: any) => {
+  const user = await service.getEntity({ username })
+  await user.populate('role')
+  return user
+}
+
+export default { register, login, getProfile, getCurrentUser, getEntity }

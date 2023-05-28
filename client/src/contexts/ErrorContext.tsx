@@ -10,7 +10,7 @@ type Props = {
   children: ReactNode
 }
 
-// const milliseconds = 14000
+const milliseconds = 9000
 
 const ErrorContext = createContext<any | null>(null)
 
@@ -20,7 +20,7 @@ export const ErrorProvider = ({ children }: Props) => {
   const [errors, setErrors] = useState(null)
   useEffect(() => {
     if (errors) {
-      // setTimeout(() => setErrors(null), milliseconds)
+      setTimeout(() => setErrors(null), milliseconds)
     }
   }, [errors])
   return (

@@ -1,13 +1,21 @@
 import { Request, Response, NextFunction } from 'express'
 
-import IUser from '../interfaces/entities/IUser'
 import authService from '../services/authService'
 
 const register = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const data: IUser = req.body
-    const userId = await authService.register(data)
-    return res.status(200).json(userId)
+    const data: any = req.body
+
+    await authService.register(data)
+
+    const token = await authService.login(data.username, data.password)
+    res.cookie('token', token, {
+      secure: true,
+      httpOnly: true,
+      expires: new Date(new Date().setDate(new Date().getDate() + 7)) // 7 days
+      // maxAge: 60 * 1000 // 1 minute for testing
+    })
+    return res.status(200).json(token)
   } catch (err: any) {
     return next(err)
   }
@@ -15,8 +23,8 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
 
 const login = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { email, password } = req.body
-    const token = await authService.login(email, password)
+    const { username, password } = req.body
+    const token = await authService.login(username, password)
     res.cookie('token', token, {
       secure: true,
       httpOnly: true,
@@ -32,12 +40,32 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
 const logout = async (req: Request, res: Response, next: NextFunction) => {
   try {
     res.clearCookie('token')
-    return res.status(200).json({
-      success: true
-    })
+    return res.status(200).json(true)
   } catch (err: any) {
     return next(err)
   }
 }
 
-export default { register, login, logout }
+const getProfile = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { username } = req.params
+    const { reqUser: currentUser } = req.body
+    const user = await authService.getProfile(username, currentUser)
+    return res.status(200).json(user)
+  } catch (err: any) {
+    err.statusCode = 404
+    return next(err)
+  }
+}
+
+const verify = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const token = req.cookies['token'] || null
+    return res.status(200).json(token)
+  } catch (err: any) {
+    res.clearCookie('token')
+    return res.status(401).json({ errors: ['You are not logged. Please log'] })
+  }
+}
+
+export default { register, login, logout, getProfile, verify }

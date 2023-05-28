@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose'
 import bcrypt from 'bcrypt'
 
-import IUser from '../interfaces/entities/IUser'
+import IUser from './interfaces/IUser'
 import { salt } from '../env'
 
 const UserSchema = new Schema<any>(
@@ -55,6 +55,12 @@ const UserSchema = new Schema<any>(
       ref: 'Role'
     },
     articles: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Article'
+      }
+    ],
+    votes: [
       {
         type: Schema.Types.ObjectId,
         ref: 'Article'
