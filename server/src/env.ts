@@ -12,7 +12,7 @@ export const clientUrl = isInProduction
   ? `${process.env.CLIENT_URL || 'https://your-react-site.com'}`
   : 'http://localhost:3000'
 export const clientDomain = isInProduction
-  ? clientUrl.substring(7)
+  ? clientUrl.substring(8) // removes 'https://' from domain
   : 'localhost'
 export const apiPort = `${process.env.API_PORT || 5000}`
 export const adminPwd = `${process.env.ADMIN_PWD || 'admin'}`
