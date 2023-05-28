@@ -7,7 +7,7 @@ const Spinner = () => {
   return (
     <div className='spinner'>
       <div className='image-box'>
-        <span>{t('common.loading')}</span>
+        <p>{t('common.loading')}</p>
       </div>
     </div>
   )
