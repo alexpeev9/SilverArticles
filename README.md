@@ -1,4 +1,4 @@
-# 📕 SilverArticles - Article Publishing Platform with React, TypeScript, Mongoose, Express.js, and Vercel
+## 📕 SilverArticles - Article Publishing Platform with React, TypeScript, Mongoose, Express.js, and Vercel
 
 ### 🚨 Check out the live version on [silver-articles.vercel.app](https://silver-articles.vercel.app) 🚨
 
