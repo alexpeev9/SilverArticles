@@ -31,7 +31,8 @@ const login = async (username: string, password: string): Promise<string> => {
     { username },
     'username firstName lastName role password -_id'
   )
-  user.populate('role', 'customId -_id')
+
+  await user.populate('role', 'customId -_id')
 
   if (!(await user.validatePassword(password))) {
     throw new Error('Invalid Password')
@@ -39,10 +40,10 @@ const login = async (username: string, password: string): Promise<string> => {
 
   const token = jwt.sign(
     {
-      roleId: user.role.customId,
       username: user.username,
       firstName: user.firstName,
-      lastName: user.lastName
+      lastName: user.lastName,
+      roleId: user.role.customId
     },
     jwtSecret,
     {
