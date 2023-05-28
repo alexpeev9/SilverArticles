@@ -2,6 +2,8 @@ import { Request, Response, NextFunction } from 'express'
 
 import authService from '../services/authService'
 
+import { clientDomain } from '../env'
+
 const register = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const data: any = req.body
@@ -41,7 +43,12 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
 
 const logout = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    res.clearCookie('token')
+    res.clearCookie('token', {
+      domain: clientDomain,
+      sameSite: 'none',
+      secure: true,
+      httpOnly: true
+    })
     return res.status(200).json(true)
   } catch (err: any) {
     return next(err)
